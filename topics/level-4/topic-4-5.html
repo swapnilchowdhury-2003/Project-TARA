@@ -1,0 +1,907 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | প্রাইম নাম্বার (Prime Number)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .topic-description {
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Number Grid Game */
+    .number-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    
+    .number-tile {
+      background: linear-gradient(135deg, #2a2a4a, #1a1a3e);
+      border-radius: 15px;
+      padding: 0.8rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid #ff8c00;
+    }
+    
+    .number-tile:hover {
+      transform: scale(1.05);
+    }
+    
+    .number-tile.prime {
+      background: linear-gradient(135deg, #28a745, #1e7e34);
+      border-color: #90ee90;
+    }
+    
+    .number-tile.not-prime {
+      background: linear-gradient(135deg, #dc3545, #c82333);
+      border-color: #ff8888;
+    }
+    
+    .number-tile.selected {
+      box-shadow: 0 0 0 3px white;
+    }
+    
+    .tile-number {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    
+    /* Check Number Game */
+    .check-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .number-input {
+      width: 120px;
+      padding: 0.8rem;
+      font-size: 1.2rem;
+      text-align: center;
+      border-radius: 15px;
+      border: 2px solid #ff8c00;
+      background: #0f0f23;
+      color: white;
+      margin: 0.5rem;
+    }
+    
+    .check-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      margin: 0.3rem;
+    }
+    
+    .check-btn.reset {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    /* Prime List */
+    .prime-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+    
+    .prime-badge {
+      background: rgba(40,167,69,0.3);
+      border-radius: 50px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.9rem;
+      border: 1px solid #28a745;
+    }
+    
+    /* Challenge Box */
+    .challenge-question {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .bounce {
+      animation: bounce 0.3s;
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .number-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+      }
+      .tile-number {
+        font-size: 1rem;
+      }
+      .number-tile {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-4.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-crown me-2"></i>প্রাইম নাম্বার (Prime Number)</h2>
+      <small>Level 4 · Topic 5</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 4 · Topic 5</div>
+    <h1 class="topic-title">👑 প্রাইম নাম্বার (Prime Number)</h1>
+    <div class="topic-description">
+      <strong>প্রাইম নাম্বার</strong> মানে হলো সেই সংখ্যা যাকে <strong>শুধু ১ এবং নিজে নিজে</strong> ভাগ করা যায়। যেমন: ২, ৩, ৫, ৭, ১১...<br>
+      কম্পিউটার প্রোগ্রামিং-এ প্রাইম নাম্বার খুঁজে বের করা একটি মজার কাজ!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🔢👑</div>
+    <div class="story-title">📖 গল্প: প্রাইম সংখ্যার রাজ্য</div>
+    <div class="story-text">
+      <strong>গণিতের রাজ্যে</strong> এক বিশেষ ধরনের সংখ্যা আছে — তাদের নাম <strong>"প্রাইম সংখ্যা"</strong>।<br>
+      এই সংখ্যাগুলো খুব <strong>অহংকারী</strong>! কেন? কারণ তারা কাউকে নিজেদের ভাগ করতে দেয় না!<br><br>
+      <strong>২</strong> বলল — "আমাকে শুধু ১ আর আমি নিজে (২) ভাগ করতে পারে। কেউ পারে না!"<br>
+      <strong>৩</strong> বলল — "আমাকেও শুধু ১ আর ৩ ভাগ করতে পারে!"<br>
+      <strong>৪</strong> কিন্তু লজ্জিত — কারণ ৪ কে ২ দিয়েও ভাগ করা যায়! তাই ৪ প্রাইম না।<br><br>
+      <span class="story-highlight">📌 <strong>প্রাইম সংখ্যা:</strong> যাকে ১ এবং নিজে ছাড়া আর কিছু দিয়ে ভাগ করা যায় না!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>প্রাইম সংখ্যা:</strong> ২, ৩, ৫, ৭, ১১, ১৩, ১৭, ১৯, ২৩...<br>
+      <strong>প্রাইম না (যৌগিক):</strong> ৪, ৬, ৮, ৯, ১০, ১২...<br>
+      <strong>বিশেষ নোট:</strong> ১ প্রাইম না, কারণ ১ কে শুধু ১ দিয়েই ভাগ করা যায় (নিজে ছাড়া কিছু নেই)!
+    </div>
+  </div>
+  
+  <!-- Game Container -->
+  <div class="game-container">
+    
+    <!-- Game 1: Prime Number Finder -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-magnifying-glass"></i> খেলা ১: প্রাইম শনাক্ত করো
+      </div>
+      
+      <div class="check-area">
+        <input type="number" id="primeInput" class="number-input" min="1" max="50" placeholder="সংখ্যা লিখো">
+        <div>
+          <button class="check-btn" onclick="checkPrime()">
+            <i class="fa-solid fa-search me-1"></i>প্রাইম কিনা দেখো
+          </button>
+          <button class="check-btn reset" onclick="resetPrimeCheck()">
+            <i class="fa-solid fa-rotate-left me-1"></i>সাফ করো
+          </button>
+        </div>
+        <div class="result-box" id="primeResult">
+          <i class="fa-regular fa-lightbulb me-1"></i> ১ থেকে ৫০ এর মধ্যে যেকোনো সংখ্যা লিখে "প্রাইম কিনা দেখো" চাপো।
+        </div>
+      </div>
+      
+      <div class="prime-list" id="primeList">
+        <strong>প্রাইম সংখ্যা:</strong> ২, ৩, ৫, ৭, ১১, ১৩, ১৭, ১৯, ২৩, ২৯, ৩১, ৩৭, ৪১, ৪৩, ৪৭
+      </div>
+    </div>
+    
+    <!-- Game 2: Prime Number Grid Game -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-table"></i> খেলা ২: প্রাইম বাছাই করো
+      </div>
+      
+      <div class="number-grid" id="numberGrid">
+        <!-- Numbers will be added by JS -->
+      </div>
+      
+      <div class="text-center">
+        <button class="check-btn" onclick="checkSelectedPrime()">
+          <i class="fa-solid fa-check-double me-1"></i>সিলেক্ট করা সংখ্যা প্রাইম কিনা দেখো
+        </button>
+        <button class="check-btn reset" onclick="resetGridSelection()">
+          <i class="fa-solid fa-rotate-left me-1"></i>সব সাফ করো
+        </button>
+      </div>
+      
+      <div class="result-box" id="gridResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> উপরের সংখ্যা গুলোর মধ্যে যেকোনো সংখ্যায় ক্লিক করো, তারপর চেক করো।
+      </div>
+    </div>
+  </div>
+  
+  <!-- Prime Challenge Box -->
+  <div class="math-box" style="border-left-color: #28a745;">
+    <div class="math-box-title">
+      <i class="fa-solid fa-puzzle-piece me-2"></i>প্রাইম চ্যালেঞ্জ!
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ১:</strong> নিচের কোনটি প্রাইম সংখ্যা? ৭, ৯, ১২<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(1, '৭ (সাত)')">উত্তর দেখো</button>
+        <span id="challenge1" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ২:</strong> ১ কে প্রাইম সংখ্যা বলা হয় কেন না?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(2, 'কারণ ১ কে শুধু ১ দিয়েই ভাগ করা যায় (নিজে ছাড়া আর কিছু নেই)')">উত্তর দেখো</button>
+        <span id="challenge2" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ৩:</strong> ২ থেকে ২০ এর মধ্যে কয়টি প্রাইম সংখ্যা আছে?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(3, '৮টি (২,৩,৫,৭,১১,১৩,১৭,১৯)')">উত্তর দেখো</button>
+        <span id="challenge3" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>প্রাইম নাম্বার সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. প্রাইম নাম্বার কাকে বলে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> যেকোনো সংখ্যা দিয়ে ভাগ করা যায়</label>
+        <label class="option"><input type="radio" name="q1" value="1"> শুধু ১ এবং নিজে নিজে ভাগ করা যায়</label>
+        <label class="option"><input type="radio" name="q1" value="2"> জোড় সংখ্যা</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">২. নিচের কোনটি প্রাইম সংখ্যা?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> ১১</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ১৫</label>
+        <label class="option"><input type="radio" name="q2" value="2"> ২১</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৩. সবচেয়ে ছোট প্রাইম সংখ্যা কোনটি?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> ০</label>
+        <label class="option"><input type="radio" name="q3" value="1"> ১</label>
+        <label class="option"><input type="radio" name="q3" value="2"> ২</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৪. ১ কে প্রাইম সংখ্যা বলা হয় না কেন?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> এটি বড় সংখ্যা</label>
+        <label class="option"><input type="radio" name="q4" value="1"> এটির শুধু ১টি ভাজক আছে</label>
+        <label class="option"><input type="radio" name="q4" value="2"> এটি জোড় সংখ্যা</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৫. নিচের কোন জোড় সংখ্যাটি প্রাইম?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> ২</label>
+        <label class="option"><input type="radio" name="q5" value="1"> ৪</label>
+        <label class="option"><input type="radio" name="q5" value="2"> ৬</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: কন্টিনিউ
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      প্রাইম নাম্বার শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Prime Number Topic
+  // ==========================================
+  
+  // Prime checking function
+  function isPrime(num) {
+    if (num <= 1) return false;
+    if (num === 2) return true;
+    if (num % 2 === 0) return false;
+    for (let i = 3; i <= Math.sqrt(num); i += 2) {
+      if (num % i === 0) return false;
+    }
+    return true;
+  }
+  
+  // Game 1: Check Prime
+  function checkPrime() {
+    const input = document.getElementById('primeInput');
+    let num = parseInt(input.value);
+    const resultDiv = document.getElementById('primeResult');
+    
+    if (isNaN(num) || num < 1) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> দয়া করে ১ এর চেয়ে বড় একটি সংখ্যা লিখো!';
+      resultDiv.style.background = '#dc3545';
+      setTimeout(() => { resultDiv.style.background = 'rgba(0,0,0,0.3)'; }, 2000);
+      return;
+    }
+    
+    if (num > 50) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> ১ থেকে ৫০ এর মধ্যে সংখ্যা লিখো!';
+      resultDiv.style.background = '#ffc107';
+      resultDiv.style.color = '#333';
+      setTimeout(() => { 
+        resultDiv.style.background = 'rgba(0,0,0,0.3)';
+        resultDiv.style.color = 'white';
+      }, 2000);
+      return;
+    }
+    
+    if (isPrime(num)) {
+      resultDiv.innerHTML = `<i class="fa-solid fa-crown me-1"></i> 🎉 ${num} একটি প্রাইম সংখ্যা! কারণ এটিকে শুধু ১ এবং ${num} দিয়ে ভাগ করা যায়।`;
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+    } else {
+      // Find a divisor
+      let divisor = 2;
+      for (let i = 2; i < num; i++) {
+        if (num % i === 0) {
+          divisor = i;
+          break;
+        }
+      }
+      resultDiv.innerHTML = `<i class="fa-solid fa-times-circle me-1"></i> ${num} প্রাইম সংখ্যা না। কারণ এটিকে ${divisor} দিয়েও ভাগ করা যায়!`;
+      resultDiv.style.background = '#dc3545';
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  function resetPrimeCheck() {
+    document.getElementById('primeInput').value = '';
+    document.getElementById('primeResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> ১ থেকে ৫০ এর মধ্যে যেকোনো সংখ্যা লিখে "প্রাইম কিনা দেখো" চাপো।';
+    document.getElementById('primeResult').style.background = 'rgba(0,0,0,0.3)';
+  }
+  
+  // Game 2: Prime Grid
+  const gridNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  let selectedNumber = null;
+  
+  function initGrid() {
+    const container = document.getElementById('numberGrid');
+    container.innerHTML = '';
+    
+    gridNumbers.forEach(num => {
+      const tile = document.createElement('div');
+      tile.className = 'number-tile';
+      tile.setAttribute('data-number', num);
+      tile.innerHTML = `<div class="tile-number">${num}</div>`;
+      tile.onclick = () => selectTile(num, tile);
+      container.appendChild(tile);
+    });
+  }
+  
+  function selectTile(num, tile) {
+    // Remove selection from all
+    document.querySelectorAll('.number-tile').forEach(t => {
+      t.classList.remove('selected');
+    });
+    tile.classList.add('selected');
+    selectedNumber = num;
+    
+    // Update result
+    document.getElementById('gridResult').innerHTML = `<i class="fa-regular fa-hand-pointer me-1"></i> তুমি ${num} সিলেক্ট করেছো। এখন "চেক করো" বাটন চাপো।`;
+  }
+  
+  function checkSelectedPrime() {
+    const resultDiv = document.getElementById('gridResult');
+    
+    if (selectedNumber === null) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> প্রথমে একটি সংখ্যা সিলেক্ট করো!';
+      resultDiv.style.background = '#ffc107';
+      resultDiv.style.color = '#333';
+      setTimeout(() => { 
+        resultDiv.style.background = 'rgba(0,0,0,0.3)';
+        resultDiv.style.color = 'white';
+      }, 2000);
+      return;
+    }
+    
+    if (isPrime(selectedNumber)) {
+      resultDiv.innerHTML = `<i class="fa-solid fa-crown me-1"></i> 🎉 ${selectedNumber} একটি প্রাইম সংখ্যা! সঠিক চিহ্নিত করেছো!`;
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+      
+      // Highlight as prime in grid
+      const tiles = document.querySelectorAll('.number-tile');
+      tiles.forEach(tile => {
+        const num = parseInt(tile.getAttribute('data-number'));
+        if (num === selectedNumber && isPrime(num)) {
+          tile.classList.add('prime');
+        }
+      });
+    } else {
+      let divisor = 2;
+      for (let i = 2; i < selectedNumber; i++) {
+        if (selectedNumber % i === 0) {
+          divisor = i;
+          break;
+        }
+      }
+      resultDiv.innerHTML = `<i class="fa-solid fa-times-circle me-1"></i> ${selectedNumber} প্রাইম সংখ্যা না। কারণ এটিকে ${divisor} দিয়েও ভাগ করা যায়!`;
+      resultDiv.style.background = '#dc3545';
+      
+      // Highlight as not prime
+      const tiles = document.querySelectorAll('.number-tile');
+      tiles.forEach(tile => {
+        const num = parseInt(tile.getAttribute('data-number'));
+        if (num === selectedNumber && !isPrime(num) && num !== 1) {
+          tile.classList.add('not-prime');
+        }
+      });
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  function resetGridSelection() {
+    selectedNumber = null;
+    document.querySelectorAll('.number-tile').forEach(tile => {
+      tile.classList.remove('selected', 'prime', 'not-prime');
+    });
+    document.getElementById('gridResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> উপরের সংখ্যা গুলোর মধ্যে যেকোনো সংখ্যায় ক্লিক করো, তারপর চেক করো।';
+  }
+  
+  // Challenge Reveal
+  function revealChallenge(id, answer) {
+    const span = document.getElementById(`challenge${id}`);
+    span.innerHTML = answer;
+    createConfetti();
+    showMessage(`✅ উত্তর: ${answer}`);
+  }
+  
+  // Show temporary message
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_prime_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি প্রাইম নাম্বার পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  // Next Topic
+  function goToNextTopic() {
+    localStorage.setItem('tara_level4_topic5_completed', 'true');
+    window.location.href = 'topics/level-4/topic-4-6.html';
+  }
+  
+  // Add animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.checkPrime = checkPrime;
+  window.resetPrimeCheck = resetPrimeCheck;
+  window.checkSelectedPrime = checkSelectedPrime;
+  window.resetGridSelection = resetGridSelection;
+  window.revealChallenge = revealChallenge;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+  
+  // Initialize
+  initGrid();
+</script>
+
+</body>
+</html>

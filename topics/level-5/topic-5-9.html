@@ -1,0 +1,817 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | রিভার্স (Reverse) - উল্টানো</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .word-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      text-align: center;
+    }
+    
+    .letter-train {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    
+    .letter-coach {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border-radius: 12px;
+      padding: 0.8rem;
+      min-width: 60px;
+      text-align: center;
+      animation: popIn 0.2s ease;
+    }
+    
+    .letter-coach.reverse {
+      background: linear-gradient(135deg, #28a745, #1e7e34);
+    }
+    
+    .coach-letter {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    
+    .coach-number {
+      font-size: 0.7rem;
+      opacity: 0.8;
+    }
+    
+    .search-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .search-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      margin: 0.3rem;
+    }
+    
+    .search-btn.reset {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .letter-coach {
+        min-width: 50px;
+        padding: 0.5rem;
+      }
+      .coach-letter {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-5.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-arrow-right-arrow-left me-2"></i>রিভার্স (Reverse) - উল্টানো</h2>
+      <small>Level 5 · Topic 9</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 5 · Topic 9</div>
+    <h1 class="topic-title">🔄 রিভার্স (Reverse) - উল্টানো</h1>
+    <div class="topic-description">
+      <strong>রিভার্স</strong> মানে হলো <strong>উল্টানো</strong> — শেষের দিক থেকে শুরুতে আনা।<br>
+      যেমন: "মাছ" উল্টালে হয় "ছাম"! "বল" উল্টালে হয় "লব"!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🐟🔄</div>
+    <div class="story-title">📖 গল্প: মাছ আর ছাম</div>
+    <div class="story-text">
+      <strong>টুনু</strong> খুব মজার ছেলে। সে শব্দগুলো উল্টাতে ভালোবাসে!<br><br>
+      একদিন সে "মাছ" শব্দটি লিখল। তারপর ভাবল — "এটাকে উল্টালে কী হয়?"<br>
+      সে শেষের অক্ষর থেকে পড়তে লাগল:<br>
+      🐟 <strong>শব্দটা হলো: ম + আ + ছ</strong><br>
+      🐟 <strong>উল্টালে হয়: ছ + আ + ম = "ছাম"!</strong><br><br>
+      টুনু খুব খুশি হল! এটাই <strong>রিভার্স (উল্টানো)</strong>!<br>
+      <span class="story-highlight">📌 রিভার্স মানে শব্দটিকে উল্টো করে পড়া!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>উদাহরণ:</strong><br>
+      • "কাগজ" → উল্টালে "জগাক"<br>
+      • "১২৩" → উল্টালে "৩২১"<br>
+      • "বাংলা" → উল্টালে "ালগ্নব"<br>
+      <strong>প্রোগ্রামিং-এ রিভার্স মানে স্ট্রিং বা অ্যারের ক্রম উল্টানো!</strong>
+    </div>
+  </div>
+  
+  <!-- Game 1: Word Reverse Train -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-train"></i> খেলা ১: শব্দের ট্রেন উল্টাও
+    </div>
+    
+    <div class="word-box">
+      <div style="text-align: center; margin-bottom: 0.5rem;">
+        <strong>নিচের শব্দটি দেখো:</strong>
+      </div>
+      <div class="letter-train" id="normalTrain"></div>
+      <div style="text-align: center; margin: 0.5rem 0;">
+        <i class="fa-solid fa-arrow-down"></i> <strong>উল্টালে হবে:</strong> <i class="fa-solid fa-arrow-down"></i>
+      </div>
+      <div class="letter-train" id="reverseTrain"></div>
+    </div>
+    
+    <div class="search-area">
+      <button class="search-btn" onclick="reverseWord()">
+        <i class="fa-solid fa-arrow-right-arrow-left me-1"></i>উল্টাও!
+      </button>
+      <button class="search-btn reset" onclick="resetReverse()">
+        <i class="fa-solid fa-rotate-left me-1"></i>আবার দেখাও
+      </button>
+    </div>
+    
+    <div class="result-box" id="reverseResult">
+      <i class="fa-regular fa-lightbulb me-1"></i> "উল্টাও!" বাটন চাপো। শব্দটি উল্টে যাবে!
+    </div>
+  </div>
+  
+  <!-- Game 2: Make Your Own Reverse -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-pencil"></i> খেলা ২: তোমার শব্দ উল্টাও
+    </div>
+    
+    <div class="word-box">
+      <div class="search-area">
+        <input type="text" id="userWord" class="search-input" placeholder="একটি শব্দ লেখো" style="width:200px;">
+        <button class="search-btn" onclick="reverseUserWord()">
+          <i class="fa-solid fa-arrow-right-arrow-left me-1"></i>উল্টাও!
+        </button>
+        <button class="search-btn reset" onclick="clearUserWord()">
+          <i class="fa-solid fa-eraser me-1"></i>সাফ করো
+        </button>
+      </div>
+      
+      <div class="letter-train" id="userNormalTrain"></div>
+      <div style="text-align: center; margin: 0.5rem 0;">
+        <i class="fa-solid fa-arrow-down"></i> <strong>উল্টানো শব্দ:</strong> <i class="fa-solid fa-arrow-down"></i>
+      </div>
+      <div class="letter-train" id="userReverseTrain"></div>
+    </div>
+    
+    <div class="result-box" id="userResult">
+      <i class="fa-regular fa-lightbulb me-1"></i> তোমার পছন্দের শব্দ লিখে "উল্টাও!" চাপো।
+    </div>
+  </div>
+  
+  <!-- Quick Challenge -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-question-circle"></i> দ্রুত চ্যালেঞ্জ
+    </div>
+    <div class="word-box">
+      <p style="text-align:center">📌 "আম" শব্দটি উল্টালে কী হয়?</p>
+      <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+        <button class="search-btn" onclick="checkChallenge('আম')">আম</button>
+        <button class="search-btn" onclick="checkChallenge('মা')">মা</button>
+        <button class="search-btn" onclick="checkChallenge('মআ')">মআ</button>
+        <button class="search-btn" onclick="checkChallenge('আমা')">আমা</button>
+      </div>
+      <div class="result-box mt-2" id="challengeResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> সঠিক উত্তর বাছো!
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>রিভার্স সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. রিভার্স (Reverse) মানে কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> একই রাখা</label>
+        <label class="option"><input type="radio" name="q1" value="1"> উল্টানো</label>
+        <label class="option"><input type="radio" name="q1" value="2"> মুছে ফেলা</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">২. "বল" শব্দটি উল্টালে কী হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> লব</label>
+        <label class="option"><input type="radio" name="q2" value="1"> বল</label>
+        <label class="option"><input type="radio" name="q2" value="2"> ব্ল</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৩. "১২৩" সংখ্যাটি উল্টালে কী হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> ১২৩</label>
+        <label class="option"><input type="radio" name="q3" value="1"> ১৩২</label>
+        <label class="option"><input type="radio" name="q3" value="2"> ৩২১</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৪. "কাগজ" শব্দটি উল্টালে কী হবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> জগাক</label>
+        <label class="option"><input type="radio" name="q4" value="1"> জগাক</label>
+        <label class="option"><input type="radio" name="q4" value="2"> কাজগ</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৫. রিভার্স করলে কী পরিবর্তন হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> অক্ষরের ক্রম উল্টে যায়</label>
+        <label class="option"><input type="radio" name="q5" value="1"> অক্ষরগুলো বদলে যায়</label>
+        <label class="option"><input type="radio" name="q5" value="2"> কিছু পরিবর্তন হয় না</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: প্যালিন্ড্রোম
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      রিভার্স শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Reverse Topic (Easy Bangla)
+  // ==========================================
+  
+  // Game 1: Predefined words
+  const words = ["মাছ", "বল", "কাগজ", "বাংলা", "পানির"];
+  let currentWordIndex = 0;
+  let currentWord = words[0];
+  
+  function showNormalWord() {
+    const container = document.getElementById('normalTrain');
+    container.innerHTML = '';
+    
+    for (let i = 0; i < currentWord.length; i++) {
+      const coach = document.createElement('div');
+      coach.className = 'letter-coach';
+      coach.innerHTML = `
+        <div class="coach-letter">${currentWord[i]}</div>
+        <div class="coach-number">${i + 1}</div>
+      `;
+      container.appendChild(coach);
+    }
+  }
+  
+  function showReverseWord() {
+    const container = document.getElementById('reverseTrain');
+    container.innerHTML = '';
+    
+    const reversed = currentWord.split('').reverse().join('');
+    
+    for (let i = 0; i < reversed.length; i++) {
+      const coach = document.createElement('div');
+      coach.className = 'letter-coach reverse';
+      coach.innerHTML = `
+        <div class="coach-letter">${reversed[i]}</div>
+        <div class="coach-number">${i + 1}</div>
+      `;
+      container.appendChild(coach);
+    }
+  }
+  
+  function reverseWord() {
+    showReverseWord();
+    const resultDiv = document.getElementById('reverseResult');
+    const reversed = currentWord.split('').reverse().join('');
+    resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> 🎉 "${currentWord}" কে উল্টালে হয় "${reversed}"!`;
+    resultDiv.style.background = '#28a745';
+    createConfetti();
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  function resetReverse() {
+    currentWordIndex = (currentWordIndex + 1) % words.length;
+    currentWord = words[currentWordIndex];
+    showNormalWord();
+    
+    const reverseContainer = document.getElementById('reverseTrain');
+    reverseContainer.innerHTML = '<div style="color:#aaa;">? উল্টালে দেখাবে</div>';
+    
+    document.getElementById('reverseResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> "উল্টাও!" বাটন চাপো। শব্দটি উল্টে যাবে!';
+    document.getElementById('reverseResult').style.background = 'rgba(0,0,0,0.3)';
+  }
+  
+  // Game 2: User word reverse
+  function reverseUserWord() {
+    const userWord = document.getElementById('userWord').value.trim();
+    const resultDiv = document.getElementById('userResult');
+    const normalContainer = document.getElementById('userNormalTrain');
+    const reverseContainer = document.getElementById('userReverseTrain');
+    
+    if (userWord.length === 0) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> দয়া করে একটি শব্দ লিখো!';
+      resultDiv.style.background = '#ffc107';
+      resultDiv.style.color = '#333';
+      setTimeout(() => {
+        resultDiv.style.background = 'rgba(0,0,0,0.3)';
+        resultDiv.style.color = 'white';
+      }, 2000);
+      return;
+    }
+    
+    // Show normal word
+    normalContainer.innerHTML = '';
+    for (let i = 0; i < userWord.length; i++) {
+      const coach = document.createElement('div');
+      coach.className = 'letter-coach';
+      coach.innerHTML = `
+        <div class="coach-letter">${userWord[i]}</div>
+        <div class="coach-number">${i + 1}</div>
+      `;
+      normalContainer.appendChild(coach);
+    }
+    
+    // Show reversed word
+    const reversed = userWord.split('').reverse().join('');
+    reverseContainer.innerHTML = '';
+    for (let i = 0; i < reversed.length; i++) {
+      const coach = document.createElement('div');
+      coach.className = 'letter-coach reverse';
+      coach.innerHTML = `
+        <div class="coach-letter">${reversed[i]}</div>
+        <div class="coach-number">${i + 1}</div>
+      `;
+      reverseContainer.appendChild(coach);
+    }
+    
+    resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> 🎉 "${userWord}" কে উল্টালে হয় "${reversed}"!`;
+    resultDiv.style.background = '#28a745';
+    createConfetti();
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  function clearUserWord() {
+    document.getElementById('userWord').value = '';
+    document.getElementById('userNormalTrain').innerHTML = '';
+    document.getElementById('userReverseTrain').innerHTML = '';
+    document.getElementById('userResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> তোমার পছন্দের শব্দ লিখে "উল্টাও!" চাপো।';
+  }
+  
+  // Challenge
+  function checkChallenge(selected) {
+    const resultDiv = document.getElementById('challengeResult');
+    const correctAnswer = 'মা';
+    
+    if (selected === correctAnswer) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> ✅ সঠিক! "আম" উল্টালে হয় "মা"!';
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+    } else {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ❌ ভুল! "আম" উল্টালে হয় "মা"। আবার চেষ্টা করো।';
+      resultDiv.style.background = '#dc3545';
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_reverse_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি রিভার্স পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  function goToNextTopic() {
+    localStorage.setItem('tara_level5_topic9_completed', 'true');
+    window.location.href = 'topics/level-5/topic-5-10.html';
+  }
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.reverseWord = reverseWord;
+  window.resetReverse = resetReverse;
+  window.reverseUserWord = reverseUserWord;
+  window.clearUserWord = clearUserWord;
+  window.checkChallenge = checkChallenge;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+  
+  // Initialize
+  showNormalWord();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,757 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | কি-ওয়ার্ড (Keyword)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Keyword Cards */
+    .keyword-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .keyword-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    
+    .keyword-card:hover {
+      transform: translateY(-3px);
+      background: rgba(255,140,0,0.2);
+    }
+    
+    .keyword-word {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      font-family: monospace;
+    }
+    
+    .keyword-meaning {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-top: 0.5rem;
+    }
+    
+    /* Game Area */
+    .game-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .question-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+    
+    .question-text {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+    }
+    
+    .opt-btn {
+      background: linear-gradient(135deg, #2a2a4a, #1a1a3e);
+      border: 2px solid #ff8c00;
+      border-radius: 50px;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: bold;
+    }
+    
+    .opt-btn:hover {
+      background: rgba(255,140,0,0.3);
+      transform: scale(1.05);
+    }
+    
+    .opt-btn.correct {
+      background: #28a745;
+      border-color: #90ee90;
+    }
+    
+    .opt-btn.wrong {
+      background: #dc3545;
+      border-color: #ff8888;
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .keyword-word {
+        font-size: 1.2rem;
+      }
+      .opt-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-extra.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-key me-2"></i>কি-ওয়ার্ড (Keyword)</h2>
+      <small>Level Extra · Topic 1</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level Extra · Topic 1</div>
+    <h1 class="topic-title">🔑 কি-ওয়ার্ড (Keyword)</h1>
+    <div class="topic-description">
+      <strong>কি-ওয়ার্ড</strong> মানে হলো প্রোগ্রামিং ভাষার <strong>বিশেষ শব্দ</strong> যাদের নিজস্ব কাজ আছে। এগুলো ভেরিয়েবলের নাম হিসেবে ব্যবহার করা যায় না!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">📖🔤</div>
+    <div class="story-title">📖 গল্প: ম্যাজিক শব্দের বই</div>
+    <div class="story-text">
+      <strong>টুনু</strong> একটি ম্যাজিক বই পেল। বইটিতে কিছু <strong>বিশেষ শব্দ</strong> আছে — যেগুলো বলে দিলেই ম্যাজিক হয়!<br><br>
+      📖 <strong>"if"</strong> বললে → শর্ত পরীক্ষা করে!<br>
+      📖 <strong>"for"</strong> বললে → বারবার কাজ করে!<br>
+      📖 <strong>"break"</strong> বললে → কাজ থামিয়ে দেয়!<br><br>
+      টুনু বুঝতে পারল — এই শব্দগুলো খুবই বিশেষ। এগুলোকে <strong>কি-ওয়ার্ড (ম্যাজিক শব্দ)</strong> বলে!<br>
+      <span class="story-highlight">📌 কি-ওয়ার্ড = প্রোগ্রামিং ভাষার ম্যাজিক শব্দ!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>কি-ওয়ার্ড = ভাষার নিয়মের অংশ</strong><br>
+      • যেমন ইংরেজিতে "is", "are" বিশেষ শব্দ — তেমনি প্রোগ্রামিং-এও<br>
+      • যেমন বাংলায় "যদি", "তবে" — তেমনি প্রোগ্রামিং-এ "if", "else"<br>
+      <strong>এগুলো নিজের ইচ্ছামত বদলানো যায় না!</strong>
+    </div>
+  </div>
+  
+  <!-- Keyword Cards -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-table-list"></i> গুরুত্বপূর্ণ কি-ওয়ার্ড
+    </div>
+    
+    <div class="keyword-grid">
+      <div class="keyword-card">
+        <div class="keyword-word">if</div>
+        <div class="keyword-meaning">যদি — শর্ত পরীক্ষা করতে</div>
+      </div>
+      <div class="keyword-card">
+        <div class="keyword-word">else</div>
+        <div class="keyword-meaning">নাহলে — শর্ত মিথ্যা হলে</div>
+      </div>
+      <div class="keyword-card">
+        <div class="keyword-word">for</div>
+        <div class="keyword-meaning">জন্য — লুপ করতে</div>
+      </div>
+      <div class="keyword-card">
+        <div class="keyword-word">while</div>
+        <div class="keyword-meaning">যখন — লুপ করতে</div>
+      </div>
+      <div class="keyword-card">
+        <div class="keyword-word">break</div>
+        <div class="keyword-meaning">থামা — লুপ থামাতে</div>
+      </div>
+      <div class="keyword-card">
+        <div class="keyword-word">continue</div>
+        <div class="keyword-meaning">চালিয়ে যাও — একটি ধাপ বাদ দিতে</div>
+      </div>
+      <div class="keyword-card">
+        <div class="keyword-word">return</div>
+        <div class="keyword-meaning">ফিরিয়ে দাও — ফলাফল দিতে</div>
+      </div>
+      <div class="keyword-card">
+        <div class="keyword-word">function</div>
+        <div class="keyword-meaning">ফাংশন — কাজের ব্লক</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Game: Match the Keyword -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-puzzle-piece"></i> খেলা: সঠিক কি-ওয়ার্ড বাছো
+    </div>
+    
+    <div class="question-box" id="quizGame">
+      <div class="question-text" id="kwQuestion">🔍 কোন শব্দটি দিয়ে <strong>লুপ থামানো</strong> যায়?</div>
+      <div class="options" id="kwOptions">
+        <button class="opt-btn" onclick="checkKeywordAnswer(this, 'continue')">continue</button>
+        <button class="opt-btn" onclick="checkKeywordAnswer(this, 'break')">break</button>
+        <button class="opt-btn" onclick="checkKeywordAnswer(this, 'if')">if</button>
+        <button class="opt-btn" onclick="checkKeywordAnswer(this, 'return')">return</button>
+      </div>
+      <div class="result-box mt-2" id="kwResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> উপরের অপশন থেকে সঠিক কি-ওয়ার্ড বাছো!
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>কি-ওয়ার্ড সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. কি-ওয়ার্ড (Keyword) কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> ব্যবহারকারীর তৈরি নাম</label>
+        <label class="option"><input type="radio" name="q1" value="1"> প্রোগ্রামিং ভাষার বিশেষ শব্দ</label>
+        <label class="option"><input type="radio" name="q1" value="2"> একটি সংখ্যা</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">২. কোনটি একটি কি-ওয়ার্ড?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> if</label>
+        <label class="option"><input type="radio" name="q2" value="1"> myName</label>
+        <label class="option"><input type="radio" name="q2" value="2"> apple</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৩. শর্ত পরীক্ষা করতে কোন কি-ওয়ার্ড ব্যবহার করা হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> for</label>
+        <label class="option"><input type="radio" name="q3" value="1"> while</label>
+        <label class="option"><input type="radio" name="q3" value="2"> if</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৪. কি-ওয়ার্ডকে ভেরিয়েবলের নাম হিসেবে ব্যবহার করা যায়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> হ্যাঁ, যায়</label>
+        <label class="option"><input type="radio" name="q4" value="1"> না, যায় না</label>
+        <label class="option"><input type="radio" name="q4" value="2"> মাঝে মাঝে যায়</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৫. "break" কি-ওয়ার্ডের কাজ কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> লুপ থামানো</label>
+        <label class="option"><input type="radio" name="q5" value="1"> লুপ শুরু করা</label>
+        <label class="option"><input type="radio" name="q5" value="2"> ফলাফল দেওয়া</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: ক্লাস
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      কি-ওয়ার্ড শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Keyword Topic
+  // ==========================================
+  
+  // Quiz Game Data
+  const keywordQuestions = [
+    {
+      question: "🔍 কোন শব্দটি দিয়ে <strong>শর্ত পরীক্ষা</strong> করা যায়?",
+      options: ["for", "if", "while", "return"],
+      correct: "if"
+    },
+    {
+      question: "🔍 কোন শব্দটি দিয়ে <strong>লুপ শুরু</strong> করা যায়?",
+      options: ["break", "continue", "for", "else"],
+      correct: "for"
+    },
+    {
+      question: "🔍 কোন শ드টি দিয়ে <strong>ফলাফল ফিরিয়ে দেওয়া</strong> যায়?",
+      options: ["return", "break", "continue", "if"],
+      correct: "return"
+    },
+    {
+      question: "🔍 কোন শব্দটি দিয়ে <strong>একটি ধাপ বাদ দিয়ে লুপ চালিয়ে যাওয়া</strong> যায়?",
+      options: ["break", "stop", "continue", "exit"],
+      correct: "continue"
+    },
+    {
+      question: "🔍 'শর্ত মিথ্যা হলে' কোন শব্দটি ব্যবহার করা হয়?",
+      options: ["if", "then", "else", "when"],
+      correct: "else"
+    }
+  ];
+  
+  let currentQuestionIndex = 0;
+  let quizAnswered = false;
+  
+  function loadQuestion() {
+    const q = keywordQuestions[currentQuestionIndex];
+    document.getElementById('kwQuestion').innerHTML = q.question;
+    const optionsContainer = document.getElementById('kwOptions');
+    optionsContainer.innerHTML = '';
+    
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.textContent = opt;
+      btn.onclick = () => checkKeywordAnswer(btn, opt);
+      optionsContainer.appendChild(btn);
+    });
+    
+    document.getElementById('kwResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> সঠিক কি-ওয়ার্ড বাছো!';
+    document.getElementById('kwResult').style.background = 'rgba(0,0,0,0.3)';
+    quizAnswered = false;
+  }
+  
+  function checkKeywordAnswer(btn, selected) {
+    if (quizAnswered) return;
+    
+    const correct = keywordQuestions[currentQuestionIndex].correct;
+    const resultDiv = document.getElementById('kwResult');
+    
+    if (selected === correct) {
+      btn.classList.add('correct');
+      resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> ✅ সঠিক! "${correct}" একটি গুরুত্বপূর্ণ কি-ওয়ার্ড!`;
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+      quizAnswered = true;
+      
+      // Load next question after delay
+      setTimeout(() => {
+        currentQuestionIndex = (currentQuestionIndex + 1) % keywordQuestions.length;
+        loadQuestion();
+      }, 2000);
+    } else {
+      btn.classList.add('wrong');
+      resultDiv.innerHTML = `<i class="fa-solid fa-circle-xmark me-1"></i> ❌ ভুল! সঠিক উত্তর হলো "${correct}". আবার চেষ্টা করো।`;
+      resultDiv.style.background = '#dc3545';
+      setTimeout(() => {
+        btn.classList.remove('wrong');
+        resultDiv.style.background = 'rgba(0,0,0,0.3)';
+      }, 1500);
+    }
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_keyword_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি কি-ওয়ার্ড পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  function goToNextTopic() {
+    localStorage.setItem('tara_levelExtra_topic1_completed', 'true');
+    window.location.href = 'topics/level-extra/topic-extra-2.html';
+  }
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.checkKeywordAnswer = checkKeywordAnswer;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+  
+  // Initialize
+  loadQuestion();
+</script>
+
+</body>
+</html>

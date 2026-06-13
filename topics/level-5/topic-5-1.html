@@ -1,0 +1,990 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | কন্টিনিউ (Continue)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .topic-description {
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Skip Game */
+    .skip-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .skip-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    
+    .skip-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      margin: 0.3rem;
+    }
+    
+    .skip-btn.reset {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+    
+    .skip-btn.continue {
+      background: linear-gradient(135deg, #28a745, #218838);
+    }
+    
+    .items-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      min-height: 150px;
+    }
+    
+    .item-balloon {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .item-balloon:hover {
+      transform: scale(1.1);
+    }
+    
+    .item-balloon.skipped {
+      background: linear-gradient(135deg, #aaa, #888);
+      opacity: 0.5;
+      cursor: default;
+    }
+    
+    .item-balloon.processed {
+      background: linear-gradient(135deg, #28a745, #1e7e34);
+    }
+    
+    /* Fruit Basket Game */
+    .fruit-basket {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+      min-height: 120px;
+    }
+    
+    .fruit {
+      background: rgba(255,140,0,0.2);
+      border-radius: 15px;
+      padding: 0.8rem;
+      text-align: center;
+      min-width: 80px;
+      border: 1px solid #ff8c00;
+    }
+    
+    .fruit-emoji {
+      font-size: 2rem;
+    }
+    
+    .fruit-name {
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+    }
+    
+    .fruit.skipped {
+      background: rgba(100,100,100,0.3);
+      border-color: #888;
+      opacity: 0.5;
+    }
+    
+    .progress-info {
+      margin: 1rem 0;
+      padding: 0.8rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      text-align: center;
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+    }
+    
+    /* Challenge Box */
+    .challenge-question {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .bounce {
+      animation: bounce 0.3s;
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .item-balloon {
+        width: 55px;
+        height: 55px;
+        font-size: 1.5rem;
+      }
+      .fruit {
+        min-width: 60px;
+        padding: 0.5rem;
+      }
+      .fruit-emoji {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-5.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-forward-step me-2"></i>কন্টিনিউ (Continue)</h2>
+      <small>Level 5 · Topic 1</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 5 · Topic 1</div>
+    <h1 class="topic-title">⏩ কন্টিনিউ (Continue)</h1>
+    <div class="topic-description">
+      <strong>কন্টিনিউ</strong> মানে হলো <strong>একটি কাজ বাদ দিয়ে পরের কাজে চলে যাওয়া</strong>। যেমন: একটা লাইনে দাঁড়িয়ে, কিছু লোককে skip করে পরের জনকে ডাকা!<br>
+      প্রোগ্রামিং-এ কন্টিনিউ ব্যবহার করে আমরা লুপের বর্তমান ধাপটা বাদ দিয়ে পরের ধাপে চলে যাই।
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🎈⏭️</div>
+    <div class="story-title">📖 গল্প: বেলুন ফোলানো আর বাদ যাওয়া ফল</div>
+    <div class="story-text">
+      <strong>টুম্পা</strong> ১০টি বেলুন ফোলাতে চায়। কিন্তু কিছু বেলুনে ছিদ্র আছে! সে ফোলানোর সময় যদি ছিদ্রযুক্ত বেলুন পায়, সে সেটা <strong>বাদ দিয়ে পরের বেলুন ফোলাতে থাকে</strong>।<br><br>
+      আরেকদিন টুম্পা ফল ঝুড়ি থেকে ফল বাছাই করছিল। মা বললেন — <strong>"যে ফলে বীজ বেশি, সেটা বাদ দিয়ে দে!"</strong> টুম্পা বীজ বেশি থাকা ফলগুলো বাদ দিয়ে বাকি ফলগুলো নিল।<br><br>
+      <span class="story-highlight">📌 এটাই হলো <strong>কন্টিনিউ</strong> — একটি কাজ বাদ দিয়ে পরের কাজে চলে যাওয়া (পুরোপুরি থামানো না)!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>ব্রেক বনাম কন্টিনিউ:</strong><br>
+      🛑 <strong>ব্রেক (Break):</strong> পুরো কাজ থামিয়ে দেয় (দৌড় থামিয়ে দেয়)<br>
+      ⏩ <strong>কন্টিনিউ (Continue):</strong> শুধু এই ধাপটা বাদ দিয়ে পরের ধাপে চলে যায় (দৌড় চালিয়ে যায়)<br>
+      যেমন: ১ থেকে ১০ পর্যন্ত সংখ্যা বলতে বলতে ৫ বাদ দিয়ে বললে — সেটি কন্টিনিউ!
+    </div>
+  </div>
+  
+  <!-- Game Container -->
+  <div class="game-container">
+    
+    <!-- Game 1: Balloon Skip Game -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-balloon"></i> খেলা ১: বেলুন ফোলানো (স্কিপ গেম)
+      </div>
+      
+      <div class="skip-area">
+        <div class="items-container" id="balloonContainer">
+          <!-- Balloons will be added by JS -->
+        </div>
+        
+        <div class="progress-info">
+          <span><i class="fa-solid fa-chart-simple"></i> মোট বেলুন: <strong id="totalBalloons">10</strong></span>
+          <span class="mx-3"><i class="fa-solid fa-check-circle"></i> ফোলানো: <strong id="inflatedCount">0</strong></span>
+          <span><i class="fa-solid fa-ban"></i> বাদ দেওয়া: <strong id="skippedCount">0</strong></span>
+        </div>
+        
+        <div class="skip-control">
+          <button class="skip-btn" onclick="startContinueGame()">
+            <i class="fa-solid fa-play me-1"></i>বেলুন ফোলানো শুরু করো
+          </button>
+          <button class="skip-btn reset" onclick="resetContinueGame()">
+            <i class="fa-solid fa-rotate-left me-1"></i>রিসেট
+          </button>
+        </div>
+        
+        <div class="result-box" id="continueResult">
+          <i class="fa-regular fa-lightbulb me-1"></i> "শুরু করো" চাপো। ২, ৪, ৬, ৮ নম্বর বেলুনে ছিদ্র আছে — সেগুলো বাদ যাবে!
+        </div>
+      </div>
+    </div>
+    
+    <!-- Game 2: Fruit Skip Game -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-basket-shopping"></i> খেলা ২: ফল বাছাই (স্কিপ গেম)
+      </div>
+      
+      <div class="skip-area">
+        <div class="fruit-basket" id="fruitContainer">
+          <!-- Fruits will be added by JS -->
+        </div>
+        
+        <div class="progress-info">
+          <span><i class="fa-solid fa-apple-alt"></i> মোট ফল: <strong id="totalFruits">8</strong></span>
+          <span class="mx-3"><i class="fa-solid fa-check-circle"></i> বাছাই করা: <strong id="selectedCount">0</strong></span>
+          <span><i class="fa-solid fa-ban"></i> বাদ দেওয়া: <strong id="fruitSkippedCount">0</strong></span>
+        </div>
+        
+        <div class="skip-control">
+          <button class="skip-btn continue" onclick="startFruitContinue()">
+            <i class="fa-solid fa-play me-1"></i>ফল বাছাই শুরু করো
+          </button>
+          <button class="skip-btn reset" onclick="resetFruitContinue()">
+            <i class="fa-solid fa-rotate-left me-1"></i>রিসেট
+          </button>
+        </div>
+        
+        <div class="result-box" id="fruitResult">
+          <i class="fa-regular fa-lightbulb me-1"></i> "শুরু করো" চাপো। যেসব ফলে বীজ বেশি (🍉, 🍊), সেগুলো বাদ যাবে!
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Continue Challenge Box -->
+  <div class="math-box" style="border-left-color: #28a745;">
+    <div class="math-box-title">
+      <i class="fa-solid fa-puzzle-piece me-2"></i>কন্টিনিউ চ্যালেঞ্জ!
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ১:</strong> ব্রেক আর কন্টিনিউ এর মধ্যে মূল পার্থক্য কী?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(1, 'ব্রেক পুরো কাজ থামায়, কন্টিনিউ শুধু এই ধাপটা বাদ দেয়')">উত্তর দেখো</button>
+        <span id="challenge1" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ২:</strong> ১ থেকে ১০ পর্যন্ত সংখ্যা বলতে বলতে ৩ ও ৬ বাদ দিলে কোন সংখ্যাগুলো বলবে?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(2, '১,২,৪,৫,৭,৮,৯,১০')">উত্তর দেখো</button>
+        <span id="challenge2" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ৩:</strong> প্রোগ্রামিং-এ continue ব্যবহার করলে কী হয়?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(3, 'লুপের বর্তমান ধাপ বাদ দিয়ে পরের ধাপে চলে যায়')">উত্তর দেখো</button>
+        <span id="challenge3" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>কন্টিনিউ সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. কন্টিনিউ (Continue) মানে কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> পুরো কাজ থামানো</label>
+        <label class="option"><input type="radio" name="q1" value="1"> একটি কাজ বাদ দিয়ে পরের কাজে যাওয়া</label>
+        <label class="option"><input type="radio" name="q1" value="2"> প্রথম থেকে শুরু করা</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">২. ১ থেকে ১০ পর্যন্ত গুনতে গুনতে ৫ বাদ দিলে সেটি কী হলো?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> কন্টিনিউ</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ব্রেক</label>
+        <label class="option"><input type="radio" name="q2" value="2"> স্টপ</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. ব্রেক আর কন্টিনিউ এর মধ্যে প্রধান পার্থক্য কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> ব্রেক পুরো লুপ থামায়, কন্টিনিউ শুধু একটি ধাপ বাদ দেয়</label>
+        <label class="option"><input type="radio" name="q3" value="1"> কন্টিনিউ পুরো লুপ থামায়</label>
+        <label class="option"><input type="radio" name="q3" value="2"> দুটো একই কাজ করে</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৪. টুম্পা ছিদ্রযুক্ত বেলুন পেলে কী করল?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> সব বেলুন ফোলানো বন্ধ করল</label>
+        <label class="option"><input type="radio" name="q4" value="1"> ছিদ্রযুক্ত বেলুনও ফোলাল</label>
+        <label class="option"><input type="radio" name="q4" value="2"> সেটা বাদ দিয়ে পরের বেলুন ফোলাল</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৫. continue ব্যবহার করলে লুপের কী পরিবর্তন হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> লুপ থেমে যায়</label>
+        <label class="option"><input type="radio" name="q5" value="1"> বর্তমান ধাপ বাদ দিয়ে পরের ধাপ চলে</label>
+        <label class="option"><input type="radio" name="q5" value="2"> লুপ আবার শুরু হয়</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: নেস্টেড লুপ
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      কন্টিনিউ শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Continue Topic
+  // ==========================================
+  
+  // Game 1: Balloon Skip Game (Continue simulation)
+  let continueRunning = false;
+  let continueInterval = null;
+  let currentBalloonIndex = 0;
+  let balloonSkipped = [];
+  let balloonDone = [];
+  
+  // Balloon data
+  const balloons = [
+    { id: 1, name: 'বেলুন ১', hasHole: false, emoji: '🎈' },
+    { id: 2, name: 'বেলুন ২', hasHole: true, emoji: '🎈' },
+    { id: 3, name: 'বেলুন ৩', hasHole: false, emoji: '🎈' },
+    { id: 4, name: 'বেলুন ৪', hasHole: true, emoji: '🎈' },
+    { id: 5, name: 'বেলুন ৫', hasHole: false, emoji: '🎈' },
+    { id: 6, name: 'বেলুন ৬', hasHole: true, emoji: '🎈' },
+    { id: 7, name: 'বেলুন ৭', hasHole: false, emoji: '🎈' },
+    { id: 8, name: 'বেলুন ৮', hasHole: true, emoji: '🎈' },
+    { id: 9, name: 'বেলুন ৯', hasHole: false, emoji: '🎈' },
+    { id: 10, name: 'বেলুন ১০', hasHole: false, emoji: '🎈' }
+  ];
+  
+  function initBalloons() {
+    const container = document.getElementById('balloonContainer');
+    container.innerHTML = '';
+    
+    balloons.forEach((balloon, idx) => {
+      const balloonDiv = document.createElement('div');
+      balloonDiv.className = 'item-balloon';
+      if (balloonSkipped.includes(idx)) {
+        balloonDiv.classList.add('skipped');
+      } else if (balloonDone.includes(idx)) {
+        balloonDiv.classList.add('processed');
+      }
+      balloonDiv.innerHTML = balloon.emoji;
+      balloonDiv.title = balloon.name;
+      container.appendChild(balloonDiv);
+    });
+    
+    const inflated = balloonDone.filter(i => !balloonSkipped.includes(i)).length;
+    document.getElementById('inflatedCount').innerText = inflated;
+    document.getElementById('skippedCount').innerText = balloonSkipped.length;
+  }
+  
+  function startContinueGame() {
+    if (continueRunning) {
+      showMessage('গেম ইতিমধ্যে চলছে!');
+      return;
+    }
+    
+    if (currentBalloonIndex >= balloons.length) {
+      showMessage('সব বেলুন শেষ! "রিসেট" চাপো আবার খেলতে।');
+      return;
+    }
+    
+    continueRunning = true;
+    document.getElementById('continueResult').innerHTML = '<i class="fa-regular fa-clock me-1"></i> বেলুন ফোলানো শুরু হয়েছে... 🎈';
+    
+    continueInterval = setInterval(() => {
+      if (currentBalloonIndex >= balloons.length) {
+        clearInterval(continueInterval);
+        continueRunning = false;
+        document.getElementById('continueResult').innerHTML = '<i class="fa-regular fa-circle-check me-1"></i> 🎉 সব বেলুন ফোলানো শেষ! ছিদ্রযুক্ত বেলুনগুলো বাদ গিয়েছে (কন্টিনিউ)!';
+        createConfetti();
+        return;
+      }
+      
+      const balloon = balloons[currentBalloonIndex];
+      
+      if (balloon.hasHole) {
+        // Skip this balloon (CONTINUE)
+        balloonSkipped.push(currentBalloonIndex);
+        document.getElementById('continueResult').innerHTML = `<i class="fa-solid fa-forward-step me-1"></i> ${balloon.name} এ ছিদ্র আছে! বাদ দিয়ে দিলাম (কন্টিনিউ) → পরের বেলুনে যাচ্ছি...`;
+      } else {
+        // Process this balloon
+        balloonDone.push(currentBalloonIndex);
+        document.getElementById('continueResult').innerHTML = `<i class="fa-regular fa-circle-check me-1"></i> ${balloon.name} ফোলানো হলো! 🎈`;
+      }
+      
+      initBalloons();
+      currentBalloonIndex++;
+      
+      // Visual feedback
+      const resultDiv = document.getElementById('continueResult');
+      resultDiv.style.background = balloon.hasHole ? '#dc3545' : '#28a745';
+      setTimeout(() => {
+        resultDiv.style.background = 'rgba(0,0,0,0.3)';
+      }, 500);
+      
+    }, 800);
+  }
+  
+  function resetContinueGame() {
+    if (continueRunning) {
+      clearInterval(continueInterval);
+      continueRunning = false;
+    }
+    currentBalloonIndex = 0;
+    balloonSkipped = [];
+    balloonDone = [];
+    initBalloons();
+    document.getElementById('continueResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> রিসেট করা হয়েছে। "শুরু করো" চাপো। ২,৪,৬,৮ নম্বর বেলুনে ছিদ্র আছে — সেগুলো বাদ যাবে!';
+  }
+  
+  // Game 2: Fruit Continue Game
+  let fruitRunning = false;
+  let fruitInterval = null;
+  let currentFruitIndex = 0;
+  let fruitSkipped = [];
+  let fruitSelected = [];
+  
+  const fruits = [
+    { id: 1, name: 'আপেল', emoji: '🍎', hasManySeeds: false },
+    { id: 2, name: 'কলা', emoji: '🍌', hasManySeeds: false },
+    { id: 3, name: 'তরমুজ', emoji: '🍉', hasManySeeds: true },
+    { id: 4, name: 'আম', emoji: '🥭', hasManySeeds: false },
+    { id: 5, name: 'কমলা', emoji: '🍊', hasManySeeds: true },
+    { id: 6, name: 'স্ট্রবেরি', emoji: '🍓', hasManySeeds: false },
+    { id: 7, name: 'আঙ্গুর', emoji: '🍇', hasManySeeds: false },
+    { id: 8, name: 'পেঁপে', emoji: '🍈', hasManySeeds: true }
+  ];
+  
+  function initFruits() {
+    const container = document.getElementById('fruitContainer');
+    container.innerHTML = '';
+    
+    fruits.forEach((fruit, idx) => {
+      const fruitDiv = document.createElement('div');
+      fruitDiv.className = 'fruit';
+      if (fruitSkipped.includes(idx)) {
+        fruitDiv.classList.add('skipped');
+      }
+      fruitDiv.innerHTML = `
+        <div class="fruit-emoji">${fruit.emoji}</div>
+        <div class="fruit-name">${fruit.name}</div>
+      `;
+      container.appendChild(fruitDiv);
+    });
+    
+    document.getElementById('selectedCount').innerText = fruitSelected.length;
+    document.getElementById('fruitSkippedCount').innerText = fruitSkipped.length;
+  }
+  
+  function startFruitContinue() {
+    if (fruitRunning) {
+      showMessage('গেম ইতিমধ্যে চলছে!');
+      return;
+    }
+    
+    if (currentFruitIndex >= fruits.length) {
+      showMessage('সব ফল বাছাই শেষ! "রিসেট" চাপো আবার খেলতে।');
+      return;
+    }
+    
+    fruitRunning = true;
+    document.getElementById('fruitResult').innerHTML = '<i class="fa-regular fa-clock me-1"></i> ফল বাছাই শুরু হয়েছে... 🍎';
+    
+    fruitInterval = setInterval(() => {
+      if (currentFruitIndex >= fruits.length) {
+        clearInterval(fruitInterval);
+        fruitRunning = false;
+        document.getElementById('fruitResult').innerHTML = '<i class="fa-regular fa-circle-check me-1"></i> 🎉 সব ফল বাছাই শেষ! বীজ বেশি থাকা ফলগুলো বাদ গিয়েছে (কন্টিনিউ)!';
+        createConfetti();
+        return;
+      }
+      
+      const fruit = fruits[currentFruitIndex];
+      
+      if (fruit.hasManySeeds) {
+        // Skip this fruit (CONTINUE)
+        fruitSkipped.push(currentFruitIndex);
+        document.getElementById('fruitResult').innerHTML = `<i class="fa-solid fa-forward-step me-1"></i> ${fruit.name} এ বীজ বেশি! বাদ দিয়ে দিলাম (কন্টিনিউ) → পরের ফলে যাচ্ছি...`;
+      } else {
+        // Select this fruit
+        fruitSelected.push(currentFruitIndex);
+        document.getElementById('fruitResult').innerHTML = `<i class="fa-regular fa-circle-check me-1"></i> ${fruit.name} বাছাই করা হলো! ✅`;
+      }
+      
+      initFruits();
+      currentFruitIndex++;
+      
+      const resultDiv = document.getElementById('fruitResult');
+      resultDiv.style.background = fruit.hasManySeeds ? '#dc3545' : '#28a745';
+      setTimeout(() => {
+        resultDiv.style.background = 'rgba(0,0,0,0.3)';
+      }, 500);
+      
+    }, 700);
+  }
+  
+  function resetFruitContinue() {
+    if (fruitRunning) {
+      clearInterval(fruitInterval);
+      fruitRunning = false;
+    }
+    currentFruitIndex = 0;
+    fruitSkipped = [];
+    fruitSelected = [];
+    initFruits();
+    document.getElementById('fruitResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> রিসেট করা হয়েছে। "শুরু করো" চাপো। বীজ বেশি থাকা ফল (🍉, 🍊, 🍈) বাদ যাবে!';
+  }
+  
+  // Challenge Reveal
+  function revealChallenge(id, answer) {
+    const span = document.getElementById(`challenge${id}`);
+    span.innerHTML = answer;
+    createConfetti();
+    showMessage(`✅ উত্তর: ${answer}`);
+  }
+  
+  // Show temporary message
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_continue_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি কন্টিনিউ পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  // Next Topic
+  function goToNextTopic() {
+    localStorage.setItem('tara_level5_topic1_completed', 'true');
+    window.location.href = 'topics/level-5/topic-5-2.html';
+  }
+  
+  // Add animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.startContinueGame = startContinueGame;
+  window.resetContinueGame = resetContinueGame;
+  window.startFruitContinue = startFruitContinue;
+  window.resetFruitContinue = resetFruitContinue;
+  window.revealChallenge = revealChallenge;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+  
+  // Initialize
+  initBalloons();
+  initFruits();
+</script>
+
+</body>
+</html>

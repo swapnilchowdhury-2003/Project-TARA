@@ -1,0 +1,868 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | অ্যাকুমুলেটর (Accumulator)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    /* Header */
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    /* Main Container */
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    /* Topic Card */
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    /* Story Box */
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    /* Math Box */
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    /* Game Container */
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Piggy Bank */
+    .piggy-bank {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .piggy-emoji {
+      font-size: 4rem;
+      animation: bounce 2s infinite;
+    }
+    
+    .total-display {
+      background: #0f0f23;
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .total-label {
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+    
+    .total-amount {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #ffaa44;
+    }
+    
+    .add-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .add-input {
+      width: 80px;
+      padding: 0.5rem;
+      font-size: 1.2rem;
+      text-align: center;
+      border-radius: 15px;
+      border: 2px solid #ff8c00;
+      background: #0f0f23;
+      color: white;
+    }
+    
+    .add-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+    }
+    
+    .reset-btn {
+      background: linear-gradient(135deg, #dc3545, #c82333);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+    }
+    
+    /* Fruit Accumulator */
+    .fruit-area {
+      text-align: center;
+    }
+    
+    .fruit-basket {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      min-height: 100px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+    
+    .fruit-item {
+      font-size: 2rem;
+      animation: popIn 0.2s ease;
+    }
+    
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      80% { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .fruit-count {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffaa44;
+    }
+    
+    /* Code Box */
+    .code-box {
+      background: #0f0f23;
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-family: monospace;
+      font-size: 0.9rem;
+      border: 1px solid #ff8c00;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    /* Next Button */
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    /* Footer */
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .total-amount {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-4.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-chart-line me-2"></i>অ্যাকুমুলেটর (Accumulator)</h2>
+      <small>Level 4 · Topic 1</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 4 · Topic 1</div>
+    <h1 class="topic-title">➕ অ্যাকুমুলেটর (Accumulator)</h1>
+    <div class="topic-description" style="color:#ccc;">
+      <strong>অ্যাকুমুলেটর</strong> মানে হলো একটি ভেরিয়েবল যা <strong>জমা করে</strong> রাখে। যেমন: total = total + নতুন মান<br>
+      প্রোগ্রামিং-এ অ্যাকুমুলেটর ব্যবহার করে আমরা মোট যোগফল বের করি!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🐷💰</div>
+    <div class="story-title">📖 গল্প: টুটুর কুমড়োর বীজ</div>
+    <div class="story-text">
+      <strong>টুটু</strong> খুব মেধাবী ছেলে। সে প্রতিদিন ক্লাস থেকে ফিরে <strong>কুমড়োর বীজ জমায়</strong>।<br><br>
+      সোমবার সে পেল <strong>৫টি বীজ</strong>, মঙ্গলবার পেল <strong>৩টি বীজ</strong>, বুধবার পেল <strong>৭টি বীজ</strong>।<br><br>
+      টুটু ভাবল — "মোট কত বীজ হলো?"<br>
+      সে শুরুতে <strong>total = 0</strong> নিলো। তারপর প্রতিদিন যোগ করলো:<br>
+      <strong>total = total + ৫ → ৫</strong><br>
+      <strong>total = total + ৩ → ৮</strong><br>
+      <strong>total = total + ৭ → ১৫</strong><br><br>
+      <span class="story-highlight">📌 এটাই হলো <strong>অ্যাকুমুলেটর (Accumulator)</strong> — জমিয়ে রাখা!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      ক্লাস ৪-৫ এ আমরা শিখি — <strong>"সব সংখ্যা যোগ করে মোট বের করা"</strong> — এটাই অ্যাকুমুলেটর!<br>
+      <strong>প্রোগ্রামিং-এ অ্যাকুমুলেটর:</strong> <code>total = total + value</code> বা <code>total += value</code>
+    </div>
+  </div>
+  
+  <!-- Game Container -->
+  <div class="game-container">
+    
+    <!-- Game 1: Piggy Bank Accumulator -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-piggy-bank"></i> খেলা ১: কুমড়োর বীজ জমাকারী
+      </div>
+      <div class="piggy-bank">
+        <div class="piggy-emoji">🐷</div>
+        <div class="total-display">
+          <div class="total-label"><i class="fa-solid fa-seedling"></i> মোট বীজ জমা হয়েছে:</div>
+          <div class="total-amount" id="totalSeeds">0</div>
+        </div>
+        
+        <div class="add-control">
+          <input type="number" id="seedInput" class="add-input" min="1" max="50" value="5" placeholder="বীজ সংখ্যা">
+          <button class="add-btn" onclick="addSeeds()">
+            <i class="fa-solid fa-plus me-1"></i>বীজ যোগ করো
+          </button>
+        </div>
+        
+        <button class="reset-btn" onclick="resetSeeds()">
+          <i class="fa-solid fa-rotate-left me-1"></i>শুরু থেকে শুরু করো
+        </button>
+        
+        <div class="code-box mt-2">
+          <i class="fa-solid fa-code me-2"></i> let totalSeeds = 0;<br>
+          totalSeeds = totalSeeds + <span id="seedValueExample">৫</span>; <br>
+          <span style="color:#ffaa44;">→ totalSeeds = <span id="totalExample">০</span></span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Game 2: Fruit Accumulator -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-basket-shopping"></i> খেলা ২: ফলের ঝুড়ি
+      </div>
+      <div class="fruit-area">
+        <div class="total-display">
+          <div class="total-label"><i class="fa-solid fa-apple-alt"></i> ঝুড়িতে মোট ফল:</div>
+          <div class="fruit-count" id="totalFruits">0</div>
+        </div>
+        
+        <div class="fruit-basket" id="fruitBasket"></div>
+        
+        <div class="add-control">
+          <select id="fruitSelect" class="add-input" style="width:100px;">
+            <option value="🍎">🍎 আপেল</option>
+            <option value="🍌">🍌 কলা</option>
+            <option value="🍊">🍊 কমলা</option>
+            <option value="🍓">🍓 স্ট্রবেরি</option>
+            <option value="🥭">🥭 আম</option>
+          </select>
+          <button class="add-btn" onclick="addFruit()">
+            <i class="fa-solid fa-plus me-1"></i>ফল যোগ করো
+          </button>
+        </div>
+        
+        <button class="reset-btn" onclick="resetFruits()">
+          <i class="fa-solid fa-rotate-left me-1"></i>ঝুড়ি খালি করো
+        </button>
+        
+        <div class="code-box mt-2">
+          <i class="fa-solid fa-code me-2"></i> let totalFruits = 0;<br>
+          totalFruits = totalFruits + 1; <br>
+          <span style="color:#ffaa44;">→ মোট ফল = <span id="totalFruitsExample">০</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Challenge Box -->
+  <div class="math-box" style="border-left-color: #28a745;">
+    <div class="math-box-title">
+      <i class="fa-solid fa-lightbulb me-2"></i>অ্যাকুমুলেটর চ্যালেঞ্জ!
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <p><strong>নিচের যোগফলগুলো বের করো:</strong></p>
+      <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+        <li>৫ + ৩ = <span id="ans1" style="color:#ffaa44;">?</span> <button class="btn btn-sm btn-outline-warning ms-2" onclick="revealAnswer(1, 8)">উত্তর দেখো</button></li>
+        <li>৭ + ২ + ৪ = <span id="ans2" style="color:#ffaa44;">?</span> <button class="btn btn-sm btn-outline-warning ms-2" onclick="revealAnswer(2, 13)">উত্তর দেখো</button></li>
+        <li>১০ + ৫ + ৩ + ২ = <span id="ans3" style="color:#ffaa44;">?</span> <button class="btn btn-sm btn-outline-warning ms-2" onclick="revealAnswer(3, 20)">উত্তর দেখো</button></li>
+      </ul>
+      <div class="code-box mt-2">
+        <i class="fa-solid fa-code me-2"></i> let sum = 0;<br>
+        sum = sum + 5;  // sum = 5<br>
+        sum = sum + 3;  // sum = 8<br>
+        sum = sum + 2;  // sum = 10
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>অ্যাকুমুলেটর সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">১. অ্যাকুমুলেটর (Accumulator) কী করে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> মান জমা করে রাখে</label>
+        <label class="option"><input type="radio" name="q1" value="1"> মান মুছে ফেলে</label>
+        <label class="option"><input type="radio" name="q1" value="2"> মান গুণ করে</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">২. total = total + 5; এই কোডটি কী করে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> total কে 0 করে</label>
+        <label class="option"><input type="radio" name="q2" value="1"> total থেকে 5 বাদ দেয়</label>
+        <label class="option"><input type="radio" name="q2" value="2"> total এর সাথে 5 যোগ করে</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. টুটু ৫, ৩, ৭ বীজ জমালো। মোট কত বীজ হলো?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> ১৫</label>
+        <label class="option"><input type="radio" name="q3" value="1"> ১২</label>
+        <label class="option"><input type="radio" name="q3" value="2"> ১০</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৪. অ্যাকুমুলেটরের জন্য কোন অপারেটর ব্যবহার করা হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> -</label>
+        <label class="option"><input type="radio" name="q4" value="1"> +=</label>
+        <label class="option"><input type="radio" name="q4" value="2"> *</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৫. অ্যাকুমুলেটর সাধারণত কোন মান দিয়ে শুরু হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> ১০</label>
+        <label class="option"><input type="radio" name="q5" value="1"> ১</label>
+        <label class="option"><input type="radio" name="q5" value="2"> ০</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: ইনডেক্সিং
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      অ্যাকুমুলেটর শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Accumulator Topic
+  // ==========================================
+  
+  // Game 1: Seed Accumulator
+  let totalSeeds = 0;
+  
+  function updateSeedDisplay() {
+    document.getElementById('totalSeeds').innerText = totalSeeds;
+    document.getElementById('totalExample').innerText = totalSeeds;
+    
+    // Update code example
+    const seedInput = document.getElementById('seedInput').value;
+    document.getElementById('seedValueExample').innerText = seedInput;
+    
+    // Confetti when reaching milestones
+    if (totalSeeds >= 50 && totalSeeds < 55) {
+      createConfetti();
+      showMessage('🎉 অসাধারণ! তুমি ৫০+ বীজ জমিয়েছো! 🎉');
+    } else if (totalSeeds >= 100) {
+      createConfetti();
+      showMessage('🏆 চ্যাম্পিয়ন! ১০০ বীজ জমিয়েছো! 🏆');
+    }
+  }
+  
+  function addSeeds() {
+    const input = document.getElementById('seedInput');
+    let value = parseInt(input.value);
+    
+    if (isNaN(value) || value < 1) {
+      value = 1;
+    }
+    if (value > 50) {
+      value = 50;
+    }
+    
+    totalSeeds = totalSeeds + value;
+    updateSeedDisplay();
+    
+    // Animation on add button
+    const btn = event.target.closest('.add-btn');
+    btn.classList.add('bounce');
+    setTimeout(() => btn.classList.remove('bounce'), 300);
+  }
+  
+  function resetSeeds() {
+    totalSeeds = 0;
+    updateSeedDisplay();
+    showMessage('🔄 বীজ জমাকারী রিসেট করা হয়েছে! আবার শুরু করো।');
+  }
+  
+  // Game 2: Fruit Accumulator
+  let totalFruits = 0;
+  let fruitList = [];
+  
+  function updateFruitDisplay() {
+    document.getElementById('totalFruits').innerText = totalFruits;
+    document.getElementById('totalFruitsExample').innerText = totalFruits;
+    
+    // Display fruits in basket
+    const basket = document.getElementById('fruitBasket');
+    basket.innerHTML = '';
+    fruitList.forEach((fruit, idx) => {
+      const fruitSpan = document.createElement('span');
+      fruitSpan.className = 'fruit-item';
+      fruitSpan.innerHTML = fruit;
+      fruitSpan.style.animationDelay = (idx * 0.05) + 's';
+      basket.appendChild(fruitSpan);
+    });
+    
+    if (totalFruits === 0) {
+      const emptyMsg = document.createElement('span');
+      emptyMsg.className = 'text-muted';
+      emptyMsg.innerHTML = '🍃 ঝুড়ি খালি... ফল যোগ করো!';
+      emptyMsg.style.fontSize = '0.9rem';
+      basket.appendChild(emptyMsg);
+    }
+  }
+  
+  function addFruit() {
+    const select = document.getElementById('fruitSelect');
+    const fruit = select.value;
+    
+    totalFruits++;
+    fruitList.push(fruit);
+    updateFruitDisplay();
+    
+    // Animation
+    const btn = event.target.closest('.add-btn');
+    btn.classList.add('bounce');
+    setTimeout(() => btn.classList.remove('bounce'), 300);
+    
+    // Milestone celebration
+    if (totalFruits === 10) {
+      createConfetti();
+      showMessage('🎉 ১০টি ফল জমিয়েছো! চমৎকার! 🎉');
+    } else if (totalFruits === 20) {
+      createConfetti();
+      showMessage('🏆 অসাধারণ! ২০টি ফল জমিয়েছো! 🏆');
+    }
+  }
+  
+  function resetFruits() {
+    totalFruits = 0;
+    fruitList = [];
+    updateFruitDisplay();
+    showMessage('🔄 ঝুড়ি খালি করা হয়েছে! আবার ফল যোগ করো।');
+  }
+  
+  // Challenge Answers
+  function revealAnswer(id, answer) {
+    const span = document.getElementById(`ans${id}`);
+    if (span.innerText === '?') {
+      span.innerText = answer;
+      createConfetti();
+    } else {
+      showMessage(`উত্তরটি হলো ${answer}`);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_accumulator_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি অ্যাকুমুলেটর পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  // Show temporary message
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // Next Topic
+  function goToNextTopic() {
+    localStorage.setItem('tara_level4_topic1_completed', 'true');
+    window.location.href = 'topics/level-4/topic-4-2.html';
+  }
+  
+  // Add bounce animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    .bounce {
+      animation: buttonBounce 0.3s ease;
+    }
+    @keyframes buttonBounce {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(0.95); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.addSeeds = addSeeds;
+  window.resetSeeds = resetSeeds;
+  window.addFruit = addFruit;
+  window.resetFruits = resetFruits;
+  window.revealAnswer = revealAnswer;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+  
+  // Initialize
+  updateSeedDisplay();
+  updateFruitDisplay();
+</script>
+
+</body>
+</html>

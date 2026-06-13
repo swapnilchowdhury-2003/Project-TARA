@@ -1,0 +1,813 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | রিটার্ন ভ্যালু (Return Value)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Machine Area */
+    .machine-area {
+      background: rgba(0,0,0,0.3);
+      border-radius: 30px;
+      padding: 1.5rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .machine-icon {
+      font-size: 5rem;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .param-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    
+    .param-input {
+      width: 100px;
+      padding: 0.6rem;
+      font-size: 1rem;
+      text-align: center;
+      border-radius: 15px;
+      border: 2px solid #ff8c00;
+      background: #0f0f23;
+      color: white;
+    }
+    
+    .param-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      margin: 0.3rem;
+    }
+    
+    .param-btn.reset {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    .return-box {
+      background: rgba(40,167,69,0.2);
+      border: 2px solid #28a745;
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      text-align: center;
+    }
+    
+    .return-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #90ee90;
+    }
+    
+    .steps-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      text-align: left;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    
+    .step-item {
+      padding: 0.3rem;
+      border-bottom: 1px solid rgba(255,140,0,0.2);
+      font-size: 0.9rem;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .pop {
+      animation: pop 0.3s ease;
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .machine-icon {
+        font-size: 3.5rem;
+      }
+      .return-value {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-6.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-arrow-rotate-left me-2"></i>রিটার্ন ভ্যালু (Return Value)</h2>
+      <small>Level 6 · Topic 4</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 6 · Topic 4</div>
+    <h1 class="topic-title">🎁 রিটার্ন ভ্যালু (Return Value)</h1>
+    <div class="topic-description">
+      <strong>রিটার্ন ভ্যালু</strong> মানে হলো <strong>function কাজ শেষ করে যে ফলটা তোমাকে ফিরিয়ে দেয়</strong>। যেমন: কেক মেশিন কেক বানিয়ে দিল, যোগ মেশিন উত্তর দিয়ে দিল!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🍰📤</div>
+    <div class="story-title">📖 গল্প: কেক মেশিন যে ফল দেয়</div>
+    <div class="story-text">
+      <strong>টুনু</strong> একটি কেক বানানোর মেশিন বানিয়েছে। সে মেশিনে ইনপুট দিল:<br><br>
+      🥚 <strong>ডিম</strong> + 🥛 <strong>দুধ</strong> + 🍬 <strong>চিনি</strong><br><br>
+      মেশিন ভিতরে সব কিছু মিশিয়ে, বেক করে...<br>
+      <strong>🎂 শেষে মেশিন টুনুকে একটি সুন্দর কেক দিল!</strong><br><br>
+      এই <strong>কেকটাই হলো রিটার্ন ভ্যালু</strong> — function যে ফলাফল তোমাকে ফিরিয়ে দেয়!<br>
+      <span class="story-highlight">📌 রিটার্ন ভ্যালু = function-এর উত্তর বা ফলাফল!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>রিটার্ন ভ্যালু = ফাংশনের উত্তর</strong><br>
+      • যেমন: <strong>৫ + ৩</strong> = <strong>৮</strong> (এখানে ৮ হলো রিটার্ন ভ্যালু)<br>
+      • যেমন: <strong>৪ × ২</strong> = <strong>৮</strong> (এখানে ৮ হলো রিটার্ন ভ্যালু)<br>
+      <strong>Function তোমাকে ফলাফল ফিরিয়ে দেয়!</strong>
+    </div>
+  </div>
+  
+  <!-- Game 1: Cake Machine - Returns Cake -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-cake-candles"></i> খেলা ১: কেক মেশিন (রিটার্ন ভ্যালু)
+    </div>
+    
+    <div class="machine-area">
+      <div class="machine-icon" id="cakeMachine">🍰🤖</div>
+      
+      <div class="param-control">
+        <span class="ingredient-tag">🥚 ডিম</span>
+        <input type="number" id="cakeEggs" class="param-input" min="1" max="5" value="2" style="width:70px;">
+        <span class="ingredient-tag">🥛 দুধ</span>
+        <input type="number" id="cakeMilk" class="param-input" min="1" max="5" value="1" style="width:70px;">
+        <span class="ingredient-tag">🍬 চিনি</span>
+        <input type="number" id="cakeSugar" class="param-input" min="1" max="5" value="1" style="width:70px;">
+      </div>
+      
+      <button class="param-btn" onclick="makeCakeWithReturn()">
+        <i class="fa-solid fa-cake-candles me-1"></i>কেক বানাও 🎂
+      </button>
+      
+      <div class="return-box" id="cakeReturnBox">
+        <div style="font-size:0.9rem;">✨ রিটার্ন ভ্যালু ✨</div>
+        <div class="return-value" id="cakeReturnValue">—</div>
+      </div>
+      
+      <div class="steps-box" id="cakeSteps">
+        <div class="text-muted text-center">কেক বানানোর ধাপ</div>
+      </div>
+      
+      <div class="result-box" id="cakeResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> উপরের বাটন চাপো। কেক মেশিন তোমাকে <strong>কেক রিটার্ন</strong> করবে!
+      </div>
+    </div>
+  </div>
+  
+  <!-- Game 2: Calculator Machine - Returns Result -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-calculator"></i> খেলা ২: যোগ মেশিন (রিটার্ন ভ্যালু)
+    </div>
+    
+    <div class="machine-area">
+      <div class="machine-icon" id="calcMachine">🧮🤖</div>
+      
+      <div class="param-control">
+        <input type="number" id="num1" class="param-input" value="5" style="width:80px;">
+        <span style="font-size:1.5rem;">+</span>
+        <input type="number" id="num2" class="param-input" value="3" style="width:80px;">
+      </div>
+      
+      <button class="param-btn" onclick="addWithReturn()">
+        <i class="fa-solid fa-plus me-1"></i>যোগ করো
+      </button>
+      
+      <div class="return-box" id="calcReturnBox">
+        <div style="font-size:0.9rem;">✨ রিটার্ন ভ্যালু ✨</div>
+        <div class="return-value" id="calcReturnValue">—</div>
+      </div>
+      
+      <div class="steps-box" id="calcSteps">
+        <div class="text-muted text-center">যোগ করার ধাপ</div>
+      </div>
+      
+      <div class="result-box" id="calcResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> দুটি সংখ্যা লিখে "যোগ করো" চাপো। মেশিন <strong>উত্তর রিটার্ন</strong> করবে!
+      </div>
+    </div>
+  </div>
+  
+  <!-- Quick Challenge -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-brain"></i> দ্রুত চ্যালেঞ্জ
+    </div>
+    <div class="word-box" style="background: rgba(0,0,0,0.3); border-radius: 15px; padding: 1rem;">
+      <p style="text-align:center">📌 2 + 3 = 5 — এখানে <strong>রিটার্ন ভ্যালু</strong> কী?</p>
+      <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+        <button class="search-btn" onclick="challengeAnswer('2')">2</button>
+        <button class="search-btn" onclick="challengeAnswer('3')">3</button>
+        <button class="search-btn" onclick="challengeAnswer('5')">5</button>
+        <button class="search-btn" onclick="challengeAnswer('+')">+</button>
+      </div>
+      <div class="result-box mt-2" id="challengeResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> সঠিক উত্তর বাছো!
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>রিটার্ন ভ্যালু সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. রিটার্ন ভ্যালু (Return Value) কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> function-এর নাম</label>
+        <label class="option"><input type="radio" name="q1" value="1"> function-এর ফলাফল/উত্তর</label>
+        <label class="option"><input type="radio" name="q1" value="2"> function-এর ইনপুট</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">২. কেক মেশিন কেক বানিয়ে দিল — এখানে রিটার্ন ভ্যালু কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> ডিম</label>
+        <label class="option"><input type="radio" name="q2" value="1"> দুধ</label>
+        <label class="option"><input type="radio" name="q2" value="2"> কেক 🎂</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. 7 + 8 = 15 — এখানে রিটার্ন ভ্যালু কত?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> ১৫</label>
+        <label class="option"><input type="radio" name="q3" value="1"> ৭</label>
+        <label class="option"><input type="radio" name="q3" value="2"> ৮</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৪. function কাজ শেষ করে কী করে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> ইনপুট নেয়</label>
+        <label class="option"><input type="radio" name="q4" value="1"> ফলাফল রিটার্ন করে</label>
+        <label class="option"><input type="radio" name="q4" value="2"> থেমে যায়</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৫. রিটার্ন ভ্যালু পাওয়ার জন্য কী করতে হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> function কল করতে হয়</label>
+        <label class="option"><input type="radio" name="q5" value="1"> function লিখতে হয়</label>
+        <label class="option"><input type="radio" name="q5" value="2"> function মুছতে হয়</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button (Level 6 Complete) -->
+  <button class="next-btn" onclick="goToLevelQuiz()">
+    <i class="fa-solid fa-clipboard-list me-2"></i>Level 6 Quiz দাও
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      রিটার্ন ভ্যালু শিখে ফেলেছো? এখন Level 6 এর Quiz দাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Return Value Topic
+  // ==========================================
+  
+  // Game 1: Cake Machine - Returns Cake
+  function makeCakeWithReturn() {
+    const eggs = parseInt(document.getElementById('cakeEggs').value);
+    const milk = parseInt(document.getElementById('cakeMilk').value);
+    const sugar = parseInt(document.getElementById('cakeSugar').value);
+    const stepsDiv = document.getElementById('cakeSteps');
+    const resultDiv = document.getElementById('cakeResult');
+    const returnValueDiv = document.getElementById('cakeReturnValue');
+    const machineIcon = document.getElementById('cakeMachine');
+    
+    if (isNaN(eggs) || isNaN(milk) || isNaN(sugar)) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> দয়া করে সব সংখ্যা দিন!';
+      resultDiv.style.background = '#dc3545';
+      setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 2000);
+      return;
+    }
+    
+    machineIcon.classList.add('pop');
+    setTimeout(() => machineIcon.classList.remove('pop'), 300);
+    
+    // Return value is the cake
+    const returnValue = "🍰 সুস্বাদু কেক 🎂";
+    
+    stepsDiv.innerHTML = '';
+    stepsDiv.innerHTML += `<div class="step-item">📥 ইনপুট প্যারামিটার: ${eggs} ডিম, ${milk} দুধ, ${sugar} চিনি</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">🍰 ধাপ ১: সব উপকরণ মেশানো হচ্ছে...</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">🍰 ধাপ ২: ওভেনে বেক করা হচ্ছে...</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">🍰 ধাপ ৩: কেক তৈরি!</div>`;
+    stepsDiv.innerHTML += `<div class="step-item" style="color:#90ee90;">🎉 ফাংশন কাজ শেষ! এখন রিটার্ন করছে: ${returnValue}</div>`;
+    
+    returnValueDiv.innerHTML = returnValue;
+    returnValueDiv.style.animation = 'pop 0.3s ease';
+    setTimeout(() => returnValueDiv.style.animation = '', 300);
+    
+    resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> 🎉 কেক বানানোর ফাংশন "${returnValue}" রিটার্ন করলো!`;
+    resultDiv.style.background = '#28a745';
+    createConfetti();
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  // Game 2: Calculator - Returns Result
+  function addWithReturn() {
+    const num1 = parseInt(document.getElementById('num1').value);
+    const num2 = parseInt(document.getElementById('num2').value);
+    const stepsDiv = document.getElementById('calcSteps');
+    const resultDiv = document.getElementById('calcResult');
+    const returnValueDiv = document.getElementById('calcReturnValue');
+    const machineIcon = document.getElementById('calcMachine');
+    
+    if (isNaN(num1) || isNaN(num2)) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> দয়া করে সঠিক সংখ্যা দিন!';
+      resultDiv.style.background = '#dc3545';
+      setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 2000);
+      return;
+    }
+    
+    machineIcon.classList.add('pop');
+    setTimeout(() => machineIcon.classList.remove('pop'), 300);
+    
+    // Return value is the sum
+    const sum = num1 + num2;
+    const returnValue = sum;
+    
+    stepsDiv.innerHTML = '';
+    stepsDiv.innerHTML += `<div class="step-item">📥 ইনপুট প্যারামিটার: ${num1} এবং ${num2}</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">🧮 ধাপ ১: ${num1} + ${num2} হিসাব করছি...</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">🧮 ধাপ ২: উত্তর বের করছি...</div>`;
+    stepsDiv.innerHTML += `<div class="step-item" style="color:#90ee90;">🎉 ফাংশন কাজ শেষ! উত্তর হলো ${sum}. এখন রিটার্ন করছে: ${returnValue}</div>`;
+    
+    returnValueDiv.innerHTML = returnValue;
+    returnValueDiv.style.animation = 'pop 0.3s ease';
+    setTimeout(() => returnValueDiv.style.animation = '', 300);
+    
+    resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> 🎉 যোগ ফাংশন "${returnValue}" রিটার্ন করলো!`;
+    resultDiv.style.background = '#28a745';
+    createConfetti();
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  // Challenge
+  function challengeAnswer(answer) {
+    const resultDiv = document.getElementById('challengeResult');
+    const correct = '5';
+    
+    if (answer === correct) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> ✅ সঠিক! "5" হলো রিটার্ন ভ্যালু — ফাংশনের উত্তর!';
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+    } else {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ❌ ভুল! 2 + 3 = 5, এখানে "5" হলো রিটার্ন ভ্যালু। আবার চেষ্টা করো।';
+      resultDiv.style.background = '#dc3545';
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_returnvalue_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি রিটার্ন ভ্যালু পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  function goToLevelQuiz() {
+    localStorage.setItem('tara_level6_completed', 'true');
+    window.location.href = '../../quiz/quiz.html?level=6';
+  }
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.makeCakeWithReturn = makeCakeWithReturn;
+  window.addWithReturn = addWithReturn;
+  window.challengeAnswer = challengeAnswer;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToLevelQuiz = goToLevelQuiz;
+</script>
+
+</body>
+</html>

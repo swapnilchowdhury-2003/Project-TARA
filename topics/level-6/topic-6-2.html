@@ -1,0 +1,832 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | ফাংশন (Function)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Robot / Function Machine */
+    .robot-machine {
+      background: rgba(0,0,0,0.3);
+      border-radius: 30px;
+      padding: 1.5rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .robot-icon {
+      font-size: 5rem;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .function-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    
+    .func-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.8rem 1.8rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .func-btn:hover {
+      transform: scale(1.05);
+    }
+    
+    .func-btn.reset {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    .steps-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      text-align: left;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    .step-item {
+      padding: 0.3rem;
+      border-bottom: 1px solid rgba(255,140,0,0.2);
+      font-size: 0.9rem;
+    }
+    
+    /* Recipe Card */
+    .recipe-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      text-align: left;
+    }
+    
+    .recipe-title {
+      color: #ff8c00;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .pop {
+      animation: pop 0.3s ease;
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .func-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+      }
+      .robot-icon {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-6.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-cogs me-2"></i>ফাংশন (Function)</h2>
+      <small>Level 6 · Topic 2</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 6 · Topic 2</div>
+    <h1 class="topic-title">⚙️ ফাংশন (Function)</h1>
+    <div class="topic-description">
+      <strong>ফাংশন</strong> মানে হলো <strong>একটা কাজের মেশিন বা রেসিপি</strong>। একবার বানিয়ে রাখলে, বারবার ব্যবহার করা যায়!
+    </div>
+  </div>
+  
+  <!-- Story Box - Recipe -->
+  <div class="story-box">
+    <div class="story-icon">🍰📝</div>
+    <div class="story-title">📖 গল্প: কেক বানানোর রেসিপি</div>
+    <div class="story-text">
+      <strong>টুনু</strong> কেক বানাতে খুব ভালোবাসে। তার কাছে একটি <strong>কেক বানানোর রেসিপি</strong> আছে:<br><br>
+      🥚 <strong>ধাপ ১:</strong> ডিম দাও<br>
+      🍬 <strong>ধাপ ২:</strong> চিনি দাও<br>
+      🥄 <strong>ধাপ ৩:</strong> সব মেশাও<br>
+      🔥 <strong>ধাপ ৪:</strong> ওভেনে দাও<br><br>
+      টুনু যখন কেক বানাতে চায়, তখন সে শুধু বলে — <strong>"কেক বানাও!"</strong> আর রোবট সব ধাপ নিজে নিজে করে ফেলে!<br>
+      <span class="story-highlight">📌 এই পুরো রেসিপিটাই হলো <strong>ফাংশন</strong>!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>ফাংশন = একসাথে করা কাজের তালিকা</strong><br>
+      • যেমন: যোগ করার ফাংশন → ৫ + ৩ = ৮<br>
+      • যেমন: গুণ করার ফাংশন → ৪ × ২ = ৮<br>
+      <strong>একবার লিখে রাখো, বারবার ব্যবহার করো!</strong>
+    </div>
+  </div>
+  
+  <!-- Game 1: Robot Function Machine -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-robot"></i> খেলা ১: রোবটের কাজের ফাংশন
+    </div>
+    
+    <div class="robot-machine">
+      <div class="robot-icon" id="robotIcon">🤖</div>
+      <div class="function-buttons">
+        <button class="func-btn" onclick="runFunction('চা')">
+          <i class="fa-solid fa-mug-hot me-1"></i>চা বানাও
+        </button>
+        <button class="func-btn" onclick="runFunction('কেক')">
+          <i class="fa-solid fa-cake-candles me-1"></i>কেক বানাও
+        </button>
+        <button class="func-btn" onclick="runFunction('জাম্প')">
+          <i class="fa-solid fa-person-running me-1"></i>লাফ দাও
+        </button>
+        <button class="func-btn reset" onclick="resetRobot()">
+          <i class="fa-solid fa-rotate-left me-1"></i>রিসেট
+        </button>
+      </div>
+      
+      <div class="steps-box" id="robotSteps">
+        <div class="text-muted text-center">রোবটের কাজের ধাপ এখানে দেখাবে</div>
+      </div>
+      
+      <div class="result-box" id="robotResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> উপরের বাটনে চাপো। রোবট ফাংশন কাজ করবে!
+      </div>
+    </div>
+  </div>
+  
+  <!-- Game 2: Make Your Own Function -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-pencil"></i> খেলা ২: তোমার ফাংশন বানাও
+    </div>
+    
+    <div class="robot-machine">
+      <div class="recipe-card">
+        <div class="recipe-title">📝 তুমি একটি ফাংশন বানাতে পারো!</div>
+        <p style="font-size: 0.9rem;">নিচের কাজগুলোর জন্য একটি বাটন তৈরি করো। বাটনে চাপলেই সব কাজ একসাথে হবে!</p>
+      </div>
+      
+      <div class="function-buttons">
+        <button class="func-btn" onclick="runMorningRoutine()">
+          <i class="fa-solid fa-sun me-1"></i>সকালের রুটিন
+        </button>
+        <button class="func-btn" onclick="runHomework()">
+          <i class="fa-solid fa-book me-1"></i>হোমওয়ার্ক করা
+        </button>
+        <button class="func-btn" onclick="runPlayTime()">
+          <i class="fa-solid fa-gamepad me-1"></i>খেলার সময়
+        </button>
+      </div>
+      
+      <div class="steps-box" id="userSteps">
+        <div class="text-muted text-center">তোমার ফাংশনের ধাপ এখানে দেখাবে</div>
+      </div>
+      
+      <div class="result-box" id="userResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> একটি বাটন চাপো। দেখো কীভাবে সব কাজ একসাথে হয়!
+      </div>
+    </div>
+  </div>
+  
+  <!-- Quick Challenge -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-brain"></i> দ্রুত চ্যালেঞ্জ
+    </div>
+    <div class="word-box" style="background: rgba(0,0,0,0.3); border-radius: 15px; padding: 1rem;">
+      <p style="text-align:center">📌 ফাংশন মানে কী?</p>
+      <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+        <button class="search-btn" onclick="challengeAnswer('একটা খেলনা')">একটা খেলনা</button>
+        <button class="search-btn" onclick="challengeAnswer('একটা কাজের মেশিন/রেসিপি')">একটা কাজের মেশিন/রেসিপি</button>
+        <button class="search-btn" onclick="challengeAnswer('একটা সংখ্যা')">একটা সংখ্যা</button>
+      </div>
+      <div class="result-box mt-2" id="challengeResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> সঠিক উত্তর বাছো!
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>ফাংশন সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. ফাংশন (Function) মানে কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> একটা সংখ্যা</label>
+        <label class="option"><input type="radio" name="q1" value="1"> একটা কাজের মেশিন বা রেসিপি</label>
+        <label class="option"><input type="radio" name="q1" value="2"> একটা খেলনা</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">২. ফাংশন ব্যবহার করলে কী সুবিধা হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> একই কাজ বারবার করতে হয় না</label>
+        <label class="option"><input type="radio" name="q2" value="1"> কাজ বেড়ে যায়</label>
+        <label class="option"><input type="radio" name="q2" value="2"> সময় বেশি লাগে</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৩. রোবটকে "চা বানাও" বললে রোবট কী করে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> কিছুই করে না</label>
+        <label class="option"><input type="radio" name="q3" value="1"> শুধু চা পাতা দেয়</label>
+        <label class="option"><input type="radio" name="q3" value="2"> সব ধাপ একসাথে করে</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৪. কেক বানানোর রেসিপি কীসের উদাহরণ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> একটি লুপ</label>
+        <label class="option"><input type="radio" name="q4" value="1"> একটি ফাংশন</label>
+        <label class="option"><input type="radio" name="q4" value="2"> একটি ভেরিয়েবল</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৫. "Jump" বোতাম চাপলে গেমের চরিত্র লাফ দেয় — এটা কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> একটি ফাংশন</label>
+        <label class="option"><input type="radio" name="q5" value="1"> একটি লুপ</label>
+        <label class="option"><input type="radio" name="q5" value="2"> একটি অ্যারে</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: প্যারামিটার
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      ফাংশন শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Function Topic (Easy for Kids)
+  // ==========================================
+  
+  // Game 1: Robot Functions
+  function runFunction(task) {
+    const stepsDiv = document.getElementById('robotSteps');
+    const resultDiv = document.getElementById('robotResult');
+    const robotIcon = document.getElementById('robotIcon');
+    
+    stepsDiv.innerHTML = '';
+    robotIcon.classList.add('pop');
+    setTimeout(() => robotIcon.classList.remove('pop'), 300);
+    
+    if (task === 'চা') {
+      stepsDiv.innerHTML += `<div class="step-item">☕ ধাপ ১: পানি নিলাম</div>`;
+      stepsDiv.innerHTML += `<div class="step-item">☕ ধাপ ২: চা পাতা দিলাম</div>`;
+      stepsDiv.innerHTML += `<div class="step-item">☕ ধাপ ৩: চিনি দিলাম</div>`;
+      stepsDiv.innerHTML += `<div class="step-item">☕ ধাপ ৪: ফুটালাম</div>`;
+      stepsDiv.innerHTML += `<div class="step-item" style="color:#90ee90;">🎉 চা তৈরি! এটাই ফাংশন!</div>`;
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> চা বানানোর ফাংশন কাজ করলো! রোবট সব ধাপ একসাথে করলো।';
+    } 
+    else if (task === 'কেক') {
+      stepsDiv.innerHTML += `<div class="step-item">🍰 ধাপ ১: ডিম দিলাম 🥚</div>`;
+      stepsDiv.innerHTML += `<div class="step-item">🍰 ধাপ ২: চিনি দিলাম 🍬</div>`;
+      stepsDiv.innerHTML += `<div class="step-item">🍰 ধাপ ৩: সব মেশালাম 🥄</div>`;
+      stepsDiv.innerHTML += `<div class="step-item">🍰 ধাপ ৪: ওভেনে দিলাম 🔥</div>`;
+      stepsDiv.innerHTML += `<div class="step-item" style="color:#90ee90;">🎉 কেক তৈরি! এটাই ফাংশন!</div>`;
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> কেক বানানোর ফাংশন কাজ করলো! রেসিপি মতো সব ধাপ একসাথে হলো।';
+    }
+    else if (task === 'জাম্প') {
+      stepsDiv.innerHTML += `<div class="step-item">🦘 ধাপ ১: পা ভাঁজ করো</div>`;
+      stepsDiv.innerHTML += `<div class="step-item">🦘 ধাপ ২: জোরে ঠেলে দাও</div>`;
+      stepsDiv.innerHTML += `<div class="step-item">🦘 ধাপ ৩: উপরে উঠো</div>`;
+      stepsDiv.innerHTML += `<div class="step-item">🦘 ধাপ ৪: নিচে নামো</div>`;
+      stepsDiv.innerHTML += `<div class="step-item" style="color:#90ee90;">🎉 লাফ দিলাম! এটাই ফাংশন!</div>`;
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> লাফ দেওয়ার ফাংশন কাজ করলো! একবার বলে সব কাজ হলো।';
+    }
+    
+    resultDiv.style.background = '#28a745';
+    createConfetti();
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  function resetRobot() {
+    document.getElementById('robotSteps').innerHTML = '<div class="text-muted text-center">রোবটের কাজের ধাপ এখানে দেখাবে</div>';
+    document.getElementById('robotResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> উপরের বাটনে চাপো। রোবট ফাংশন কাজ করবে!';
+    document.getElementById('robotResult').style.background = 'rgba(0,0,0,0.3)';
+  }
+  
+  // Game 2: User Functions
+  function runMorningRoutine() {
+    const stepsDiv = document.getElementById('userSteps');
+    const resultDiv = document.getElementById('userResult');
+    
+    stepsDiv.innerHTML = '';
+    stepsDiv.innerHTML += `<div class="step-item">🌅 ধাপ ১: বিছানা থেকে ওঠো</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">🪥 ধাপ ২: দাঁত ব্রাশ করো</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">🚿 ধাপ ৩: গোসল করো</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">🍳 ধাপ ৪: নাস্তা করো</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">📚 ধাপ ৫: স্কুলের জন্য তৈরি হও</div>`;
+    stepsDiv.innerHTML += `<div class="step-item" style="color:#90ee90;">🎉 সকালের রুটিন শেষ! এটা একটা ফাংশন!</div>`;
+    
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সকালের রুটিন ফাংশন কাজ করলো! সব ধাপ একসাথে হলো।';
+    resultDiv.style.background = '#28a745';
+    createConfetti();
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  function runHomework() {
+    const stepsDiv = document.getElementById('userSteps');
+    const resultDiv = document.getElementById('userResult');
+    
+    stepsDiv.innerHTML = '';
+    stepsDiv.innerHTML += `<div class="step-item">📖 ধাপ ১: খাতা খোলো</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">✏️ ধাপ ২: কলম নাও</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">➕ ধাপ ৩: অংক করো</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">📝 ধাপ ৪: বাংলা লেখো</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">✅ ধাপ ৫: চেক করো</div>`;
+    stepsDiv.innerHTML += `<div class="step-item" style="color:#90ee90;">🎉 হোমওয়ার্ক শেষ! এটা একটা ফাংশন!</div>`;
+    
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> হোমওয়ার্ক করার ফাংশন কাজ করলো! সব কাজ একসাথে হলো।';
+    resultDiv.style.background = '#28a745';
+    createConfetti();
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  function runPlayTime() {
+    const stepsDiv = document.getElementById('userSteps');
+    const resultDiv = document.getElementById('userResult');
+    
+    stepsDiv.innerHTML = '';
+    stepsDiv.innerHTML += `<div class="step-item">🎮 ধাপ ১: খেলার জায়গায় যাও</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">⚽ ধাপ ২: বন্ধুদের ডাকো</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">🎲 ধাপ ৩: খেলা শুরু করো</div>`;
+    stepsDiv.innerHTML += `<div class="step-item">🎉 ধাপ ৪: মজা করো</div>`;
+    stepsDiv.innerHTML += `<div class="step-item" style="color:#90ee90;">🎉 খেলার সময় শেষ! এটা একটা ফাংশন!</div>`;
+    
+    resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> খেলার সময় ফাংশন কাজ করলো! সব ধাপ একসাথে হলো।';
+    resultDiv.style.background = '#28a745';
+    createConfetti();
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  // Challenge
+  function challengeAnswer(answer) {
+    const resultDiv = document.getElementById('challengeResult');
+    const correct = 'একটা কাজের মেশিন/রেসিপি';
+    
+    if (answer === correct) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> ✅ সঠিক! ফাংশন মানে একটা কাজের মেশিন বা রেসিপি!';
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+    } else {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ❌ ভুল! ফাংশন মানে একটা কাজের মেশিন বা রেসিপি। আবার চেষ্টা করো।';
+      resultDiv.style.background = '#dc3545';
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_function_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি ফাংশন পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  function goToNextTopic() {
+    localStorage.setItem('tara_level6_topic2_completed', 'true');
+    window.location.href = 'topics/level-6/topic-6-3.html';
+  }
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.runFunction = runFunction;
+  window.resetRobot = resetRobot;
+  window.runMorningRoutine = runMorningRoutine;
+  window.runHomework = runHomework;
+  window.runPlayTime = runPlayTime;
+  window.challengeAnswer = challengeAnswer;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,956 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | সার্চিং (Searching)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .search-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .item-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .search-item {
+      background: linear-gradient(135deg, #2a2a4a, #1a1a3e);
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
+      min-width: 80px;
+      border: 2px solid #ff8c00;
+      transition: all 0.2s;
+    }
+    
+    .search-item.found {
+      border-color: #28a745;
+      background: rgba(40,167,69,0.3);
+      animation: popIn 0.3s ease;
+    }
+    
+    .search-item.checked {
+      opacity: 0.6;
+    }
+    
+    .item-emoji {
+      font-size: 2rem;
+    }
+    
+    .item-name {
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+    }
+    
+    .item-index {
+      font-size: 0.7rem;
+      color: #aaa;
+    }
+    
+    .search-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    
+    .search-input {
+      width: 120px;
+      padding: 0.6rem;
+      font-size: 1rem;
+      text-align: center;
+      border-radius: 15px;
+      border: 2px solid #ff8c00;
+      background: #0f0f23;
+      color: white;
+    }
+    
+    .calc-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      margin: 0.3rem;
+    }
+    
+    .calc-btn.reset {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    .step-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      text-align: left;
+      max-height: 150px;
+      overflow-y: auto;
+      font-size: 0.85rem;
+    }
+    
+    .step-item {
+      padding: 0.2rem;
+      border-bottom: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .search-item {
+        min-width: 60px;
+        padding: 0.5rem;
+      }
+      .item-emoji {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-5.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-magnifying-glass me-2"></i>সার্চিং (Searching)</h2>
+      <small>Level 5 · Topic 6</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 5 · Topic 6</div>
+    <h1 class="topic-title">🔍 সার্চিং (Searching)</h1>
+    <div class="topic-description">
+      <strong>সার্চিং</strong> মানে হলো অনেকগুলোর মধ্যে থেকে নির্দিষ্ট একটি জিনিস খুঁজে বের করা।<br>
+      যেমন: খেলনার বাক্সের ভিতর থেকে পুতুল খোঁজা, ফল ঝুড়ি থেকে আপেল খোঁজা!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🔎🎁</div>
+    <div class="story-title">📖 গল্প: পুতুল খোঁজা</div>
+    <div class="story-text">
+      <strong>মিম</strong> তার খেলনার বাক্সগুলো সাজিয়ে রেখেছে। তার কাছে ৬টি বাক্স আছে — প্রতিটি বাক্সে একটি করে খেলনা আছে:<br><br>
+      📦 বাক্স ০: 🚗 গাড়ি<br>
+      📦 বাক্স ১: ⚽ বল<br>
+      📦 বাক্স ২: 🧸 পুতুল<br>
+      📦 বাক্স ৩: 🎈 বেলুন<br>
+      📦 বাক্স ৪: 🐘 হাতি<br>
+      📦 বাক্স ৫: 🐸 ব্যাঙ<br><br>
+      মিম <strong>"পুতুল 🧸"</strong> খুঁজছে। সে প্রথম বাক্স দেখল — গাড়ি, না।<br>
+      দ্বিতীয় বাক্স দেখল — বল, না।<br>
+      তৃতীয় বাক্স দেখল — 🧸 পুতুল! হ্যাঁ, পেয়ে গেল!<br><br>
+      <span class="story-highlight">📌 এটাই <strong>সার্চিং</strong> — তালিকা ঘুরে ঘুরে খোঁজা!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>লিনিয়ার সার্চ (সোজা খোঁজা):</strong> প্রথম ঘর থেকে শুরু করে একে একে খোঁজা। যতক্ষণ না পাওয়া যায় ততক্ষণ চলতে থাকে!<br>
+      যেমন: তালিকা [৩, ৭, ২, ৯, ৫] থেকে ২ খুঁজতে → ৩ (না), ৭(না), ২(হ্যাঁ) → ৩য় ধাপে পেলাম!
+    </div>
+  </div>
+  
+  <!-- Game Container -->
+  <div class="game-container">
+    
+    <!-- Game 1: Toy Search -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-teddy-bear"></i> খেলা ১: খেলনা খোঁজা
+      </div>
+      
+      <div class="search-area">
+        <div class="item-grid" id="toyGrid"></div>
+        
+        <div class="search-control">
+          <label>কী খুঁজবে?</label>
+          <select id="searchToySelect" class="search-input">
+            <option value="🚗">🚗 গাড়ি</option>
+            <option value="⚽">⚽ বল</option>
+            <option value="🧸">🧸 পুতুল</option>
+            <option value="🎈">🎈 বেলুন</option>
+            <option value="🐘">🐘 হাতি</option>
+            <option value="🐸">🐸 ব্যাঙ</option>
+          </select>
+          <button class="calc-btn" onclick="startToySearch()">
+            <i class="fa-solid fa-magnifying-glass me-1"></i>খুঁজে দেখাও
+          </button>
+          <button class="calc-btn reset" onclick="resetToySearch()">
+            <i class="fa-solid fa-rotate-left me-1"></i>রিসেট
+          </button>
+        </div>
+        
+        <div class="step-box" id="searchSteps">
+          <div class="text-muted">খোঁজার ধাপ এখানে দেখাবে</div>
+        </div>
+        
+        <div class="result-box" id="searchResult">
+          <i class="fa-regular fa-lightbulb me-1"></i> একটি খেলনা বাছাই করে "খুঁজে দেখাও" চাপো।
+        </div>
+      </div>
+    </div>
+    
+    <!-- Game 2: Fruit Basket Search -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-basket-shopping"></i> খেলা ২: ফল খোঁজা
+      </div>
+      
+      <div class="search-area">
+        <div class="item-grid" id="fruitGrid"></div>
+        
+        <div class="search-control">
+          <label>কী ফল খুঁজবে?</label>
+          <select id="searchFruitSelect" class="search-input">
+            <option value="🍎">🍎 আপেল</option>
+            <option value="🍌">🍌 কলা</option>
+            <option value="🍊">🍊 কমলা</option>
+            <option value="🍇">🍇 আঙ্গুর</option>
+            <option value="🥭">🥭 আম</option>
+            <option value="🍓">🍓 স্ট্রবেরি</option>
+          </select>
+          <button class="calc-btn" onclick="startFruitSearch()">
+            <i class="fa-solid fa-magnifying-glass me-1"></i>খুঁজে দেখাও
+          </button>
+          <button class="calc-btn reset" onclick="resetFruitSearch()">
+            <i class="fa-solid fa-rotate-left me-1"></i>রিসেট
+          </button>
+        </div>
+        
+        <div class="step-box" id="fruitSteps">
+          <div class="text-muted">খোঁজার ধাপ এখানে দেখাবে</div>
+        </div>
+        
+        <div class="result-box" id="fruitResult">
+          <i class="fa-regular fa-lightbulb me-1"></i> একটি ফল বাছাই করে "খুঁজে দেখাও" চাপো।
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Quick Challenge -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-brain"></i> দ্রুত চ্যালেঞ্জ
+    </div>
+    <div class="search-area">
+      <p style="text-align:center">📌 সংখ্যার তালিকা: <strong>[৫, ২, ৮, ১, ৯, ৩]</strong></p>
+      <p style="text-align:center">"৯" খুঁজতে কত ধাপ লাগবে?</p>
+      <div class="search-control">
+        <button class="calc-btn" onclick="checkChallenge(1)">১ ধাপ</button>
+        <button class="calc-btn" onclick="checkChallenge(3)">৩ ধাপ</button>
+        <button class="calc-btn" onclick="checkChallenge(5)">৫ ধাপ</button>
+        <button class="calc-btn" onclick="checkChallenge(2)">২ ধাপ</button>
+      </div>
+      <div class="result-box mt-2" id="challengeResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> সঠিক উত্তর বাছো!
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>সার্চিং সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">১. সার্চিং (Searching) মানে কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> নির্দিষ্ট জিনিস খুঁজে বের করা</label>
+        <label class="option"><input type="radio" name="q1" value="1"> জিনিস সাজানো</label>
+        <label class="option"><input type="radio" name="q1" value="2"> জিনিস মুছে ফেলা</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">২. ['🍎', '🍌', '🍊', '🍇'] থেকে '🍊' খুঁজতে কত তম ঘরে পাওয়া যাবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> ১ম</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ২য়</label>
+        <label class="option"><input type="radio" name="q2" value="2"> ৩য়</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৩. লিনিয়ার সার্চ (সোজা খোঁজা) কীভাবে কাজ করে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> এলোমেলোভাবে খোঁজে</label>
+        <label class="option"><input type="radio" name="q3" value="1"> প্রথম থেকে শেষ পর্যন্ত একে একে খোঁজে</label>
+        <label class="option"><input type="radio" name="q3" value="2"> শেষ থেকে শুরু করে খোঁজে</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৪. [২, ৪, ৬, ৮, ১০] থেকে ৮ খুঁজতে কয়টি ধাপ দেখতে হবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> ৪টি</label>
+        <label class="option"><input type="radio" name="q4" value="1"> ২টি</label>
+        <label class="option"><input type="radio" name="q4" value="2"> ৬টি</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৫. খোঁজার সময় কোনটি সবচেয়ে গুরুত্বপূর্ণ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> এলোমেলো হওয়া</label>
+        <label class="option"><input type="radio" name="q5" value="1"> ধৈর্য ধরে একে একে দেখা</label>
+        <label class="option"><input type="radio" name="q5" value="2"> দ্রুত শেষ করা</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: স্ট্রিং
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      সার্চিং শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Searching Topic
+  // ==========================================
+  
+  // Toy Data
+  const toys = [
+    { emoji: "🚗", name: "গাড়ি" },
+    { emoji: "⚽", name: "বল" },
+    { emoji: "🧸", name: "পুতুল" },
+    { emoji: "🎈", name: "বেলুন" },
+    { emoji: "🐘", name: "হাতি" },
+    { emoji: "🐸", name: "ব্যাঙ" }
+  ];
+  
+  let toySearched = false;
+  let toySteps = [];
+  
+  function initToyGrid() {
+    const container = document.getElementById('toyGrid');
+    container.innerHTML = '';
+    
+    toys.forEach((toy, idx) => {
+      const toyDiv = document.createElement('div');
+      toyDiv.className = 'search-item';
+      toyDiv.setAttribute('data-index', idx);
+      toyDiv.innerHTML = `
+        <div class="item-emoji">${toy.emoji}</div>
+        <div class="item-name">${toy.name}</div>
+        <div class="item-index">${idx}</div>
+      `;
+      container.appendChild(toyDiv);
+    });
+  }
+  
+  function resetToySearch() {
+    toySearched = false;
+    toySteps = [];
+    document.getElementById('searchSteps').innerHTML = '<div class="text-muted">খোঁজার ধাপ এখানে দেখাবে</div>';
+    document.getElementById('searchResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> একটি খেলনা বাছাই করে "খুঁজে দেখাও" চাপো।';
+    document.getElementById('searchResult').style.background = 'rgba(0,0,0,0.3)';
+    
+    // Reset all items style
+    const items = document.querySelectorAll('#toyGrid .search-item');
+    items.forEach(item => {
+      item.classList.remove('found', 'checked');
+    });
+  }
+  
+  function startToySearch() {
+    if (toySearched) {
+      resetToySearch();
+    }
+    
+    const searchValue = document.getElementById('searchToySelect').value;
+    const searchName = document.getElementById('searchToySelect').options[document.getElementById('searchToySelect').selectedIndex].text;
+    const stepsDiv = document.getElementById('searchSteps');
+    const resultDiv = document.getElementById('searchResult');
+    const items = document.querySelectorAll('#toyGrid .search-item');
+    
+    toySteps = [];
+    stepsDiv.innerHTML = '';
+    toySearched = true;
+    
+    let foundIndex = -1;
+    
+    // Linear search - one by one
+    for (let i = 0; i < toys.length; i++) {
+      // Highlight current checking item
+      items[i].classList.add('checked');
+      
+      toySteps.push(`ধাপ ${i+1}: ${toys[i].emoji} ${toys[i].name} দেখছি...`);
+      stepsDiv.innerHTML += `<div class="step-item">🔍 ${toys[i].emoji} ${toys[i].name} → ${toys[i].emoji === searchValue ? '✅ পাওয়া গেছে!' : '❌ না'}</div>`;
+      
+      if (toys[i].emoji === searchValue) {
+        foundIndex = i;
+        items[i].classList.add('found');
+        toySteps.push(`🎉 পাওয়া গেল! ইনডেক্স ${i} তে ${searchName} আছে!`);
+        stepsDiv.innerHTML += `<div class="step-item" style="color:#90ee90;">🎉 পাওয়া গেল! ইনডেক্স ${i} তে ${searchName} আছে!</div>`;
+        break;
+      }
+      
+      // Small delay simulation for visual effect
+      awaitDelay(i);
+    }
+    
+    if (foundIndex === -1) {
+      resultDiv.innerHTML = `<i class="fa-solid fa-circle-xmark me-1"></i> ❌ ${searchName} খুঁজে পাওয়া গেল না!`;
+      resultDiv.style.background = '#dc3545';
+    } else {
+      resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> ✅ ${searchName} পাওয়া গেছে! ইনডেক্স ${foundIndex} এ। ${foundIndex+1} ধাপে খুঁজে পেলাম।`;
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  // Fruit Data
+  const fruits = [
+    { emoji: "🍎", name: "আপেল" },
+    { emoji: "🍌", name: "কলা" },
+    { emoji: "🍊", name: "কমলা" },
+    { emoji: "🍇", name: "আঙ্গুর" },
+    { emoji: "🥭", name: "আম" },
+    { emoji: "🍓", name: "স্ট্রবেরি" }
+  ];
+  
+  let fruitSearched = false;
+  
+  function initFruitGrid() {
+    const container = document.getElementById('fruitGrid');
+    container.innerHTML = '';
+    
+    fruits.forEach((fruit, idx) => {
+      const fruitDiv = document.createElement('div');
+      fruitDiv.className = 'search-item';
+      fruitDiv.setAttribute('data-index', idx);
+      fruitDiv.innerHTML = `
+        <div class="item-emoji">${fruit.emoji}</div>
+        <div class="item-name">${fruit.name}</div>
+        <div class="item-index">${idx}</div>
+      `;
+      container.appendChild(fruitDiv);
+    });
+  }
+  
+  function resetFruitSearch() {
+    fruitSearched = false;
+    document.getElementById('fruitSteps').innerHTML = '<div class="text-muted">খোঁজার ধাপ এখানে দেখাবে</div>';
+    document.getElementById('fruitResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> একটি ফল বাছাই করে "খুঁজে দেখাও" চাপো।';
+    document.getElementById('fruitResult').style.background = 'rgba(0,0,0,0.3)';
+    
+    const items = document.querySelectorAll('#fruitGrid .search-item');
+    items.forEach(item => {
+      item.classList.remove('found', 'checked');
+    });
+  }
+  
+  function startFruitSearch() {
+    if (fruitSearched) {
+      resetFruitSearch();
+    }
+    
+    const searchValue = document.getElementById('searchFruitSelect').value;
+    const searchName = document.getElementById('searchFruitSelect').options[document.getElementById('searchFruitSelect').selectedIndex].text;
+    const stepsDiv = document.getElementById('fruitSteps');
+    const resultDiv = document.getElementById('fruitResult');
+    const items = document.querySelectorAll('#fruitGrid .search-item');
+    
+    stepsDiv.innerHTML = '';
+    fruitSearched = true;
+    
+    let foundIndex = -1;
+    
+    for (let i = 0; i < fruits.length; i++) {
+      items[i].classList.add('checked');
+      stepsDiv.innerHTML += `<div class="step-item">🔍 ${fruits[i].emoji} ${fruits[i].name} → ${fruits[i].emoji === searchValue ? '✅ পাওয়া গেছে!' : '❌ না'}</div>`;
+      
+      if (fruits[i].emoji === searchValue) {
+        foundIndex = i;
+        items[i].classList.add('found');
+        stepsDiv.innerHTML += `<div class="step-item" style="color:#90ee90;">🎉 পাওয়া গেল! ইনডেক্স ${i} তে ${searchName} আছে!</div>`;
+        break;
+      }
+    }
+    
+    if (foundIndex === -1) {
+      resultDiv.innerHTML = `<i class="fa-solid fa-circle-xmark me-1"></i> ❌ ${searchName} খুঁজে পাওয়া গেল না!`;
+      resultDiv.style.background = '#dc3545';
+    } else {
+      resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> ✅ ${searchName} পাওয়া গেছে! ইনডেক্স ${foundIndex} এ। ${foundIndex+1} ধাপে খুঁজে পেলাম।`;
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  // Helper for visual delay (simple)
+  function awaitDelay(i) {
+    // Just for visual sync, not actually waiting
+    return new Promise(resolve => setTimeout(resolve, 100));
+  }
+  
+  // Challenge
+  function checkChallenge(steps) {
+    const resultDiv = document.getElementById('challengeResult');
+    // Array [5, 2, 8, 1, 9, 3] - 9 is at position 4 (index 4) -> 5th step
+    const correctSteps = 5;
+    
+    if (steps === correctSteps) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> ✅ সঠিক! ৯ খুঁজতে ৫ ধাপ লাগে (ইনডেক্স ৪)।';
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+    } else if (steps < correctSteps) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ❌ ভুল! ৯ এর আগে ৫, ২, ৮, ১ আছে — মোট ৫ ধাপ।';
+      resultDiv.style.background = '#dc3545';
+    } else {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ❌ ভুল! ৯ পেতে ৫ ধাপ লাগে। আবার চেষ্টা করো।';
+      resultDiv.style.background = '#dc3545';
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_searching_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি সার্চিং পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  function goToNextTopic() {
+    localStorage.setItem('tara_level5_topic6_completed', 'true');
+    window.location.href = 'topics/level-5/topic-5-7.html';
+  }
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.startToySearch = startToySearch;
+  window.resetToySearch = resetToySearch;
+  window.startFruitSearch = startFruitSearch;
+  window.resetFruitSearch = resetFruitSearch;
+  window.checkChallenge = checkChallenge;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+  
+  // Initialize
+  initToyGrid();
+  initFruitGrid();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,995 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | ব্রেক (Break)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .topic-description {
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Race Track Game */
+    .race-track {
+      background: #2a4a2a;
+      border-radius: 20px;
+      padding: 1rem;
+      position: relative;
+      min-height: 180px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    
+    .track-line {
+      position: absolute;
+      bottom: 30px;
+      left: 10px;
+      right: 10px;
+      height: 3px;
+      background: #ff8c00;
+    }
+    
+    .start-line {
+      position: absolute;
+      bottom: 20px;
+      left: 10px;
+      font-size: 1rem;
+    }
+    
+    .finish-line {
+      position: absolute;
+      bottom: 20px;
+      right: 10px;
+      font-size: 1rem;
+    }
+    
+    .runner-emoji {
+      position: absolute;
+      bottom: 15px;
+      left: 10px;
+      font-size: 2.5rem;
+      transition: left 0.1s linear;
+    }
+    
+    .race-controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    
+    .race-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+    }
+    
+    .race-btn.stop {
+      background: linear-gradient(135deg, #dc3545, #c82333);
+    }
+    
+    .race-btn.reset {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+    
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      margin: 1rem 0;
+      padding: 0.5rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+    }
+    
+    /* Treasure Hunt Game */
+    .treasure-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .chest-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .chest {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #8b6914, #5a3e1a);
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid #ffd700;
+    }
+    
+    .chest:hover {
+      transform: scale(1.05);
+    }
+    
+    .chest.found {
+      background: linear-gradient(135deg, #28a745, #1e7e34);
+      cursor: default;
+    }
+    
+    .chest-emoji {
+      font-size: 2rem;
+    }
+    
+    .chest-number {
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+    }
+    
+    .treasure-result {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+    }
+    
+    /* Challenge Box */
+    .challenge-question {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .bounce {
+      animation: bounce 0.3s;
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .chest {
+        width: 60px;
+        height: 60px;
+      }
+      .chest-emoji {
+        font-size: 1.5rem;
+      }
+      .runner-emoji {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-4.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-stop-circle me-2"></i>ব্রেক (Break)</h2>
+      <small>Level 4 · Topic 4</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 4 · Topic 4</div>
+    <h1 class="topic-title">🛑 ব্রেক (Break)</h1>
+    <div class="topic-description">
+      <strong>ব্রেক</strong> মানে হলো <strong>থামানো</strong> বা <strong>বন্ধ করা</strong>। যেমন: একটা কাজ করতে করতে যখন আমরা থামার সিদ্ধান্ত নিই!<br>
+      প্রোগ্রামিং-এ ব্রেক ব্যবহার করে আমরা লুপকে মাঝপথে থামাতে পারি।
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🏃🛑</div>
+    <div class="story-title">📖 গল্প: রনির দৌড় ও গুপ্তধনের সন্ধান</div>
+    <div class="story-text">
+      <strong>রনি</strong> খুব দ্রুত দৌড়াতে পারে। একদিন সে দৌড় প্রতিযোগিতায় অংশ নিল। তাকে বলা হলো — <strong>"১০ বার দৌড়াও!"</strong><br>
+      কিন্তু ৫ বার দৌড়ানোর পর রনি ক্লান্ত হয়ে গেল। সে বলল — <strong>"আমি থামছি! ব্রেক!"</strong> 💨<br><br>
+      আরেকদিন সে <strong>গুপ্তধনের সন্ধানে</strong> গেল। সেখানে ১০টি বাক্স ছিল। কিন্তু ৩ নম্বর বাক্সেই সে গুপ্তধন পেয়ে গেল। তাই সে আর বাকি বাক্স খুলল না! 🎁<br><br>
+      <span class="story-highlight">📌 এটাই হলো <strong>ব্রেক</strong> — যখন কোনো কাজ মাঝপথে থামিয়ে দেই!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      ক্লাস ৩-৪ এ আমরা শিখি — <strong>"১০ বার হাততালি দিতে বললে ৭ বার দিয়েই থামলাম"</strong> — এটাই ব্রেক!<br>
+      কম্পিউটারও একই কাজ করে — যখন শর্ত পূরণ হয়, তখন লুপ থামিয়ে দেয়!
+    </div>
+  </div>
+  
+  <!-- Game Container -->
+  <div class="game-container">
+    
+    <!-- Game 1: Running Race with Break -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-person-running"></i> খেলা ১: রনির দৌড় (ব্রেক)
+      </div>
+      
+      <div class="race-track" id="raceTrack">
+        <div class="track-line"></div>
+        <div class="start-line">🚩 শুরু</div>
+        <div class="finish-line">🏁 শেষ (১০ বার)</div>
+        <div class="runner-emoji" id="runner">🏃‍♂️</div>
+      </div>
+      
+      <div class="progress-info">
+        <span><i class="fa-solid fa-shoe-prints"></i> দৌড় সংখ্যা: <strong id="lapCount">0</strong> / 10</span>
+        <span><i class="fa-solid fa-stopwatch"></i> অবস্থা: <strong id="raceStatus">চলছে না</strong></span>
+      </div>
+      
+      <div class="race-controls">
+        <button class="race-btn" id="startRaceBtn" onclick="startRace()">
+          <i class="fa-solid fa-play me-1"></i>দৌড় শুরু করো
+        </button>
+        <button class="race-btn stop" id="stopRaceBtn" onclick="stopRace()" disabled>
+          <i class="fa-solid fa-stop me-1"></i>ব্রেক! থামাও!
+        </button>
+        <button class="race-btn reset" onclick="resetRace()">
+          <i class="fa-solid fa-rotate-left me-1"></i>রিসেট
+        </button>
+      </div>
+      
+      <div class="treasure-result" id="raceMessage">
+        <i class="fa-regular fa-lightbulb me-1"></i> "দৌড় শুরু করো" বাটন চাপো। মাঝপথে থামাতে চাইলে "ব্রেক" বাটন চাপো!
+      </div>
+    </div>
+    
+    <!-- Game 2: Treasure Hunt with Break -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-treasure-chest"></i> খেলা ২: গুপ্তধনের সন্ধান
+      </div>
+      
+      <div class="treasure-box">
+        <div class="chest-grid" id="chestGrid">
+          <!-- Chests will be added by JS -->
+        </div>
+        
+        <div class="race-controls">
+          <button class="race-btn" id="startHuntBtn" onclick="startHunt()">
+            <i class="fa-solid fa-magnifying-glass me-1"></i>গুপ্তধন খোঁজা শুরু করো
+          </button>
+          <button class="race-btn reset" onclick="resetHunt()">
+            <i class="fa-solid fa-rotate-left me-1"></i>আবার সাজাও
+          </button>
+        </div>
+        
+        <div class="treasure-result" id="huntMessage">
+          <i class="fa-regular fa-lightbulb me-1"></i> "গুপ্তধন খোঁজা শুরু করো" চাপো। গুপ্তধন পেলেই খোঁজা থেমে যাবে!
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Break Challenge Box -->
+  <div class="math-box" style="border-left-color: #28a745;">
+    <div class="math-box-title">
+      <i class="fa-solid fa-puzzle-piece me-2"></i>ব্রেক চ্যালেঞ্জ!
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ১:</strong> তুমি ১ থেকে ১০ পর্যন্ত নামতা পড়ছো। ৫ এর নামতা পড়ার পর তুমি থামতে চাও। তুমি কী করবে?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(1, 'থেমে যাবে (ব্রেক)')">উত্তর দেখো</button>
+        <span id="challenge1" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ২:</strong> তুমি ১০টি বেলুন ফোলাচ্ছো। ৭ নম্বর বেলুন ফোলানোর সময় সেটি ফেটে গেল। তুমি কী করবে?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(2, 'থামবে (ব্রেক), আর বেলুন ফোলাবে না')">উত্তর দেখো</button>
+        <span id="challenge2" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ৩:</strong> কম্পিউটার প্রোগ্রামে "break" ব্যবহার করলে কী হয়?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(3, 'লুপ বা কাজ মাঝপথে থেমে যায়')">উত্তর দেখো</button>
+        <span id="challenge3" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>ব্রেক সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">১. ব্রেক (Break) মানে কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> থামানো বা বন্ধ করা</label>
+        <label class="option"><input type="radio" name="q1" value="1"> শুরু করা</label>
+        <label class="option"><input type="radio" name="q1" value="2"> দৌড়ানো</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">২. রনি ১০ বার দৌড়ানোর কথা ছিল। ৬ বার দৌড়ানোর পর থামলে সেটি কী হলো?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> লুপ</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ব্রেক</label>
+        <label class="option"><input type="radio" name="q2" value="2"> কন্টিনিউ</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. গুপ্তধনের সন্ধানে ৩ নম্বর বাক্সে ধন পেলে কী করা উচিত?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> থামা (ব্রেক)</label>
+        <label class="option"><input type="radio" name="q3" value="1"> সব বাক্স খোলা</label>
+        <label class="option"><input type="radio" name="q3" value="2"> আবার শুরু করা</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৪. প্রোগ্রামিং-এ ব্রেক সাধারণত কীসের সাথে ব্যবহার করা হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> লুপের সাথে</label>
+        <label class="option"><input type="radio" name="q4" value="1"> ভেরিয়েবলের সাথে</label>
+        <label class="option"><input type="radio" name="q4" value="2"> অ্যারের সাথে</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: প্রাইম
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      ব্রেক শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Break Topic
+  // ==========================================
+  
+  // Game 1: Race with Break
+  let raceInterval = null;
+  let currentLap = 0;
+  let isRunning = false;
+  let maxLaps = 10;
+  
+  function updateRaceDisplay() {
+    const track = document.getElementById('raceTrack');
+    const trackWidth = track.offsetWidth - 60;
+    const progress = currentLap / maxLaps;
+    const newLeft = 10 + (trackWidth * progress);
+    document.getElementById('runner').style.left = Math.min(newLeft, trackWidth + 10) + 'px';
+    document.getElementById('lapCount').innerText = currentLap;
+  }
+  
+  function startRace() {
+    if (isRunning) {
+      showMessage('দৌড় ইতিমধ্যে চলছে!');
+      return;
+    }
+    
+    if (currentLap >= maxLaps) {
+      showMessage('দৌড় শেষ! "রিসেট" চাপো আবার শুরু করতে।');
+      return;
+    }
+    
+    isRunning = true;
+    document.getElementById('startRaceBtn').disabled = true;
+    document.getElementById('stopRaceBtn').disabled = false;
+    document.getElementById('raceStatus').innerText = 'দৌড়াচ্ছে 🏃';
+    document.getElementById('raceMessage').innerHTML = '<i class="fa-regular fa-clock me-1"></i> দৌড় চলছে... "ব্রেক" চেপে থামাতে পারো!';
+    
+    raceInterval = setInterval(() => {
+      if (currentLap < maxLaps && isRunning) {
+        currentLap++;
+        updateRaceDisplay();
+        
+        if (currentLap === maxLaps) {
+          clearInterval(raceInterval);
+          isRunning = false;
+          document.getElementById('startRaceBtn').disabled = false;
+          document.getElementById('stopRaceBtn').disabled = true;
+          document.getElementById('raceStatus').innerText = 'সম্পন্ন ✅';
+          document.getElementById('raceMessage').innerHTML = '<i class="fa-regular fa-circle-check me-1"></i> 🎉 দৌড় সম্পন্ন! ১০ বার দৌড়ালো! ব্রেক ব্যবহার করনি।';
+          createConfetti();
+        }
+      }
+    }, 400);
+  }
+  
+  function stopRace() {
+    if (!isRunning) return;
+    
+    clearInterval(raceInterval);
+    isRunning = false;
+    document.getElementById('startRaceBtn').disabled = false;
+    document.getElementById('stopRaceBtn').disabled = true;
+    document.getElementById('raceStatus').innerText = 'থামানো হয়েছে 🛑';
+    document.getElementById('raceMessage').innerHTML = `<i class="fa-regular fa-hand-stop me-1"></i> 🛑 ব্রেক! ${currentLap} বার দৌড়ানোর পর থামিয়ে দিয়েছো। এটাই ব্রেক!`;
+    createConfetti();
+    showMessage(`🛑 ব্রেক! ${currentLap} বার দৌড়ানোর পর থামলাম!`);
+  }
+  
+  function resetRace() {
+    if (isRunning) {
+      clearInterval(raceInterval);
+      isRunning = false;
+    }
+    currentLap = 0;
+    updateRaceDisplay();
+    document.getElementById('startRaceBtn').disabled = false;
+    document.getElementById('stopRaceBtn').disabled = true;
+    document.getElementById('raceStatus').innerText = 'চলছে না';
+    document.getElementById('raceMessage').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> রিসেট করা হয়েছে। আবার শুরু করো!';
+  }
+  
+  // Game 2: Treasure Hunt
+  const chests = [
+    { number: 1, emoji: '📦', hasTreasure: false, found: false },
+    { number: 2, emoji: '📦', hasTreasure: false, found: false },
+    { number: 3, emoji: '📦', hasTreasure: true, found: false },
+    { number: 4, emoji: '📦', hasTreasure: false, found: false },
+    { number: 5, emoji: '📦', hasTreasure: false, found: false },
+    { number: 6, emoji: '📦', hasTreasure: false, found: false },
+    { number: 7, emoji: '📦', hasTreasure: false, found: false },
+    { number: 8, emoji: '📦', hasTreasure: false, found: false },
+    { number: 9, emoji: '📦', hasTreasure: false, found: false },
+    { number: 10, emoji: '📦', hasTreasure: false, found: false }
+  ];
+  
+  let huntActive = false;
+  let currentChestIndex = 0;
+  let huntInterval = null;
+  
+  function initChests() {
+    const container = document.getElementById('chestGrid');
+    container.innerHTML = '';
+    chests.forEach((chest, idx) => {
+      const chestDiv = document.createElement('div');
+      chestDiv.className = 'chest';
+      if (chest.found) chestDiv.classList.add('found');
+      chestDiv.innerHTML = `
+        <div class="chest-emoji">${chest.found ? '💎' : chest.emoji}</div>
+        <div class="chest-number">বাক্স ${chest.number}</div>
+      `;
+      chestDiv.onclick = () => manualOpenChest(idx);
+      container.appendChild(chestDiv);
+    });
+  }
+  
+  function startHunt() {
+    if (huntActive) {
+      showMessage('গুপ্তধন খোঁজা ইতিমধ্যে চলছে!');
+      return;
+    }
+    
+    // Reset if all found or treasure already found
+    const treasureFound = chests.find(c => c.hasTreasure && c.found);
+    if (treasureFound) {
+      showMessage('গুপ্তধন already পাওয়া গেছে! "আবার সাজাও" চাপো।');
+      return;
+    }
+    
+    huntActive = true;
+    currentChestIndex = 0;
+    document.getElementById('startHuntBtn').disabled = true;
+    document.getElementById('huntMessage').innerHTML = '<i class="fa-regular fa-clock me-1"></i> 🔍 গুপ্তধন খোঁজা শুরু হয়েছে... বাক্স খোলা হচ্ছে!';
+    
+    huntInterval = setInterval(() => {
+      if (!huntActive) return;
+      
+      if (currentChestIndex >= chests.length) {
+        // All chests opened, no treasure found (should not happen)
+        clearInterval(huntInterval);
+        huntActive = false;
+        document.getElementById('startHuntBtn').disabled = false;
+        document.getElementById('huntMessage').innerHTML = '<i class="fa-regular fa-circle-xmark me-1"></i> সব বাক্স খুললাম, কিন্তু গুপ্তধন পাওয়া গেল না!';
+        return;
+      }
+      
+      const chest = chests[currentChestIndex];
+      
+      if (!chest.found) {
+        chest.found = true;
+        initChests();
+        
+        if (chest.hasTreasure) {
+          // Treasure found! BREAK!
+          clearInterval(huntInterval);
+          huntActive = false;
+          document.getElementById('startHuntBtn').disabled = false;
+          document.getElementById('huntMessage').innerHTML = `<i class="fa-regular fa-gem me-1"></i> 🎉 বাক্স ${chest.number} এ গুপ্তধন পাওয়া গেল! খোঁজা থামিয়ে দিলাম। এটাই ব্রেক!`;
+          createConfetti();
+          showMessage(`💎 বাক্স ${chest.number} এ গুপ্তধন! ব্রেক! আর খুঁজলাম না!`);
+          return;
+        } else {
+          document.getElementById('huntMessage').innerHTML = `<i class="fa-regular fa-clock me-1"></i> বাক্স ${chest.number} খুললাম... গুপ্তধন নেই। খোঁজা চলছে...`;
+        }
+      }
+      
+      currentChestIndex++;
+    }, 800);
+  }
+  
+  function manualOpenChest(idx) {
+    if (huntActive) {
+      showMessage('গুপ্তধন খোঁজা চলছে! আগে খোঁজা শেষ হোক বা থামাও।');
+      return;
+    }
+    
+    const chest = chests[idx];
+    if (chest.found) {
+      if (chest.hasTreasure) {
+        showMessage('💎 এই বাক্সেই গুপ্তধন ছিল! ব্রেক করে ফেলেছি!');
+      } else {
+        showMessage('এই বাক্সে কিছু নেই।');
+      }
+      return;
+    }
+    
+    chest.found = true;
+    initChests();
+    
+    if (chest.hasTreasure) {
+      document.getElementById('huntMessage').innerHTML = `<i class="fa-regular fa-gem me-1"></i> 🎉 বাক্স ${chest.number} এ গুপ্তধন! তুমি ব্রেক করলে!`;
+      createConfetti();
+      showMessage(`💎 বাক্স ${chest.number} এ গুপ্তধন! ব্রেক!`);
+    } else {
+      document.getElementById('huntMessage').innerHTML = `<i class="fa-regular fa-circle-xmark me-1"></i> বাক্স ${chest.number} এ কিছু নেই।`;
+    }
+  }
+  
+  function resetHunt() {
+    if (huntActive) {
+      clearInterval(huntInterval);
+      huntActive = false;
+    }
+    
+    chests.forEach((chest, idx) => {
+      chest.found = false;
+      chest.hasTreasure = (idx === 2); // Treasure in box 3
+    });
+    
+    currentChestIndex = 0;
+    initChests();
+    document.getElementById('startHuntBtn').disabled = false;
+    document.getElementById('huntMessage').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> সব বাক্স আবার সাজানো হয়েছে। "গুপ্তধন খোঁজা শুরু করো" চাপো!';
+    showMessage('🔄 সব বাক্স রিসেট করা হয়েছে! গুপ্তধন বাক্স ৩-এ আছে!');
+  }
+  
+  // Challenge Reveal
+  function revealChallenge(id, answer) {
+    const span = document.getElementById(`challenge${id}`);
+    span.innerHTML = answer;
+    createConfetti();
+    showMessage(`✅ উত্তর: ${answer}`);
+  }
+  
+  // Show temporary message
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_break_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি ব্রেক পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  // Next Topic
+  function goToNextTopic() {
+    localStorage.setItem('tara_level4_topic4_completed', 'true');
+    window.location.href = 'topics/level-4/topic-4-5.html';
+  }
+  
+  // Add animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.startRace = startRace;
+  window.stopRace = stopRace;
+  window.resetRace = resetRace;
+  window.startHunt = startHunt;
+  window.resetHunt = resetHunt;
+  window.revealChallenge = revealChallenge;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+  
+  // Initialize
+  initChests();
+</script>
+
+</body>
+</html>

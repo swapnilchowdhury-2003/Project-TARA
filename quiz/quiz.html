@@ -1,0 +1,484 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | লেভেল কুইজ (Level 1-6)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    .tara-header .btn { padding: 8px 18px; font-size: 0.9rem; font-weight: 600; border-radius: 50px; }
+    .tara-header h2 { font-weight: 800; font-size: 1.3rem; margin-bottom: 5px; }
+    .topic-container { max-width: 1000px; margin: 0 auto; padding: 1.5rem 1rem; }
+    
+    /* Level Selector */
+    .level-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .level-btn {
+      background: rgba(30,30,50,0.95);
+      border: 2px solid #ff8c00;
+      border-radius: 60px;
+      padding: 0.5rem 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #ff8c00;
+      font-size: 0.85rem;
+    }
+    .level-btn.active {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      color: white;
+      border-color: transparent;
+    }
+    .level-btn:hover { transform: scale(1.02); background: rgba(255,140,0,0.2); }
+    
+    /* Quiz Card */
+    .quiz-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    .quiz-title { font-size: 1.3rem; font-weight: 700; color: #ff8c00; margin-bottom: 1rem; text-align: center; }
+    .question-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .question-text { font-size: 1rem; font-weight: 600; margin-bottom: 0.8rem; line-height: 1.5; }
+    .story-box {
+      background: rgba(255,140,0,0.1);
+      border-radius: 12px;
+      padding: 0.6rem 1rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.9rem;
+      color: #ffcc88;
+      border-left: 3px solid #ff8c00;
+    }
+    .emoji-big { font-size: 1.5rem; letter-spacing: 3px; margin: 0.5rem 0; }
+    .options { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; }
+    .option-btn {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid #ff8c00;
+      border-radius: 50px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+    .option-btn:hover { transform: scale(1.02); background: rgba(255,140,0,0.2); }
+    .option-btn.selected-correct { background: #28a745; border-color: #90ee90; }
+    .option-btn.selected-wrong { background: #dc3545; border-color: #ff8888; }
+    .quiz-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    .submit-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 0.7rem 1.8rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      cursor: pointer;
+    }
+    .score-area { font-size: 1.1rem; font-weight: bold; }
+    .timer-area { font-size: 1.3rem; font-weight: bold; color: #ffaa44; }
+    .feedback-msg { margin-top: 0.5rem; font-size: 0.85rem; }
+    .feedback-msg.ok { color: #90ee90; }
+    .feedback-msg.wrong { color: #ff8888; }
+    .next-btn { background: linear-gradient(135deg, #ff8c00, #ff2e63); border: none; padding: 0.7rem 1.5rem; font-size: 1rem; font-weight: bold; border-radius: 60px; color: white; cursor: pointer; width: 100%; margin-top: 1rem; }
+    .tara-footer { background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%); color: white; margin-top: 2rem; padding: 1rem 0; text-align: center; border-top: 1px solid rgba(255,140,0,0.3); }
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @media (max-width: 768px) { .level-btn { padding: 0.4rem 0.7rem; font-size: 0.7rem; } .option-btn { padding: 0.4rem 0.8rem; font-size: 0.8rem; } .story-box { font-size: 0.8rem; } }
+  </style>
+</head>
+<body>
+
+<header class="tara-header py-2">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div><a href="../../dashboard.html" class="btn btn-outline-light"><i class="fa-solid fa-arrow-left me-1"></i>ড্যাশবোর্ড</a></div>
+    <div class="text-center"><h2 class="mb-0"><i class="fa-solid fa-pen-clip me-2"></i>লেভেল কুইজ</h2><small>Level 1-6</small></div>
+    <div><a href="../../map.html" class="btn btn-outline-light"><i class="fa-solid fa-map me-1"></i>ম্যাপ</a></div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <div class="level-selector" id="levelSelector">
+    <div class="level-btn active" data-level="1">🧩 লেভেল ১</div>
+    <div class="level-btn" data-level="2">🧮 লেভেল ২</div>
+    <div class="level-btn" data-level="3">🌲 লেভেল ৩</div>
+    <div class="level-btn" data-level="4">⛰️ লেভেল ৪</div>
+    <div class="level-btn" data-level="5">🌀 লেভেল ৫</div>
+    <div class="level-btn" data-level="6">🏰 লেভেল ৬</div>
+  </div>
+  
+  <div class="quiz-card" id="quizContainer">
+    <div class="quiz-title" id="levelTitle">🧩 লেভেল ১ কুইজ</div>
+    <div id="questionsContainer"></div>
+    <div class="quiz-footer">
+      <div class="score-area"><i class="fa-solid fa-star me-1"></i>স্কোর: <span id="scoreDisplay">0</span>/<span id="totalQuestions">10</span></div>
+      <div class="timer-area"><i class="fa-regular fa-clock me-1"></i>সময়: <span id="timerDisplay">05:00</span></div>
+      <button class="submit-btn" id="submitBtn"><i class="fa-solid fa-check-circle me-2"></i>জমা দাও</button>
+    </div>
+  </div>
+  
+</div>
+
+<footer class="tara-footer"><div class="container"><p class="mb-0"><i class="fa-regular fa-circle-check me-2"></i>প্রশ্নের উত্তর দাও এবং জমা দাও।</p></div></footer>
+
+<script>
+  // ==========================================
+  // TARA - Level Quiz (Level 1-6) - Clean & Beautiful
+  // Firebase Integration
+  // ==========================================
+  
+  // Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBoWaXDIBdX7OyJMsqIJ4paMIDe63QvEfc",
+    authDomain: "tara-research.firebaseapp.com",
+    projectId: "tara-research",
+    storageBucket: "tara-research.firebasestorage.app",
+    messagingSenderId: "761125280686",
+    appId: "1:761125280686:web:fd0ed50e950259c8fac63f",
+    measurementId: "G-KRN5SNJ2YR"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+  
+  let currentUser = null;
+  let currentLevel = 1;
+  let userAnswers = {};
+  let timerInterval = null;
+  let timeSeconds = 300;
+  let quizSubmitted = false;
+  
+  // ==========================================
+  // LEVEL 1 QUESTIONS (Data Type & Variable)
+  // ==========================================
+  const level1Questions = [
+    { text: "🍎 একটি গোটা আপেল", story: "অবনি শুধু গোটা ফল খায়। নিচের কোনটি অবনি খাবে?", options: ["🍎 একটি গোটা আপেল", "🍎½ একটি অর্ধেক আপেল", "🍊½ একটি অর্ধেক কমলা", "🥭½ একটি অর্ধেক আম"], correct: 0 },
+    { text: "🍎½ একটি অর্ধেক আপেল", story: "প্রমিত পুরো ফল খেয়ে শেষ করতে পারে না। সে সবসময় অর্ধেক ফল খায়। নিচের কোনটি প্রমিত খাবে?", options: ["🍎½ একটি অর্ধেক আপেল", "🍎 একটি গোটা আপেল", "🍊 একটি গোটা কমলা", "🥭 একটি গোটা আম"], correct: 0 },
+    { text: "❌ মিথ্যা", story: "🍎🍎🍎🍎🍎 (৫টি আপেল)। বিবৃতি: 'এখানে ৪টি আপেল আছে' - এটি সত্য না মিথ্যা?", options: ["✅ সত্য", "❌ মিথ্যা"], correct: 1 },
+    { text: "✅ সত্য", story: "🍎🍎🍎🍎 (৪টি আপেল)। বিবৃতি: 'এখানে ৪টি আপেল আছে' - এটি সত্য না মিথ্যা?", options: ["✅ সত্য", "❌ মিথ্যা"], correct: 0 },
+    { text: "🍎🍎🍎🍎🍎🍎 (অনেকগুলো)", story: "অমিত অনেক বেশি খাবার খায়। নিচের কোনটি অমিত খাবে?", options: ["🍎🍎🍎🍎🍎🍎 (অনেকগুলো)", "🍎🍎 (অল্প কয়েকটি)"], correct: 0 },
+    { text: "ভেরিয়েবল", story: "একটি স্কুল ব্যাগের নাম 'SchoolBag'। সকালে 📚 বই, বিকালে ✏️ কলম, রাতে 📓 খাতা। ব্যাগটিকে প্রোগ্রামিংয়ে কী বলব?", options: ["ভেরিয়েবল", "কনস্ট্যান্ট", "লুপ", "ফাংশন"], correct: 0 },
+    { text: "ভেরিয়েবল", story: "একটি পানির বোতলের নাম 'WaterBottle'। সকালে খালি, দুপুরে অর্ধেক, বিকেলে পুরো। বোতলটিকে কী বলব?", options: ["ভেরিয়েবল", "কনস্ট্যান্ট", "অ্যারে", "স্ট্রিং"], correct: 0 },
+    { text: "ভেরিয়েবল", story: "মিতুর বাক্সের নাম 'ToyBox'। প্রথমে ৫টি বই, পরে ৯টি কলম। এখানে 'ToyBox' কী?", options: ["ভেরিয়েবল", "কনস্ট্যান্ট", "ডাটা টাইপ", "লুপ"], correct: 0 },
+    { text: "১০০", story: "নিচের কোনটি Integer (পূর্ণসংখ্যা) ডাটা টাইপের উদাহরণ?", options: ["৩.৫", '"বাংলা"', "১০০", "সত্য"], correct: 2 },
+    { text: '"আমার দেশ"', story: "নিচের কোনটি String (অক্ষরের দল) ডাটা টাইপের উদাহরণ?", options: ["৫০", '"আমার দেশ"', "২.৭৫", "মিথ্যা"], correct: 1 }
+  ];
+  
+  // LEVEL 2 QUESTIONS (Operator, Input/Output, Expression, Counter)
+  const level2Questions = [
+    { text: "৪টি", story: "তোমার কাছে ২টি আপেল আছে। বন্ধু আরও ২টি আপেল দিল। মোট কতটি আপেল হলো? (২ + ২ = ?)", options: ["৩টি", "৪টি", "৫টি", "৬টি"], correct: 1 },
+    { text: "২টি", story: "তোমার কাছে ৫টি আপেল ছিল। তুমি ৩টি খেয়ে ফেললে। কতটি বাকি থাকবে? (৫ - ৩ = ?)", options: ["১টি", "২টি", "৩টি", "৪টি"], correct: 1 },
+    { text: "ঘাস", story: "গরু ঘাস খায় (ইনপুট) এবং দুধ দেয় (আউটপুট)। এখানে ইনপুট কী?", options: ["দুধ", "গরু", "ঘাস", "খামার"], correct: 2 },
+    { text: "ডিম", story: "মুরগি দানা খায় (ইনপুট) এবং ডিম দেয় (আউটপুট)। এখানে আউটপুট কী?", options: ["দানা", "মুরগি", "ডিম", "পানি"], correct: 2 },
+    { text: "৫ + ৩ = ৮", story: "একটি দোকানে ৫টি আম আছে। আরও ৩টি আসলে মোট কত হবে? এক্সপ্রেশন কী?", options: ["৫ - ৩ = ২", "৫ + ৩ = ৮", "৫ × ৩ = ১৫", "৫ ÷ ৩ = ১.৬৬"], correct: 1 },
+    { text: "১০০ - ৩০ = ৭০", story: "মায়ের কাছে ১০০ টাকা ছিল। ৩০ টাকার সবজি কিনলেন। বাকি কত? এক্সপ্রেশন কী?", options: ["১০০ + ৩০ = ১৩০", "১০০ - ৩০ = ৭০", "১০০ × ৩০ = ৩০০০", "১০০ ÷ ৩০ = ৩.৩৩"], correct: 1 },
+    { text: "৬টি", story: "রিতা প্রতিদিন ২টি চকলেট খায়। সোম, মঙ্গল, বুধবার খেল। মোট কত খেল? (কাউন্টার)", options: ["৪টি", "৫টি", "৬টি", "৮টি"], correct: 2 },
+    { text: "৬ জন", story: "একটি বাসে: ১ম স্টপে ৫ জন উঠল, ২য় স্টপে ৩ জন উঠল, ৩য় স্টপে ২ জন নামল। বাসে কতজন? (কাউন্টার)", options: ["১০ জন", "৮ জন", "৬ জন", "৫ জন"], correct: 2 },
+    { text: "৮টি", story: "রিতা প্রতিদিন ২টি চকলেট খায়। সোম, মঙ্গল, বুধ, বৃহস্পতিবার খেল। মোট কত?", options: ["৪টি", "৬টি", "৮টি", "১০টি"], correct: 2 },
+    { text: "১২ - ৫ + ৩ = ১০", story: "একটি বাগানে ১২টি গোলাপ ছিল। ৫টি তুলে নেওয়ার পর আরও ৩টি ফুটল। এক্সপ্রেশন কী?", options: ["১২+৫+৩=২০", "১২-৫+৩=১০", "১২-৫-৩=৪", "১২+৫-৩=১৪"], correct: 1 }
+  ];
+  
+  // LEVEL 3 QUESTIONS (Condition, If/Else, Pattern Recognition, Loop, Range)
+  const level3Questions = [
+    { text: "ছাতা নিবো", story: "বৃষ্টি হলে ছাতা নিবো। এখন বৃষ্টি হচ্ছে। আমি কী করব?", options: ["ছাতা নিবো না", "ছাতা নিবো", "ঘর থেকে বের হবো না", "খেলতে যাবো"], correct: 1 },
+    { text: "যাবে না", story: "রিতা শুধু বন্ধু গেলে খেলতে যায়। বন্ধু যায়নি। রিতা কী করবে?", options: ["একা যাবে", "অপেক্ষা করবে", "যাবে না", "ঘুমাবে"], correct: 2 },
+    { text: "ক্যান্ডি", story: "আমার কাছে ১০ টাকার বেশি থাকলে চিপস কিনবো, না হলে ক্যান্ডি। আমার কাছে ৮ টাকা আছে। কী কিনবো?", options: ["চিপস", "ক্যান্ডি", "আইসক্রিম", "কিছুই না"], correct: 1 },
+    { text: "উপহার পাবে", story: "উত্তীর্ণ হলে উপহার পাবে, না হলে কিছু পাবে না। রুমি উত্তীর্ণ হয়েছে। সে কী পাবে?", options: ["কিছুই পাবে না", "উপহার পাবে", "শাস্তি পাবে", "আবার পরীক্ষা দিতে হবে"], correct: 1 },
+    { text: "🟡 হলুদ", story: "🔴🟡🔴🟡🔴 — পরবর্তী রং কোনটি?", options: ["🔴 লাল", "🟡 হলুদ", "🔵 নীল", "🟢 সবুজ"], correct: 1 },
+    { text: "🐶 কুকুর", story: "🐱🐶🐱🐶🐱 — পরবর্তী প্রাণী কোনটি?", options: ["🐱 বিড়াল", "🐶 কুকুর", "🐭 ইঁদুর", "🐦 পাখি"], correct: 1 },
+    { text: "১০০ টাকা", story: "একবার মাঠ ঘুরলে ১০ টাকা। ১০ বার ঘুরলে কত টাকা পাবে? (Loop)", options: ["৫০ টাকা", "৮০ টাকা", "১০০ টাকা", "১২০ টাকা"], correct: 2 },
+    { text: "১০০ পৃষ্ঠা", story: "কপি মেশিন ১ মিনিটে ২০ পৃষ্ঠা প্রিন্ট করে। ৫ মিনিটে কত পৃষ্ঠা প্রিন্ট করবে?", options: ["৮০ পৃষ্ঠা", "১০০ পৃষ্ঠা", "১২০ পৃষ্ঠা", "১৪০ পৃষ্ঠা"], correct: 1 },
+    { text: "৩,৪,৫", story: "ক্লাস ৩ থেকে ৫ পর্যন্ত প্রতিযোগিতা। কোন ক্লাসগুলো অংশ নিতে পারবে?", options: ["১,২,৩", "২,৩,৪", "৩,৪,৫", "৪,৫,৬"], correct: 2 },
+    { text: "৪,৫,৬,৭", story: "১ থেকে ১০ নম্বর গাছের মধ্যে ৪ থেকে ৭ নম্বর গাছে পানি দিতে হবে। কোন গুলো?", options: ["২,৩,৪,৫", "৩,৪,৫,৬", "৪,৫,৬,৭", "৫,৬,৭,৮"], correct: 2 }
+  ];
+  
+  // LEVEL 4 QUESTIONS (Accumulator, Indexing, Sorting, Break, Prime)
+  const level4Questions = [
+    { text: "৯টি", story: "TotalFruits বাক্সে প্রথমে ৩টি আম, তারপর ২টি কাঁঠাল, তারপর ৪টি আপেল রাখলে মোট কত ফল? (Accumulator)", options: ["৭টি", "৮টি", "৯টি", "১০টি"], correct: 2 },
+    { text: "১৭টি", story: "রিয়া সোম ৫টি, মঙ্গল ৩টি, বুধ ৭টি, বৃহস্পতি ২টি বীজ জমাল। মোট কত বীজ?", options: ["১৫টি", "১৬টি", "১৭টি", "১৮টি"], correct: 2 },
+    { text: "🍈 কাঁঠাল", story: "বাক্স: ইনডেক্স ০=🥭, ১=🍈, ২=🍎, ৩=🍌। ইনডেক্স ১-এ কী আছে?", options: ["🥭 আম", "🍈 কাঁঠাল", "🍎 আপেল", "🍌 কলা"], correct: 1 },
+    { text: "🍌 কলা", story: "উপরের বাক্সে ইনডেক্স ৩-এ কী আছে?", options: ["🥭 আম", "🍈 কাঁঠাল", "🍎 আপেল", "🍌 কলা"], correct: 3 },
+    { text: "২,৪,৭,৯", story: "[৭,২,৯,৪] ছোট থেকে বড় সাজালে কী হবে?", options: ["৯,৭,৪,২", "২,৪,৭,৯", "৪,২,৭,৯", "৭,৪,২,৯"], correct: 1 },
+    { text: "আম, আপেল, আঙ্গুর, কলা, কমলা", story: "ফল: কলা, আপেল, কমলা, আঙ্গুর, আম — বাংলা বর্ণমালার ক্রমে সাজালে?", options: ["আম, আপেল, আঙ্গুর, কলা, কমলা", "আপেল, আম, আঙ্গুর, কলা, কমলা", "আঙ্গুর, আম, আপেল, কমলা, কলা", "কমলা, কলা, আঙ্গুর, আম, আপেল"], correct: 0 },
+    { text: "৭ বার", story: "রনি ১০ বার দৌড়াতে গিয়ে ৭ বার দৌড়িয়ে থেমে গেল (Break)। কতবার দৌড়াল?", options: ["৫ বার", "৬ বার", "৭ বার", "১০ বার"], correct: 2 },
+    { text: "১৪ পর্যন্ত", story: "লুপ ১-২০ প্রিন্ট করবে, ১৫ পেলে Break। কোন সংখ্যা পর্যন্ত প্রিন্ট করবে?", options: ["১০ পর্যন্ত", "১৪ পর্যন্ত", "১৫ পর্যন্ত", "২০ পর্যন্ত"], correct: 1 },
+    { text: "৭", story: "নিচের কোনটি মৌলিক সংখ্যা?", options: ["৪", "৬", "৭", "৯"], correct: 2 },
+    { text: "৯", story: "নিচের কোনটি মৌলিক সংখ্যা নয় (যৌগিক)?", options: ["২", "৩", "৫", "৯"], correct: 3 }
+  ];
+  
+  // LEVEL 5 QUESTIONS (Continue, Nested Loop, Factorial, Fibonacci, Array, Searching, String, Reverse, Palindrome)
+  const level5Questions = [
+    { text: "১,৩,৫,৭,৯", story: "১-১০ পর্যন্ত জোড় সংখ্যা বাদ দিতে বলা হলো (Continue)। কোন সংখ্যা বলবে?", options: ["১,৩,৫,৭,৯", "২,৪,৬,৮,১০", "১,২,৩,৪,৫", "৫,৬,৭,৮,৯,১০"], correct: 0 },
+    { text: "৮টি", story: "১০টি স্টপের মধ্যে ৩ ও ৭ নম্বর স্টপে কেউ নেই (Continue)। কয়টি স্টপে থামবে?", options: ["১০টি", "৯টি", "৮টি", "৭টি"], correct: 2 },
+    { text: "১২ বার", story: "বাইরের লুপ ৩ বার, ভিতরের লুপ ৪ বার। মোট কতবার ভিতরের কাজ হবে? (Nested Loop)", options: ["৭ বার", "১২ বার", "১৫ বার", "২০ বার"], correct: 1 },
+    { text: "৩০টি", story: "৫টি ক্লাস, প্রতিটিতে ৬টি সেকশন। মোট কত সেকশন?", options: ["১১টি", "২৫টি", "৩০টি", "৩৫টি"], correct: 2 },
+    { text: "১২০", story: "৫! = ১×২×৩×৪×৫ = কত?", options: ["৬০", "১০০", "১২০", "১৫০"], correct: 2 },
+    { text: "৮", story: "Fibonacci: ১,১,২,৩,৫,___ পরবর্তী সংখ্যা কত?", options: ["৬", "৭", "৮", "৯"], correct: 2 },
+    { text: "🍊 কমলা", story: "অ্যারে ['🍎','🍌','🍊','🍇','🥭'] - ইনডেক্স ২-এ কী?", options: ["🍎 আপেল", "🍊 কমলা", "🍇 আঙ্গুর", "🥭 আম"], correct: 1 },
+    { text: "৫ম ধাপে", story: "অ্যারে [৫,২,৮,১,৯,৩] - লিনিয়ার সার্চে ৯ কত ধাপে পাবে?", options: ["৩য় ধাপে", "৪র্থ ধাপে", "৫ম ধাপে", "৬ষ্ঠ ধাপে"], correct: 2 },
+    { text: "ANANAB", story: '"BANANA" উল্টালে কী হয়?', options: ["BANANA", "ANANAB", "NABANA", "ANANAB"], correct: 1 },
+    { text: "MADAM", story: "নিচের কোনটি প্যালিন্ড্রোম?", options: ["APPLE", "BANANA", "MADAM", "MANGO"], correct: 2 }
+  ];
+  
+  // LEVEL 6 QUESTIONS (Matrix, Function, Parameter, Return Value)
+  const level6Questions = [
+    { text: "৯", story: "Matrix: সারি ১, কলাম ২-এ ([১][২]) কোন সংখ্যা আছে?", options: ["৭", "৩", "৯", "৬"], correct: 2 },
+    { text: "৫", story: "Matrix: সারি ০, কলাম ০-এ ([০][০]) কোন সংখ্যা আছে?", options: ["৫", "৮", "২", "৪"], correct: 0 },
+    { text: "৩×৪", story: "৩টি সারি এবং ৪টি কলামের ম্যাট্রিক্সের মাপ কত?", options: ["৩×৩", "৩×৪", "৪×৩", "৪×৪"], correct: 1 },
+    { text: "ফাংশন", story: "রান্নার রেসিপি (ডিম, চিনি, মেশানো, ওভেন) প্রোগ্রামিংয়ে কী?", options: ["ভেরিয়েবল", "লুপ", "ফাংশন", "অ্যারে"], correct: 2 },
+    { text: "ফাংশন", story: '"চা বানাও" কমান্ডটি কী?', options: ["ভেরিয়েবল", "ফাংশন", "লুপ", "অ্যারে"], correct: 1 },
+    { text: "প্যারামিটার", story: '"২ কাপ চা বানাও" - এখানে "২ কাপ" কী?', options: ["ফাংশন", "রিটার্ন ভ্যালু", "প্যারামিটার", "লুপ"], correct: 2 },
+    { text: "৩টি", story: '"৩টা ডিম, ২ কাপ দুধ, ১ কাপ চিনি" - কয়টি প্যারামিটার?', options: ["১টি", "২টি", "৩টি", "৪টি"], correct: 2 },
+    { text: "রিটার্ন ভ্যালু", story: "যোগ মেশিনে ৫+৩=৮ - এখানে ৮ কী?", options: ["প্যারামিটার", "রিটার্ন ভ্যালু", "ফাংশন", "লুপ"], correct: 1 },
+    { text: "রিটার্ন ভ্যালু", story: "কেক মেশিন কেক রিটার্ন করল। কেক কী?", options: ["প্যারামিটার", "ফাংশন", "রিটার্ন ভ্যালু", "ইনপুট"], correct: 2 },
+    { text: "৪,৫=প্যারামিটার, ২০=রিটার্ন", story: "Multiply(৪,৫) → ২০। এখানে ৪,৫ কী এবং ২০ কী?", options: ["৪,৫=Return, ২০=Parameter", "৪,৫=Parameter, ২০=Return", "৪,৫=Function, ২০=Loop", "৪,৫=Loop, ২০=Function"], correct: 1 }
+  ];
+  
+  const allLevelQuestions = {
+    1: level1Questions, 2: level2Questions, 3: level3Questions,
+    4: level4Questions, 5: level5Questions, 6: level6Questions
+  };
+  
+  let currentQuestions = [];
+  
+  function renderQuestions() {
+    const container = document.getElementById('questionsContainer');
+    container.innerHTML = '';
+    userAnswers = {};
+    
+    currentQuestions.forEach((q, idx) => {
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question-card';
+      qDiv.id = `q-${idx}`;
+      qDiv.innerHTML = `
+        <div class="story-box"><i class="fa-solid fa-comment-dots me-1"></i> ${q.story}</div>
+        <div class="question-text">📝 প্রশ্ন ${idx+1}: ${q.text} সঠিক উত্তর কোনটি?</div>
+        <div class="options" id="options-${idx}"></div>
+        <div class="feedback-msg" id="fb-${idx}"></div>
+      `;
+      container.appendChild(qDiv);
+      
+      const optsDiv = document.getElementById(`options-${idx}`);
+      q.options.forEach((opt, optIdx) => {
+        const optBtn = document.createElement('div');
+        optBtn.className = 'option-btn';
+        optBtn.textContent = opt;
+        optBtn.onclick = () => selectAnswer(idx, optIdx, optBtn);
+        optsDiv.appendChild(optBtn);
+      });
+    });
+    
+    document.getElementById('totalQuestions').innerText = currentQuestions.length;
+    document.getElementById('scoreDisplay').innerText = '0';
+    updateProgressDots();
+  }
+  
+  function selectAnswer(qIdx, optIdx, btnElement) {
+    if (quizSubmitted) return;
+    const optsDiv = document.getElementById(`options-${qIdx}`);
+    const btns = optsDiv.querySelectorAll('.option-btn');
+    btns.forEach(btn => btn.classList.remove('selected-correct', 'selected-wrong'));
+    btnElement.classList.add('selected-correct');
+    userAnswers[qIdx] = optIdx;
+    updateProgressDots();
+  }
+  
+  function updateProgressDots() {
+    const answered = Object.keys(userAnswers).length;
+    document.getElementById('scoreDisplay').innerText = answered;
+  }
+  
+  function calculateScore() {
+    let score = 0;
+    for (let i = 0; i < currentQuestions.length; i++) {
+      if (userAnswers[i] !== undefined && userAnswers[i] === currentQuestions[i].correct) {
+        score++;
+      }
+    }
+    return score;
+  }
+  
+  async function submitQuiz() {
+    if (quizSubmitted) {
+      alert('আপনি ইতিমধ্যে এই লেভেলের কুইজ জমা দিয়েছেন!');
+      return;
+    }
+    
+    const answeredCount = Object.keys(userAnswers).length;
+    if (answeredCount < currentQuestions.length) {
+      alert(`আপনি ${answeredCount} টি প্রশ্নের উত্তর দিয়েছেন। সবগুলো প্রশ্নের উত্তর দিন!`);
+      return;
+    }
+    
+    const score = calculateScore();
+    const total = currentQuestions.length;
+    
+    for (let i = 0; i < currentQuestions.length; i++) {
+      const fbDiv = document.getElementById(`fb-${i}`);
+      const isCorrect = (userAnswers[i] !== undefined && userAnswers[i] === currentQuestions[i].correct);
+      if (isCorrect) {
+        fbDiv.innerHTML = '✅ সঠিক! চমৎকার! 🎉';
+        fbDiv.className = 'feedback-msg ok';
+      } else {
+        const correctAns = currentQuestions[i].options[currentQuestions[i].correct];
+        fbDiv.innerHTML = `❌ ভুল! সঠিক উত্তর: ${correctAns}`;
+        fbDiv.className = 'feedback-msg wrong';
+      }
+    }
+    
+    alert(`আপনি ${score} / ${total} সঠিক উত্তর দিয়েছেন!`);
+    
+    if (currentUser) {
+      try {
+        const levelKey = `level${currentLevel}Score`;
+        const userDocRef = db.collection('all_results').doc(currentUser);
+        await userDocRef.set({
+          [levelKey]: score,
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+        console.log(`Level ${currentLevel} score saved: ${score}`);
+      } catch (e) { console.error("Firebase error:", e); }
+    }
+    
+    quizSubmitted = true;
+    createConfetti();
+  }
+  
+  function startTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timeSeconds = 300;
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      if (timeSeconds <= 0) {
+        clearInterval(timerInterval);
+        alert('সময় শেষ! এখন জমা দিতে হবে।');
+        submitQuiz();
+      } else {
+        timeSeconds--;
+        updateTimerDisplay();
+      }
+    }, 1000);
+  }
+  
+  function updateTimerDisplay() {
+    const mins = Math.floor(timeSeconds / 60);
+    const secs = timeSeconds % 60;
+    document.getElementById('timerDisplay').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+  }
+  
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  function loadLevel(level) {
+    currentLevel = level;
+    currentQuestions = [...allLevelQuestions[level]];
+    userAnswers = {};
+    quizSubmitted = false;
+    document.getElementById('levelTitle').innerHTML = getLevelIcon(level);
+    document.getElementById('scoreDisplay').innerText = '0';
+    renderQuestions();
+    startTimer();
+    
+    document.querySelectorAll('.level-btn').forEach(btn => {
+      btn.classList.remove('active');
+      if (parseInt(btn.dataset.level) === level) btn.classList.add('active');
+    });
+  }
+  
+  function getLevelIcon(level) {
+    const icons = { 1: "🧩 লেভেল ১ কুইজ", 2: "🧮 লেভেল ২ কুইজ", 3: "🌲 লেভেল ৩ কুইজ", 4: "⛰️ লেভেল ৪ কুইজ", 5: "🌀 লেভেল ৫ কুইজ", 6: "🏰 লেভেল ৬ কুইজ" };
+    return icons[level];
+  }
+  
+  auth.signInAnonymously().then((userCredential) => {
+    currentUser = userCredential.user.uid;
+    console.log("Logged in as:", currentUser);
+    loadLevel(1);
+  }).catch((error) => { console.error("Auth error:", error); loadLevel(1); });
+  
+  document.querySelectorAll('.level-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!quizSubmitted || confirm('কুইজ জমা না দিয়ে লেভেল বদলালে অগ্রগতি হারাবে। নিশ্চিত?')) {
+        loadLevel(parseInt(btn.dataset.level));
+      }
+    });
+  });
+  
+  document.getElementById('submitBtn').addEventListener('click', submitQuiz);
+  
+  const style = document.createElement('style');
+  style.textContent = `@keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }`;
+  document.head.appendChild(style);
+</script>
+
+</body>
+</html>

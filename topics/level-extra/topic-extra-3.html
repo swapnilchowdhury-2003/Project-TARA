@@ -1,0 +1,614 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | অবজেক্ট (Object)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .example-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .example-title {
+      color: #ff8c00;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .object-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .object-card {
+      background: rgba(255,140,0,0.1);
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .object-emoji {
+      font-size: 3rem;
+    }
+    
+    .object-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+    }
+    
+    .object-detail {
+      font-size: 0.85rem;
+      color: #ccc;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-extra.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-cube me-2"></i>অবজেক্ট (Object)</h2>
+      <small>Level Extra · Topic 3</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level Extra · Topic 3</div>
+    <h1 class="topic-title">🎁 অবজেক্ট (Object)</h1>
+    <div class="topic-description">
+      <strong>অবজেক্ট</strong> মানে হলো <strong>ক্লাসের নকশা থেকে তৈরি আসল জিনিস</strong>। যেমন: গাড়ির নকশা থেকে তৈরি আসল গাড়ি!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🏭🚗</div>
+    <div class="story-title">📖 গল্প: নকশা থেকে আসল গাড়ি</div>
+    <div class="story-text">
+      <strong>গাড়ির কারখানায়</strong> একটি <strong>নকশা (ক্লাস)</strong> থাকে। সেই নকশা দেখে হাজার হাজার <strong>আসল গাড়ি</strong> বানানো হয়।<br><br>
+      🏭 <strong>নকশা</strong> = <strong>ক্লাস (Class)</strong><br>
+      🚗 <strong>নকশা থেকে বানানো আসল গাড়ি</strong> = <strong>অবজেক্ট (Object)</strong><br><br>
+      প্রতিটি গাড়ির রং, মডেল আলাদা হতে পারে, কিন্তু সব গাড়ি একই নকশা থেকে বানানো!<br>
+      <span class="story-highlight">📌 অবজেক্ট = ক্লাস থেকে তৈরি আসল জিনিস!</span>
+    </div>
+  </div>
+  
+  <!-- Easy Explanation -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-lightbulb me-2"></i>সহজ ভাষায়
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <p><strong>ক্লাস (Class)</strong> = একটি ছাঁচ (ঢালাই করার জন্য)</p>
+      <p><strong>অবজেক্ট (Object)</strong> = সেই ছাঁচ থেকে তৈরি আসল জিনিস</p>
+      <p class="mt-2">যেমন: একটি <strong>কুকুরের জাত</strong> হলো ক্লাস। আর <strong>তোমার পোষা কুকুর "টমি"</strong> হলো অবজেক্ট!</p>
+    </div>
+  </div>
+  
+  <!-- Real Life Objects -->
+  <div class="example-card">
+    <div class="example-title">
+      <i class="fa-solid fa-star me-2"></i>বাস্তব জীবনের অবজেক্ট
+    </div>
+    
+    <div class="object-grid">
+      <div class="object-card">
+        <div class="object-emoji">🍕</div>
+        <div class="object-name">মার্গারিটা পিৎজা</div>
+        <div class="object-detail">পিৎজা ক্লাস থেকে তৈরি একটি অবজেক্ট</div>
+      </div>
+      <div class="object-card">
+        <div class="object-emoji">🚗</div>
+        <div class="object-name">আমার লাল গাড়ি</div>
+        <div class="object-detail">গাড়ি ক্লাস থেকে তৈরি একটি অবজেক্ট</div>
+      </div>
+      <div class="object-card">
+        <div class="object-emoji">🐕</div>
+        <div class="object-name">টমি (পোষা কুকুর)</div>
+        <div class="object-detail">কুকুর ক্লাস থেকে তৈরি একটি অবজেক্ট</div>
+      </div>
+      <div class="object-card">
+        <div class="object-emoji">📖</div>
+        <div class="object-name">গণিত বই</div>
+        <div class="object-detail">বই ক্লাস থেকে তৈরি একটি অবজেক্ট</div>
+      </div>
+      <div class="object-card">
+        <div class="object-emoji">✏️</div>
+        <div class="object-name">আমার নীল পেন্সিল</div>
+        <div class="object-detail">পেন্সিল ক্লাস থেকে তৈরি একটি অবজেক্ট</div>
+      </div>
+      <div class="object-card">
+        <div class="object-emoji">🏠</div>
+        <div class="object-name">আমাদের বাড়ি</div>
+        <div class="object-detail">বাড়ি ক্লাস থেকে তৈরি একটি অবজেক্ট</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Class vs Object Comparison -->
+  <div class="example-card">
+    <div class="example-title">
+      <i class="fa-solid fa-table-list me-2"></i>ক্লাস বনাম অবজেক্ট
+    </div>
+    <div style="overflow-x: auto;">
+      <table style="width:100%; border-collapse: collapse;">
+        <tr style="border-bottom: 1px solid #ff8c00;">
+          <th style="padding: 0.5rem; text-align: left; color: #ff8c00;">ক্লাস (Class)</th>
+          <th style="padding: 0.5rem; text-align: left; color: #ff8c00;">অবজেক্ট (Object)</th>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <td style="padding: 0.5rem;">নকশা / ব্লুপ্রিন্ট</td>
+          <td style="padding: 0.5rem;">নকশা থেকে তৈরি আসল জিনিস</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <td style="padding: 0.5rem;">গাড়ির নমুনা</td>
+          <td style="padding: 0.5rem;">আসল গাড়ি</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <td style="padding: 0.5rem;">কুকুরের জাত</td>
+          <td style="padding: 0.5rem;">তোমার পোষা কুকুর</td>
+        </tr>
+        <tr>
+          <td style="padding: 0.5rem;">পিৎজার রেসিপি</td>
+          <td style="padding: 0.5rem;">তৈরি করা পিৎজা</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  
+  <!-- More Examples -->
+  <div class="example-card">
+    <div class="example-title">
+      <i class="fa-solid fa-list-check me-2"></i>আরও উদাহরণ
+    </div>
+    <p>📱 <strong>মোবাইল ফোনের নকশা (Class)</strong> → <strong>আমার আইফোন (Object)</strong></p>
+    <p>🍔 <strong>বার্গারের রেসিপি (Class)</strong> → <strong>আমি যে বার্গার খেলাম (Object)</strong></p>
+    <p>🎮 <strong>গেমের চরিত্রের নকশা (Class)</strong> → <strong>আমি নিয়ন্ত্রণ করা চরিত্র (Object)</strong></p>
+    <p>👩‍🎓 <strong>ছাত্রের নকশা (Class)</strong> → <strong>তোমি (Object)</strong></p>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>অবজেক্ট সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. অবজেক্ট (Object) কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> একটি নকশা</label>
+        <label class="option"><input type="radio" name="q1" value="1"> ক্লাস থেকে তৈরি আসল জিনিস</label>
+        <label class="option"><input type="radio" name="q1" value="2"> একটি সংখ্যা</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">২. গাড়ির নকশা (ক্লাস) থেকে তৈরি আসল গাড়িটিকে কী বলে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> অবজেক্ট</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ক্লাস</label>
+        <label class="option"><input type="radio" name="q2" value="2"> ভেরিয়েবল</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৩. "পিৎজার রেসিপি" (ক্লাস) থেকে তৈরি পিৎজাটি কী হবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> ক্লাস</label>
+        <label class="option"><input type="radio" name="q3" value="1"> ফাংশন</label>
+        <label class="option"><input type="radio" name="q3" value="2"> অবজেক্ট</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৪. একটি ক্লাস থেকে কয়টি অবজেক্ট তৈরি করা যায়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> অনেকগুলো</label>
+        <label class="option"><input type="radio" name="q4" value="1"> শুধু একটি</label>
+        <label class="option"><input type="radio" name="q4" value="2"> দুটি</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৫. নিচের কোনটি অবজেক্টের উদাহরণ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> গাড়ির নকশা</label>
+        <label class="option"><input type="radio" name="q5" value="1"> আমার লাল গাড়ি</label>
+        <label class="option"><input type="radio" name="q5" value="2"> পিৎজার রেসিপি</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: অ্যাট্রিবিউট
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      অবজেক্ট শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Object Topic (No Code Syntax)
+  // ==========================================
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // Show temporary message
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_object_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি অবজেক্ট পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  function goToNextTopic() {
+    localStorage.setItem('tara_levelExtra_topic3_completed', 'true');
+    window.location.href = 'topics/level-extra/topic-extra-4.html';
+  }
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+</script>
+
+</body>
+</html>

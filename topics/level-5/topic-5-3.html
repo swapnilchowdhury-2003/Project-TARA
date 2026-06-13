@@ -1,0 +1,889 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | ফ্যাক্টরিয়াল (Factorial)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .topic-description {
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Calculator Area */
+    .calc-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .number-input {
+      width: 120px;
+      padding: 0.8rem;
+      font-size: 1.2rem;
+      text-align: center;
+      border-radius: 15px;
+      border: 2px solid #ff8c00;
+      background: #0f0f23;
+      color: white;
+      margin: 0.5rem;
+    }
+    
+    .calc-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      margin: 0.3rem;
+    }
+    
+    .calc-btn.reset {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+      word-break: break-word;
+    }
+    
+    .step-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      text-align: left;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    .step-item {
+      padding: 0.3rem;
+      border-bottom: 1px solid rgba(255,140,0,0.2);
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    
+    /* Multiplication Visual Game */
+    .multiply-visual {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .ball-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    
+    .ball {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: bold;
+      animation: popIn 0.2s ease;
+    }
+    
+    .row-label {
+      font-size: 0.8rem;
+      color: #ffaa44;
+      margin-top: 0.3rem;
+    }
+    
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* Challenge Box */
+    .challenge-question {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .ball {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-5.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-factorial me-2"></i>ফ্যাক্টরিয়াল (Factorial)</h2>
+      <small>Level 5 · Topic 3</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 5 · Topic 3</div>
+    <h1 class="topic-title">❗ ফ্যাক্টরিয়াল (Factorial)</h1>
+    <div class="topic-description">
+      <strong>ফ্যাক্টরিয়াল</strong> মানে হলো <strong>১ থেকে শুরু করে ওই সংখ্যা পর্যন্ত সব সংখ্যাকে গুণ করা</strong>।<br>
+      যেমন: ৫-এর ফ্যাক্টরিয়াল মানে ১×২×৩×৪×৫ = ১২০<br>
+      ফ্যাক্টরিয়ালকে <strong>!</strong> চিহ্ন দিয়ে লেখা হয়।
+    </div>
+  </div>
+  
+  <!-- Story Box - Simplified for Kids -->
+  <div class="story-box">
+    <div class="story-icon">🐘🍪</div>
+    <div class="story-title">📖 গল্প: গুটি, গুটি করে খাওয়া</div>
+    <div class="story-text">
+      <strong>ছোট্ট হাতি গুটি</strong> খুব পছন্দ করে বিস্কুট খেতে।<br><br>
+      একদিন তার মা তাকে বললেন — <strong>"তুই যদি ১টি বিস্কুট খাস, তাহলে ১টি বিস্কুট খেলি।"</strong><br>
+      <strong>"২টি বিস্কুট খেতে চাইলে, ১×২ = ২টি বিস্কুট লাগবে।"</strong><br>
+      <strong>"৩টি বিস্কুট খেতে চাইলে, ১×২×৩ = ৬টি বিস্কুট লাগবে।"</strong><br>
+      <strong>"৪টি বিস্কুট খেতে চাইলে, ১×২×৩×৪ = ২৪টি বিস্কুট লাগবে।"</strong><br>
+      <strong>"৫টি বিস্কুট খেতে চাইলে, ১×২×৩×৪×৫ = ১২০টি বিস্কুট লাগবে!"</strong><br><br>
+      গুটি ভাবল — "ওহ! এত বিস্কুট! তাহলে ৫-এর ফ্যাক্টরিয়াল মানে ১×২×৩×৪×৫!"<br>
+      <span class="story-highlight">📌 ফ্যাক্টরিয়াল মানে — ১ থেকে n পর্যন্ত সব সংখ্যাকে গুণ করা!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>ফ্যাক্টরিয়ালের ছক:</strong><br>
+      • 1! = 1<br>
+      • 2! = 1 × 2 = 2<br>
+      • 3! = 1 × 2 × 3 = 6<br>
+      • 4! = 1 × 2 × 3 × 4 = 24<br>
+      • 5! = 1 × 2 × 3 × 4 × 5 = 120<br>
+      • <strong>বিশেষ নিয়ম:</strong> 0! = 1
+    </div>
+  </div>
+  
+  <!-- Game Container -->
+  <div class="game-container">
+    
+    <!-- Game 1: Factorial Calculator -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-calculator"></i> খেলা ১: ফ্যাক্টরিয়াল ক্যালকুলেটর
+      </div>
+      
+      <div class="calc-area">
+        <label>কোন সংখ্যার ফ্যাক্টরিয়াল বের করবে?</label>
+        <input type="number" id="factInput" class="number-input" min="0" max="10" value="5">
+        <div>
+          <button class="calc-btn" onclick="calculateFactorial()">
+            <i class="fa-solid fa-play me-1"></i>ফ্যাক্টরিয়াল বের করো
+          </button>
+          <button class="calc-btn reset" onclick="resetFactorial()">
+            <i class="fa-solid fa-rotate-left me-1"></i>সাফ করো
+          </button>
+        </div>
+        
+        <div class="result-box" id="factResult">
+          <i class="fa-regular fa-lightbulb me-1"></i> একটি সংখ্যা লিখে "ফ্যাক্টরিয়াল বের করো" চাপো।
+        </div>
+        
+        <div class="step-box" id="stepBox">
+          <div class="text-muted text-center">গণনার ধাপ এখানে দেখাবে</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Game 2: Visual Multiplication (Ball Groups) -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-children"></i> খেলা ২: গুটি গুটি করে গুণ (দেখে শেখা)
+      </div>
+      
+      <div class="multiply-visual">
+        <label>কত নম্বর পর্যন্ত গুণ দেখতে চাও?</label>
+        <input type="number" id="visualNumber" class="number-input" min="1" max="6" value="4">
+        <div>
+          <button class="calc-btn" onclick="showFactorialVisual()">
+            <i class="fa-solid fa-play me-1"></i>গুণ দেখাও
+          </button>
+          <button class="calc-btn reset" onclick="resetVisual()">
+            <i class="fa-solid fa-rotate-left me-1"></i>সাফ করো
+          </button>
+        </div>
+        
+        <div id="visualContainer" style="margin-top: 1rem;">
+          <div class="text-muted">গুণের ছবি এখানে দেখাবে</div>
+        </div>
+        
+        <div class="result-box" id="visualResult">
+          <i class="fa-regular fa-lightbulb me-1"></i> একটি সংখ্যা লিখে "গুণ দেখাও" চাপো। ১ থেকে ওই সংখ্যা পর্যন্ত গুণ দেখাবে!
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Factorial Challenge Box -->
+  <div class="math-box" style="border-left-color: #28a745;">
+    <div class="math-box-title">
+      <i class="fa-solid fa-puzzle-piece me-2"></i>ফ্যাক্টরিয়াল চ্যালেঞ্জ!
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ১:</strong> 3! (তিন ফ্যাক্টরিয়াল) কত?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(1, '3! = 1 × 2 × 3 = 6')">উত্তর দেখো</button>
+        <span id="challenge1" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ২:</strong> 0! (শূন্যের ফ্যাক্টরিয়াল) কত?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(2, '0! = 1 (বিশেষ নিয়ম)')">উত্তর দেখো</button>
+        <span id="challenge2" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ৩:</strong> 4! (চার ফ্যাক্টরিয়াল) কত?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(3, '4! = 1 × 2 × 3 × 4 = 24')">উত্তর দেখো</button>
+        <span id="challenge3" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>ফ্যাক্টরিয়াল সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">১. 3! (তিন ফ্যাক্টরিয়াল) কত?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> ৬</label>
+        <label class="option"><input type="radio" name="q1" value="1"> ৩</label>
+        <label class="option"><input type="radio" name="q1" value="2"> ৯</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">২. ফ্যাক্টরিয়াল বের করার সময় কোন প্রক্রিয়াটি হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> যোগ</label>
+        <label class="option"><input type="radio" name="q2" value="1"> গুণ</label>
+        <label class="option"><input type="radio" name="q2" value="2"> ভাগ</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৩. 5! (পাঁচ ফ্যাক্টরিয়াল) কত?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> ৬০</label>
+        <label class="option"><input type="radio" name="q3" value="1"> ১০০</label>
+        <label class="option"><input type="radio" name="q3" value="2"> ১২০</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৪. 0! (শূন্যের ফ্যাক্টরিয়াল) কত?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> ১</label>
+        <label class="option"><input type="radio" name="q4" value="1"> ০</label>
+        <label class="option"><input type="radio" name="q4" value="2"> ১০</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৫. ফ্যাক্টরিয়াল কোন চিহ্ন দিয়ে লেখা হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> @</label>
+        <label class="option"><input type="radio" name="q5" value="1"> !</label>
+        <label class="option"><input type="radio" name="q5" value="2"> #</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: ফিবোনাচ্চি
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      ফ্যাক্টরিয়াল শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Factorial Topic (Kid Friendly)
+  // ==========================================
+  
+  // Game 1: Calculate Factorial
+  function calculateFactorial() {
+    const n = parseInt(document.getElementById('factInput').value);
+    const resultDiv = document.getElementById('factResult');
+    const stepBox = document.getElementById('stepBox');
+    
+    if (isNaN(n) || n < 0 || n > 10) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> দয়া করে ০ থেকে ১০ এর মধ্যে একটি সংখ্যা দিন!';
+      resultDiv.style.background = '#dc3545';
+      setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 2000);
+      return;
+    }
+    
+    // Special case: 0! = 1
+    if (n === 0) {
+      resultDiv.innerHTML = `<i class="fa-solid fa-crown me-1"></i> 0! = 1 (বিশেষ নিয়ম - শূন্যের ফ্যাক্টরিয়াল ১)`;
+      stepBox.innerHTML = `<div class="step-item">✨ বিশেষ নিয়ম: 0! = 1</div>`;
+      resultDiv.style.background = '#28a745';
+      setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 3000);
+      createConfetti();
+      return;
+    }
+    
+    // Calculate factorial with steps
+    let factorial = 1;
+    let steps = [];
+    
+    for (let i = 1; i <= n; i++) {
+      factorial = factorial * i;
+      steps.push(`${i}! = ${factorial}`);
+    }
+    
+    // Display result
+    resultDiv.innerHTML = `<i class="fa-solid fa-crown me-1"></i> 🎉 ${n}! = ${factorial}`;
+    resultDiv.style.background = '#28a745';
+    
+    // Display steps
+    stepBox.innerHTML = '';
+    steps.forEach(step => {
+      const stepDiv = document.createElement('div');
+      stepDiv.className = 'step-item';
+      stepDiv.innerHTML = step;
+      stepBox.appendChild(stepDiv);
+    });
+    
+    setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 3000);
+    createConfetti();
+  }
+  
+  function resetFactorial() {
+    document.getElementById('factInput').value = '5';
+    document.getElementById('factResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> একটি সংখ্যা লিখে "ফ্যাক্টরিয়াল বের করো" চাপো।';
+    document.getElementById('stepBox').innerHTML = '<div class="text-muted text-center">গণনার ধাপ এখানে দেখাবে</div>';
+  }
+  
+  // Game 2: Visual Multiplication (Ball groups showing factorial)
+  function showFactorialVisual() {
+    const n = parseInt(document.getElementById('visualNumber').value);
+    const container = document.getElementById('visualContainer');
+    const resultDiv = document.getElementById('visualResult');
+    
+    if (isNaN(n) || n < 1 || n > 6) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> দয়া করে ১ থেকে ৬ এর মধ্যে একটি সংখ্যা দিন!';
+      resultDiv.style.background = '#dc3545';
+      setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 2000);
+      return;
+    }
+    
+    container.innerHTML = '';
+    let currentValue = 1;
+    
+    for (let i = 1; i <= n; i++) {
+      currentValue = currentValue * i;
+      
+      // Create a group for this factorial step
+      const groupDiv = document.createElement('div');
+      groupDiv.style.marginBottom = '1.5rem';
+      groupDiv.style.background = 'rgba(0,0,0,0.2)';
+      groupDiv.style.borderRadius = '15px';
+      groupDiv.style.padding = '0.8rem';
+      
+      const titleDiv = document.createElement('div');
+      titleDiv.style.fontSize = '1rem';
+      titleDiv.style.fontWeight = 'bold';
+      titleDiv.style.color = '#ffaa44';
+      titleDiv.style.marginBottom = '0.5rem';
+      titleDiv.innerHTML = `${i}! = ${currentValue} (১ × ২ × ... × ${i})`;
+      groupDiv.appendChild(titleDiv);
+      
+      // Show balls for understanding
+      const ballContainer = document.createElement('div');
+      ballContainer.className = 'ball-group';
+      
+      // Show multiplication as repeated addition visually
+      if (i === 1) {
+        const ball = document.createElement('div');
+        ball.className = 'ball';
+        ball.textContent = '1';
+        ballContainer.appendChild(ball);
+      } else {
+        // Show i groups of (i-1)! style
+        for (let j = 1; j <= i; j++) {
+          const ball = document.createElement('div');
+          ball.className = 'ball';
+          ball.textContent = j;
+          ballContainer.appendChild(ball);
+        }
+      }
+      
+      groupDiv.appendChild(ballContainer);
+      
+      // Add explanation
+      const explainDiv = document.createElement('div');
+      explainDiv.style.fontSize = '0.8rem';
+      explainDiv.style.color = '#aaa';
+      explainDiv.style.marginTop = '0.3rem';
+      
+      if (i === 1) {
+        explainDiv.innerHTML = '1 টি সংখ্যা → 1 টি বল';
+      } else {
+        explainDiv.innerHTML = `${i} টি সংখ্যা গুণ করলে হয় ${currentValue}`;
+      }
+      
+      groupDiv.appendChild(explainDiv);
+      container.appendChild(groupDiv);
+    }
+    
+    resultDiv.innerHTML = `<i class="fa-regular fa-circle-check me-1"></i> 🎉 ${n} পর্যন্ত ফ্যাক্টরিয়াল দেখানো হলো! ${n}! = ${currentValue}`;
+    resultDiv.style.background = '#28a745';
+    setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 3000);
+    createConfetti();
+  }
+  
+  function resetVisual() {
+    document.getElementById('visualNumber').value = '4';
+    document.getElementById('visualContainer').innerHTML = '<div class="text-muted">গুণের ছবি এখানে দেখাবে</div>';
+    document.getElementById('visualResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> একটি সংখ্যা লিখে "গুণ দেখাও" চাপো। ১ থেকে ওই সংখ্যা পর্যন্ত গুণ দেখাবে!';
+  }
+  
+  // Challenge Reveal
+  function revealChallenge(id, answer) {
+    const span = document.getElementById(`challenge${id}`);
+    if (span.innerHTML === '') {
+      span.innerHTML = answer;
+      createConfetti();
+      showMessage(`✅ উত্তর: ${answer}`);
+    }
+  }
+  
+  // Show temporary message
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_factorial_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি ফ্যাক্টরিয়াল পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  // Next Topic
+  function goToNextTopic() {
+    localStorage.setItem('tara_level5_topic3_completed', 'true');
+    window.location.href = 'topics/level-5/topic-5-4.html';
+  }
+  
+  // Add animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.calculateFactorial = calculateFactorial;
+  window.resetFactorial = resetFactorial;
+  window.showFactorialVisual = showFactorialVisual;
+  window.resetVisual = resetVisual;
+  window.revealChallenge = revealChallenge;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+</script>
+
+</body>
+</html>

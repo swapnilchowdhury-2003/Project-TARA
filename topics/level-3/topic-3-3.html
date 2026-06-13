@@ -1,0 +1,821 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | প্যাটার্ন রিকগনিশন</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    /* Header */
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    /* Main Container */
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    /* Topic Card */
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    /* Math Box */
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    /* Game Grid */
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.9);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .pattern-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    
+    .pattern-item {
+      font-size: 2.5rem;
+      display: inline-block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .pattern-question {
+      font-size: 1.8rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .pattern-question span {
+      background: rgba(255,140,0,0.2);
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+    }
+    
+    .options-grid {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    
+    .option-btn {
+      font-size: 2rem;
+      padding: 0.5rem 1rem;
+      border: 2px solid #ff8c00;
+      border-radius: 15px;
+      background: rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option-btn:hover {
+      transform: scale(1.1);
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option-btn.correct {
+      background: #28a745;
+      border-color: #90ee90;
+      animation: bounce 0.3s;
+    }
+    
+    .option-btn.wrong {
+      background: #dc3545;
+      border-color: #ff8888;
+      animation: shake 0.3s;
+    }
+    
+    .game-feedback {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      min-height: 50px;
+    }
+    
+    /* Movement Game */
+    .movement-game {
+      background: rgba(40,167,69,0.1);
+      border-radius: 25px;
+      padding: 1.5rem;
+      text-align: center;
+      border: 1px solid #28a745;
+    }
+    
+    .movement-pattern {
+      font-size: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .movement-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      margin: 0.5rem;
+      cursor: pointer;
+    }
+    
+    /* Real Life Examples */
+    .real-life-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .real-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    /* Next Button */
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    /* Footer */
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    .score-badge {
+      background: rgba(255,140,0,0.2);
+      border-radius: 20px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .pattern-item {
+        font-size: 2rem;
+      }
+      .option-btn {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-3.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-chart-line me-2"></i>প্যাটার্ন রিকগনিশন</h2>
+      <small>Level 3 · Topic 3</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 3 · Topic 3</div>
+    <h1 class="topic-title">🎨 প্যাটার্ন রিকগনিশন</h1>
+    <div class="topic-description" style="color:#ccc;">
+      <strong>প্যাটার্ন রিকগনিশন</strong> মানে হলো কোনো জিনিসের পুনরাবৃত্তি বা নিয়ম খুঁজে বের করা।<br>
+      যেমন: দিন-রাত-দিন-রাত → এরপর কী আসবে? → দিন!
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      ক্লাস ১-২ এ আমরা শিখি — 🔴🟡🔴🟡 → পরের রং কী?<br>
+      <strong>প্রোগ্রামিং-এ প্যাটার্ন রিকগনিশন:</strong> কম্পিউটারও এভাবেই নিয়ম খুঁজে বের করে। লুপ (পুনরাবৃত্তি) শেখার এটাই প্রথম ধাপ!
+    </div>
+  </div>
+  
+  <!-- Score Display -->
+  <div class="text-end mb-3">
+    <span class="score-badge"><i class="fa-solid fa-star me-1"></i>স্কোর: <span id="totalScore">0</span>/6</span>
+  </div>
+  
+  <!-- Game Grid -->
+  <div class="game-grid">
+    
+    <!-- গেম ১: রং দিয়ে -->
+    <div class="game-card" data-game="1">
+      <div class="game-title">
+        <i class="fa-solid fa-palette"></i> খেলা ১: রং প্যাটার্ন
+      </div>
+      <div class="pattern-box" id="pattern1">
+        <span class="pattern-item">🔴</span>
+        <span class="pattern-item">🟡</span>
+        <span class="pattern-item">🔴</span>
+        <span class="pattern-item">🟡</span>
+        <span class="pattern-item">🔴</span>
+        <span class="pattern-item">🟡</span>
+        <span class="pattern-item">?</span>
+      </div>
+      <div class="options-grid" data-game-id="1" data-correct="🟡">
+        <div class="option-btn" data-value="🔴">🔴 লাল</div>
+        <div class="option-btn" data-value="🟡">🟡 হলুদ</div>
+        <div class="option-btn" data-value="🔵">🔵 নীল</div>
+      </div>
+      <div class="game-feedback" id="feedback1"></div>
+    </div>
+    
+    <!-- গেম ২: ফল দিয়ে -->
+    <div class="game-card" data-game="2">
+      <div class="game-title">
+        <i class="fa-solid fa-apple-alt"></i> খেলা ২: ফল প্যাটার্ন
+      </div>
+      <div class="pattern-box" id="pattern2">
+        <span class="pattern-item">🍎</span>
+        <span class="pattern-item">🍌</span>
+        <span class="pattern-item">🍎</span>
+        <span class="pattern-item">🍌</span>
+        <span class="pattern-item">🍎</span>
+        <span class="pattern-item">?</span>
+      </div>
+      <div class="options-grid" data-game-id="2" data-correct="🍌">
+        <div class="option-btn" data-value="🍎">🍎 আপেল</div>
+        <div class="option-btn" data-value="🍌">🍌 কলা</div>
+        <div class="option-btn" data-value="🍊">🍊 কমলা</div>
+      </div>
+      <div class="game-feedback" id="feedback2"></div>
+    </div>
+    
+    <!-- গেম ৩: প্রাণী দিয়ে -->
+    <div class="game-card" data-game="3">
+      <div class="game-title">
+        <i class="fa-solid fa-paw"></i> খেলা ৩: প্রাণী প্যাটার্ন
+      </div>
+      <div class="pattern-box" id="pattern3">
+        <span class="pattern-item">🐱</span>
+        <span class="pattern-item">🐶</span>
+        <span class="pattern-item">🐱</span>
+        <span class="pattern-item">🐶</span>
+        <span class="pattern-item">🐱</span>
+        <span class="pattern-item">?</span>
+      </div>
+      <div class="options-grid" data-game-id="3" data-correct="🐶">
+        <div class="option-btn" data-value="🐱">🐱 বিড়াল</div>
+        <div class="option-btn" data-value="🐶">🐶 কুকুর</div>
+        <div class="option-btn" data-value="🐭">🐭 ইঁদুর</div>
+      </div>
+      <div class="game-feedback" id="feedback3"></div>
+    </div>
+    
+    <!-- গেম ৪: ইমোজি প্যাটার্ন -->
+    <div class="game-card" data-game="4">
+      <div class="game-title">
+        <i class="fa-solid fa-face-smile"></i> খেলা ৪: ইমোজি প্যাটার্ন
+      </div>
+      <div class="pattern-box" id="pattern4">
+        <span class="pattern-item">😊</span>
+        <span class="pattern-item">😂</span>
+        <span class="pattern-item">😊</span>
+        <span class="pattern-item">😂</span>
+        <span class="pattern-item">😊</span>
+        <span class="pattern-item">?</span>
+      </div>
+      <div class="options-grid" data-game-id="4" data-correct="😂">
+        <div class="option-btn" data-value="😊">😊 হাসি</div>
+        <div class="option-btn" data-value="😂">😂 হাসি</div>
+        <div class="option-btn" data-value="😢">😢 কান্না</div>
+      </div>
+      <div class="game-feedback" id="feedback4"></div>
+    </div>
+    
+    <!-- গেম ৫: সংখ্যা প্যাটার্ন -->
+    <div class="game-card" data-game="5">
+      <div class="game-title">
+        <i class="fa-solid fa-hashtag"></i> খেলা ৫: সংখ্যা প্যাটার্ন
+      </div>
+      <div class="pattern-box" id="pattern5">
+        <span class="pattern-item">১</span>
+        <span class="pattern-item">২</span>
+        <span class="pattern-item">১</span>
+        <span class="pattern-item">২</span>
+        <span class="pattern-item">১</span>
+        <span class="pattern-item">?</span>
+      </div>
+      <div class="options-grid" data-game-id="5" data-correct="২">
+        <div class="option-btn" data-value="১">১</div>
+        <div class="option-btn" data-value="২">২</div>
+        <div class="option-btn" data-value="৩">৩</div>
+      </div>
+      <div class="game-feedback" id="feedback5"></div>
+    </div>
+    
+    <!-- গেম ৬: আকৃতি প্যাটার্ন -->
+    <div class="game-card" data-game="6">
+      <div class="game-title">
+        <i class="fa-solid fa-shapes"></i> খেলা ৬: আকৃতি প্যাটার্ন
+      </div>
+      <div class="pattern-box" id="pattern6">
+        <span class="pattern-item">⬛</span>
+        <span class="pattern-item">⬜</span>
+        <span class="pattern-item">⬛</span>
+        <span class="pattern-item">⬜</span>
+        <span class="pattern-item">⬛</span>
+        <span class="pattern-item">?</span>
+      </div>
+      <div class="options-grid" data-game-id="6" data-correct="⬜">
+        <div class="option-btn" data-value="⬛">⬛ কালো বর্গ</div>
+        <div class="option-btn" data-value="⬜">⬜ সাদা বর্গ</div>
+        <div class="option-btn" data-value="🔺">🔺 ত্রিভুজ</div>
+      </div>
+      <div class="game-feedback" id="feedback6"></div>
+    </div>
+  </div>
+  
+  <!-- Movement Game -->
+  <div class="movement-game">
+    <div class="game-title">
+      <i class="fa-solid fa-person-walking"></i> খেলা ৭: শরীরের নড়াচড়া প্যাটার্ন
+    </div>
+    <div class="movement-pattern" id="movementPattern">
+      👏 👏 🦶 👏 👏 ?
+    </div>
+    <div class="options-grid">
+      <div class="option-btn" onclick="checkMovement('👏')">👏 হাততালি</div>
+      <div class="option-btn" onclick="checkMovement('🦶')">🦶 পা ঠোকা</div>
+    </div>
+    <div class="game-feedback" id="movementFeedback"></div>
+  </div>
+  
+  <!-- Real Life Examples -->
+  <div class="math-box" style="margin-top: 1rem;">
+    <div class="math-box-title">
+      <i class="fa-solid fa-earth-asia me-2"></i>বাস্তব জীবনের উদাহরণ
+    </div>
+    <div class="real-life-grid">
+      <div class="real-card">
+        <div>🌞 → 🌙 → 🌞 → 🌙 → ?</div>
+        <div class="mt-2"><strong>উত্তর:</strong> 🌞 দিন</div>
+      </div>
+      <div class="real-card">
+        <div>সোম → মঙ্গল → বুধ → ?</div>
+        <div class="mt-2"><strong>উত্তর:</strong> বৃহস্পতিবার</div>
+      </div>
+      <div class="real-card">
+        <div>১ → ৩ → ৫ → ৭ → ?</div>
+        <div class="mt-2"><strong>উত্তর:</strong> ৯</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Coding Connection Box -->
+  <div class="math-box" style="border-left-color: #28a745;">
+    <div class="math-box-title">
+      <i class="fa-solid fa-code me-2"></i>কোডিংয়ের সাথে সংযোগ
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      কম্পিউটারও এভাবেই প্যাটার্ন খুঁজে বের করে! আমরা যখন কোড লিখি, তখন অনেক সময় একই জিনিস বারবার হয়।
+      সেই নিয়ম খুঁজে বের করাই <strong>প্যাটার্ন রিকগনিশন</strong>। এখান থেকে পরে <strong>লুপ (Loop)</strong> শেখা সহজ হবে!
+      <div class="code-box mt-2" style="background:#0f0f23; padding:0.8rem; border-radius:10px;">
+        <i class="fa-solid fa-code me-2"></i> for (let i = 0; i < 5; i++) { <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;👏 হাততালি দাও<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;🦶 পা ঠোকা<br>
+        }
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>প্যাটার্ন সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. 🔴🟡🔴🟡🔴 → এর পরে কী আসবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> 🔴</label>
+        <label class="option"><input type="radio" name="q1" value="1"> 🟡</label>
+        <label class="option"><input type="radio" name="q1" value="2"> 🔵</label>
+      </div>
+      <div class="feedback" id="feedback_mcq1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">২. 🍎🍌🍎🍌🍎 → এর পরে কী আসবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> 🍎</label>
+        <label class="option"><input type="radio" name="q2" value="1"> 🍊</label>
+        <label class="option"><input type="radio" name="q2" value="2"> 🍌</label>
+      </div>
+      <div class="feedback" id="feedback_mcq2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. প্যাটার্ন রিকগনিশন মানে কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> পুনরাবৃত্তির নিয়ম খুঁজে বের করা</label>
+        <label class="option"><input type="radio" name="q3" value="1"> সংখ্যা যোগ করা</label>
+        <label class="option"><input type="radio" name="q3" value="2"> ছবি আঁকা</label>
+      </div>
+      <div class="feedback" id="feedback_mcq3"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllMcq()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: লুপ (Loop)
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      প্যাটার্ন রিকগনিশন শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Pattern Recognition Game
+  // ==========================================
+  
+  let gameScores = {
+    1: false, 2: false, 3: false, 4: false, 5: false, 6: false, movement: false
+  };
+  let totalCorrect = 0;
+  
+  function updateTotalScore() {
+    document.getElementById('totalScore').innerText = totalCorrect;
+  }
+  
+  function createConfetti() {
+    for (let i = 0; i < 50; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  function checkGame(gameId, selectedValue, correctValue, element) {
+    if (gameScores[gameId]) return;
+    
+    const feedback = document.getElementById(`feedback${gameId}`);
+    
+    if (selectedValue === correctValue) {
+      gameScores[gameId] = true;
+      totalCorrect++;
+      updateTotalScore();
+      element.classList.add('correct');
+      feedback.innerHTML = '✅ সঠিক! তুমি প্যাটার্নটি বুঝতে পেরেছো! 🎉';
+      feedback.style.color = '#90ee90';
+      createConfetti();
+    } else {
+      element.classList.add('wrong');
+      feedback.innerHTML = `❌ ভুল! প্যাটার্নটি ছিল ${correctValue}। আবার চেষ্টা করো!`;
+      feedback.style.color = '#ff8888';
+      setTimeout(() => {
+        element.classList.remove('wrong');
+      }, 800);
+    }
+  }
+  
+  // Movement Game
+  function checkMovement(selected) {
+    if (gameScores.movement) return;
+    
+    const feedback = document.getElementById('movementFeedback');
+    const correctAnswer = '🦶';
+    
+    if (selected === correctAnswer) {
+      gameScores.movement = true;
+      totalCorrect++;
+      updateTotalScore();
+      feedback.innerHTML = '✅ সঠিক! প্যাটার্নটি ছিল: 👏 👏 🦶 👏 👏 🦶';
+      feedback.style.color = '#90ee90';
+      createConfetti();
+    } else {
+      feedback.innerHTML = '❌ ভুল! প্যাটার্নটি দেখো: 👏 👏 🦶 👏 👏 ? → পরেরটা হবে 🦶';
+      feedback.style.color = '#ff8888';
+    }
+  }
+  
+  // Initialize all game buttons
+  document.querySelectorAll('.options-grid').forEach(grid => {
+    const gameId = grid.getAttribute('data-game-id');
+    const correctValue = grid.getAttribute('data-correct');
+    
+    grid.querySelectorAll('.option-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selectedValue = btn.getAttribute('data-value');
+        checkGame(parseInt(gameId), selectedValue, correctValue, btn);
+      });
+    });
+  });
+  
+  // MCQ Check
+  function checkAllMcq() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback_mcq${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল!';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_pattern_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+    }
+  }
+  
+  function goToNextTopic() {
+    localStorage.setItem('tara_level3_topic3_completed', 'true');
+    window.location.href = 'topics/level-3/topic-3-4.html';
+  }
+  
+  window.checkMovement = checkMovement;
+  window.checkAllMcq = checkAllMcq;
+  window.goToNextTopic = goToNextTopic;
+</script>
+
+</body>
+</html>

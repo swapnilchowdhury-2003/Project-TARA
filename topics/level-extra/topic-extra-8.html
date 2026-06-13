@@ -1,0 +1,723 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | পলিমরফিজম (Polymorphism)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .example-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .example-title {
+      color: #ff8c00;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .animal-sound {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+      text-align: center;
+    }
+    
+    .animal-card {
+      background: rgba(255,140,0,0.1);
+      border-radius: 20px;
+      padding: 1rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+    
+    .animal-card:hover {
+      transform: scale(1.05);
+      background: rgba(255,140,0,0.2);
+    }
+    
+    .animal-emoji {
+      font-size: 3rem;
+    }
+    
+    .animal-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+      color: #ffaa44;
+    }
+    
+    .animal-sound-text {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    
+    .sound-box {
+      background: rgba(40,167,69,0.2);
+      border-radius: 20px;
+      padding: 1rem;
+      margin-top: 1rem;
+      text-align: center;
+      border: 1px solid #28a745;
+    }
+    
+    .polymorphism-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .polymorphism-card {
+      background: rgba(255,140,0,0.1);
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .animal-card {
+        padding: 0.5rem;
+      }
+      .animal-emoji {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-extra.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-shapes me-2"></i>পলিমরফিজম (Polymorphism)</h2>
+      <small>Level Extra · Topic 8</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level Extra · Topic 8</div>
+    <h1 class="topic-title">🎭 পলিমরফিজম (Polymorphism)</h1>
+    <div class="topic-description">
+      <strong>পলিমরফিজম</strong> মানে হলো <strong>একই নামের কাজ বিভিন্ন জিনিসের জন্য আলাদা আচরণ করা</strong>। যেমন: সব পাখি উড়তে পারে, কিন্তু প্রতিটি পাখি আলাদা ভাবে উড়ে!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🎭🐕🐱🐦</div>
+    <div class="story-title">📖 গল্প: প্রাণীদের ডাক</div>
+    <div class="story-text">
+      <strong>টুনুর বাড়িতে</strong> বিভিন্ন প্রাণী আছে — কুকুর, বিড়াল, পাখি। সব প্রাণী <strong>"ডাক"</strong> দিতে পারে, কিন্তু প্রত্যেকের ডাক আলাদা!<br><br>
+      🐕 <strong>কুকুর:</strong> "ঘেউ ঘেউ"<br>
+      🐱 <strong>বিড়াল:</strong> "মিউ মিউ"<br>
+      🐦 <strong>পাখি:</strong> "কু কু"<br><br>
+      সবাই একই কাজ করে (ডাক দেওয়া) কিন্তু <strong>আলাদা আলাদা ভাবে করে</strong>। এটাই <strong>পলিমরফিজম</strong>!<br>
+      <span class="story-highlight">📌 পলিমরফিজম = একই নামের কাজ, ভিন্ন আচরণ!</span>
+    </div>
+  </div>
+  
+  <!-- Easy Explanation -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-lightbulb me-2"></i>সহজ ভাষায়
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <p><strong>পলিমরফিজম</strong> মানে হলো <strong>একই নামের কাজ কিন্তু বিভিন্ন রকম বাস্তবায়ন</strong>।</p>
+      <p>যেমন: "আঁকা" কাজটি তুমি পেন্সিল দিয়ে আঁকতে পারো, রঙ দিয়ে আঁকতে পারো, ব্রাশ দিয়ে আঁকতে পারো — কাজ একই, পদ্ধতি আলাদা!</p>
+    </div>
+  </div>
+  
+  <!-- Interactive Animal Sound Game -->
+  <div class="example-card">
+    <div class="example-title">
+      <i class="fa-solid fa-volume-high me-2"></i>খেলা: প্রাণীদের ডাক শুনি
+    </div>
+    <div class="animal-sound">
+      <div class="animal-card" onclick="makeSound('🐕', 'ঘেউ ঘেউ 🐕')">
+        <div class="animal-emoji">🐕</div>
+        <div class="animal-name">কুকুর</div>
+        <div class="animal-sound-text">ডাক দাও →</div>
+      </div>
+      <div class="animal-card" onclick="makeSound('🐱', 'মিউ মিউ 🐱')">
+        <div class="animal-emoji">🐱</div>
+        <div class="animal-name">বিড়াল</div>
+        <div class="animal-sound-text">ডাক দাও →</div>
+      </div>
+      <div class="animal-card" onclick="makeSound('🐦', 'কু কু কু 🐦')">
+        <div class="animal-emoji">🐦</div>
+        <div class="animal-name">পাখি</div>
+        <div class="animal-sound-text">ডাক দাও →</div>
+      </div>
+      <div class="animal-card" onclick="makeSound('🐄', 'হাম্বা হাম্বা 🐄')">
+        <div class="animal-emoji">🐄</div>
+        <div class="animal-name">গরু</div>
+        <div class="animal-sound-text">ডাক দাও →</div>
+      </div>
+      <div class="animal-card" onclick="makeSound('🐸', 'টর টর 🐸')">
+        <div class="animal-emoji">🐸</div>
+        <div class="animal-name">ব্যাং</div>
+        <div class="animal-sound-text">ডাক দাও →</div>
+      </div>
+      <div class="animal-card" onclick="makeSound('🐒', 'কিচির মিচির 🐒')">
+        <div class="animal-emoji">🐒</div>
+        <div class="animal-name">বানর</div>
+        <div class="animal-sound-text">ডাক দাও →</div>
+      </div>
+    </div>
+    <div class="sound-box" id="soundBox">
+      <i class="fa-solid fa-ear-listen me-2"></i> একটি প্রাণী নির্বাচন করো...
+    </div>
+  </div>
+  
+  <!-- Real Life Examples -->
+  <div class="example-card">
+    <div class="example-title">
+      <i class="fa-solid fa-list-ul me-2"></i>বাস্তব জীবনের পলিমরফিজম
+    </div>
+    
+    <div class="polymorphism-grid">
+      <div class="polymorphism-card">
+        <div class="animal-emoji">📱</div>
+        <div class="animal-name">চার্জ দেওয়া</div>
+        <div class="animal-sound-text">USB দিয়ে চার্জ</div>
+        <div class="animal-sound-text">ওয়্যারলেস চার্জ</div>
+        <div class="animal-sound-text">ফাস্ট চার্জ</div>
+      </div>
+      <div class="polymorphism-card">
+        <div class="animal-emoji">🎨</div>
+        <div class="animal-name">আঁকা</div>
+        <div class="animal-sound-text">পেন্সিল দিয়ে</div>
+        <div class="animal-sound-text">রঙ দিয়ে</div>
+        <div class="animal-sound-text">ডিজিটাল আঁকা</div>
+      </div>
+      <div class="polymorphism-card">
+        <div class="animal-emoji">🚗</div>
+        <div class="animal-name">চালানো</div>
+        <div class="animal-sound-text">গাড়ি চালানো</div>
+        <div class="animal-sound-text">সাইকেল চালানো</div>
+        <div class="animal-sound-text">বাস চালানো</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- More Examples -->
+  <div class="example-card">
+    <div class="example-title">
+      <i class="fa-solid fa-list-check me-2"></i>আরও উদাহরণ
+    </div>
+    <p>🍕 <strong>রান্না করা</strong> — ভাজা, সেদ্ধ করা, বেক করা — সবই রান্না কিন্তু পদ্ধতি আলাদা!</p>
+    <p>📝 <strong>লেখা</strong> — কলম দিয়ে লেখা, পেন্সিল দিয়ে লেখা, কম্পিউটারে টাইপ করা</p>
+    <p>🎵 <strong>গান বাজানো</strong> — গিটার, পিয়ানো, বাঁশি — সবাই গান বাজায় কিন্তু আলাদা শব্দে</p>
+    <p>🏃 <strong>ব্যায়াম করা</strong> — দৌড়ানো, সাঁতার কাটা, যোগব্যায়াম</p>
+  </div>
+  
+  <!-- Simple Comparison -->
+  <div class="example-card">
+    <div class="example-title">
+      <i class="fa-solid fa-scale-balanced me-2"></i>ইনহেরিটেন্স বনাম পলিমরফিজম
+    </div>
+    <div style="overflow-x: auto;">
+      <table style="width:100%; border-collapse: collapse;">
+        <tr style="border-bottom: 1px solid #ff8c00;">
+          <th style="padding: 0.5rem; text-align: left; color: #ff8c00;">ইনহেরিটেন্স</th>
+          <th style="padding: 0.5rem; text-align: left; color: #ff8c00;">পলিমরফিজম</th>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <td style="padding: 0.5rem;">বৈশিষ্ট্য ও কাজ পাস করা</td>
+          <td style="padding: 0.5rem;">একই কাজ বিভিন্ন ভাবে করা</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <td style="padding: 0.5rem;">প্যারেন্ট → চাইল্ড</td>
+          <td style="padding: 0.5rem;">একই নাম, আলাদা আচরণ</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <td style="padding: 0.5rem;">কুকুর পশুর সব পায়</td>
+          <td style="padding: 0.5rem;">কুকুর ও বিড়ালের ডাক আলাদা</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Four Pillars Summary -->
+  <div class="example-card">
+    <div class="example-title">
+      <i class="fa-solid fa-crown me-2"></i>অবজেক্ট ওরিয়েন্টেড প্রোগ্রামিংয়ের চার স্তম্ভ
+    </div>
+    <div class="polymorphism-grid">
+      <div class="polymorphism-card" style="border-color: #ff8c00;">
+        <div class="animal-emoji">📦</div>
+        <div class="animal-name">এনক্যাপসুলেশন</div>
+        <div class="animal-sound-text">লুকানো</div>
+      </div>
+      <div class="polymorphism-card" style="border-color: #28a745;">
+        <div class="animal-emoji">🌳</div>
+        <div class="animal-name">ইনহেরিটেন্স</div>
+        <div class="animal-sound-text">উত্তরাধিকার</div>
+      </div>
+      <div class="polymorphism-card" style="border-color: #ff8c00;">
+        <div class="animal-emoji">🎭</div>
+        <div class="animal-name">পলিমরফিজম</div>
+        <div class="animal-sound-text">বহুরূপী</div>
+      </div>
+      <div class="polymorphism-card" style="border-color: #28a745;">
+        <div class="animal-emoji">🤖</div>
+        <div class="animal-name">অ্যাবস্ট্রাকশন</div>
+        <div class="animal-sound-text">সরলীকরণ</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>পলিমরফিজম সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. পলিমরফিজম (Polymorphism) মানে কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> সবকিছু একই রাখা</label>
+        <label class="option"><input type="radio" name="q1" value="1"> একই নামের কাজ বিভিন্ন আচরণ করা</label>
+        <label class="option"><input type="radio" name="q1" value="2"> জিনিস লুকিয়ে রাখা</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">২. কুকুর ও বিড়াল উভয়েই "ডাক" দেয় — কিন্তু ডাকের ধরন আলাদা। এটি কীসের উদাহরণ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> পলিমরফিজম</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ইনহেরিটেন্স</label>
+        <label class="option"><input type="radio" name="q2" value="2"> এনক্যাপসুলেশন</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৩. পলিমরফিজমের বাংলা অর্থ কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> একরূপী</label>
+        <label class="option"><input type="radio" name="q3" value="1"> গোপন</label>
+        <label class="option"><input type="radio" name="q3" value="2"> বহুরূপী</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৪. "আঁকা" কাজটি পেন্সিল, রঙ ও ব্রাশ দিয়ে করা যায় — এটি কীসের উদাহরণ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> ইনহেরিটেন্স</label>
+        <label class="option"><input type="radio" name="q4" value="1"> পলিমরফিজম</label>
+        <label class="option"><input type="radio" name="q4" value="2"> লুপ</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৫. পলিমরফিজম কোডিং-এ কী সুবিধা দেয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> একই নামের কাজ বিভিন্ন জায়গায় ব্যবহার করা</label>
+        <label class="option"><input type="radio" name="q5" value="1"> কোড লিখতে সময় বেশি লাগে</label>
+        <label class="option"><input type="radio" name="q5" value="2"> কোড বোঝা কঠিন হয়</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button (Level Extra Complete) -->
+  <button class="next-btn" onclick="goToLevelQuiz()">
+    <i class="fa-solid fa-clipboard-list me-2"></i>Level Extra Quiz দাও
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      পলিমরফিজম শিখে ফেলেছো? এখন Level Extra এর Quiz দাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Polymorphism Topic (Last Part)
+  // ==========================================
+  
+  // Make sound function for animal game
+  function makeSound(animal, sound) {
+    const soundBox = document.getElementById('soundBox');
+    soundBox.innerHTML = `<i class="fa-solid fa-volume-high me-2"></i> 🎶 ${animal} ডাকছে: <strong>"${sound}"</strong> 🎶`;
+    soundBox.style.background = 'rgba(40,167,69,0.3)';
+    createConfetti();
+    
+    setTimeout(() => {
+      soundBox.style.background = 'rgba(40,167,69,0.2)';
+    }, 1000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // Show temporary message
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_polymorphism_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি পলিমরফিজম পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  function goToLevelQuiz() {
+    localStorage.setItem('tara_levelExtra_completed', 'true');
+    window.location.href = '../../quiz/quiz.html?level=extra';
+  }
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.makeSound = makeSound;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToLevelQuiz = goToLevelQuiz;
+</script>
+
+</body>
+</html>

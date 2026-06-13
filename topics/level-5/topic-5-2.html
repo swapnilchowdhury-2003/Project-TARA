@@ -1,0 +1,816 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | নেস্টেড লুপ (Nested Loop)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .topic-description {
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Multiplication Table Game */
+    .table-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    
+    .number-input {
+      width: 100px;
+      padding: 0.8rem;
+      font-size: 1.2rem;
+      text-align: center;
+      border-radius: 15px;
+      border: 2px solid #ff8c00;
+      background: #0f0f23;
+      color: white;
+    }
+    
+    .generate-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+    }
+    
+    .table-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+      margin: 1rem 0;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .table-cell {
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
+      padding: 0.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    /* Pattern Game */
+    .pattern-control {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .pattern-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      align-items: center;
+    }
+    
+    .pattern-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .pattern-star {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      animation: popIn 0.2s ease;
+    }
+    
+    .draw-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      margin: 0.3rem;
+    }
+    
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* Result Box */
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    /* Challenge Box */
+    .challenge-question {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .table-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .pattern-star {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-5.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-cubes me-2"></i>নেস্টেড লুপ (Nested Loop)</h2>
+      <small>Level 5 · Topic 2</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 5 · Topic 2</div>
+    <h1 class="topic-title">🔄 নেস্টেড লুপ (Nested Loop)</h1>
+    <div class="topic-description">
+      <strong>নেস্টেড লুপ</strong> মানে হলো <strong>লুপের ভিতরে আরেকটি লুপ</strong>। যেমন: প্রতিটি দিনের জন্য ঘণ্টা ধরে কাজ করা!<br>
+      বাইরের লুপ ১বার ঘুরলে, ভেতরের লুপ পুরোটা ঘুরে। এভাবে অনেকগুলো কাজ সহজে করা যায়!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">📅⏰</div>
+    <div class="story-title">📖 গল্প: স্কুলের সময়সূচি ও তারকা আঁকা</div>
+    <div class="story-text">
+      <strong>রিয়া</strong> তার স্কুলের সপ্তাহের সময়সূচি বানাতে চায়।<br>
+      সপ্তাহে <strong>৫ দিন</strong> স্কুল যায়। প্রতিদিন <strong>৬টি করে পিরিয়ড</strong> হয়।<br>
+      রিয়া চিন্তা করল — "প্রতিটি দিনের জন্য, আমাকে ৬টি পিরিয়ড লিখতে হবে!"<br><br>
+      এটাই <strong>নেস্টেড লুপ</strong> — বাইরের লুপ দিনের জন্য (৫ বার), ভেতরের লুপ পিরিয়ডের জন্য (৬ বার)!<br><br>
+      আরেকদিন রিয়া <strong>তারকা</strong> দিয়ে প্যাটার্ন আঁকছে — ৫ লাইন, প্রতি লাইনে ৫টি করে তারকা।<br>
+      <span class="story-highlight">📌 এটাই <strong>নেস্টেড লুপ</strong> — লুপের ভিতরে লুপ!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>নেস্টেড লুপের উদাহরণ:</strong><br>
+      🗓️ <strong>গুণের নামতা:</strong> ১ থেকে ১০ পর্যন্ত সংখ্যার নামতা বানাতে — বাইরের লুপ ১-১০, ভেতরের লুপও ১-১০<br>
+      ⭐ <strong>তারকা প্যাটার্ন:</strong> ৫ লাইন, প্রতিটি লাইনে ৫টি করে তারকা<br>
+      🎯 <strong>মোট কাজ:</strong> বাইরের লুপের সংখ্যা × ভেতরের লুপের সংখ্যা
+    </div>
+  </div>
+  
+  <!-- Game Container -->
+  <div class="game-container">
+    
+    <!-- Game 1: Multiplication Table (Nested Loop) -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-table"></i> খেলা ১: গুণের নামতা (নেস্টেড লুপ)
+      </div>
+      
+      <div class="table-control">
+        <label>কত পর্যন্ত নামতা দেখতে চাও?</label>
+        <input type="number" id="tableNumber" class="number-input" min="1" max="12" value="5">
+        <button class="generate-btn" onclick="generateMultiplicationTable()">
+          <i class="fa-solid fa-play me-1"></i>নামতা তৈরি করো
+        </button>
+      </div>
+      
+      <div class="table-grid" id="tableGrid">
+        <div class="table-cell text-muted">একটি সংখ্যা দিন</div>
+      </div>
+      
+      <div class="result-box" id="tableResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> একটি সংখ্যা লিখে "নামতা তৈরি করো" চাপো। বাইরের লুপ (১ থেকে ওই সংখ্যা পর্যন্ত), ভেতরের লুপও একই!
+      </div>
+    </div>
+    
+    <!-- Game 2: Star Pattern (Nested Loop) -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-star"></i> খেলা ২: তারকা প্যাটার্ন (নেস্টেড লুপ)
+      </div>
+      
+      <div class="pattern-control">
+        <div class="table-control">
+          <label>কত লাইন তৈরি করবে?</label>
+          <input type="number" id="patternSize" class="number-input" min="1" max="8" value="5">
+          <button class="generate-btn" onclick="generateStarPattern()">
+            <i class="fa-solid fa-play me-1"></i>প্যাটার্ন তৈরি করো
+          </button>
+        </div>
+      </div>
+      
+      <div class="pattern-grid" id="patternGrid">
+        <div class="text-muted">একটি সংখ্যা দিন</div>
+      </div>
+      
+      <div class="result-box" id="patternResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> একটি সংখ্যা লিখে "প্যাটার্ন তৈরি করো" চাপো। বাইরের লুপ লাইনের জন্য, ভেতরের লুপ তারকার জন্য!
+      </div>
+    </div>
+  </div>
+  
+  <!-- Nested Loop Challenge Box -->
+  <div class="math-box" style="border-left-color: #28a745;">
+    <div class="math-box-title">
+      <i class="fa-solid fa-puzzle-piece me-2"></i>নেস্টেড লুপ চ্যালেঞ্জ!
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ১:</strong> ৫ দিন এবং প্রতিদিন ৬ পিরিয়ড থাকলে মোট কতটি পিরিয়ড হবে? (নেস্টেড লুপের মোট কাজ)<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(1, '৩০টি (৫ × ৬)')">উত্তর দেখো</button>
+        <span id="challenge1" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ২:</strong> ৩ লাইন, প্রতি লাইনে ৪টি করে তারকা এঁকলে মোট কতটি তারকা হবে?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(2, '১২টি (৩ × ৪)')">উত্তর দেখো</button>
+        <span id="challenge2" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question">
+        <strong>📌 প্রশ্ন ৩:</strong> নেস্টেড লুপ মানে কী?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(3, 'লুপের ভিতরে আরেকটি লুপ')">উত্তর দেখো</button>
+        <span id="challenge3" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>নেস্টেড লুপ সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. নেস্টেড লুপ কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> একটি মাত্র লুপ</label>
+        <label class="option"><input type="radio" name="q1" value="1"> লুপের ভিতরে আরেকটি লুপ</label>
+        <label class="option"><input type="radio" name="q1" value="2"> লুপের বাইরে আরেকটি লুপ</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">২. বাইরের লুপ ৩ বার এবং ভেতরের লুপ ৪ বার ঘুরলে মোট কতবার কাজ হবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> ১২ বার</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ৭ বার</label>
+        <label class="option"><input type="radio" name="q2" value="2"> ৩ বার</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. নিচের কোনটি নেস্টেড লুপের বাস্তব উদাহরণ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> সপ্তাহের প্রতিদিনের জন্য ঘণ্টা ধরে কাজ করা</label>
+        <label class="option"><input type="radio" name="q3" value="1"> একবার দৌড়ানো</label>
+        <label class="option"><input type="radio" name="q3" value="2"> একবার হাততালি দেওয়া</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৪. ৫×৫ তারকা প্যাটার্ন এঁকতে কতটি লুপ দরকার?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> ১টি লুপ</label>
+        <label class="option"><input type="radio" name="q4" value="1"> ৩টি লুপ</label>
+        <label class="option"><input type="radio" name="q4" value="2"> ২টি লুপ (নেস্টেড)</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৫. গুণের নামতা তৈরি করতে কোন ধরনের লুপ সবচেয়ে ভালো?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> একটি মাত্র লুপ</label>
+        <label class="option"><input type="radio" name="q5" value="1"> নেস্টেড লুপ</label>
+        <label class="option"><input type="radio" name="q5" value="2"> কোন লুপ লাগে না</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: ফ্যাক্টরিয়াল
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      নেস্টেড লুপ শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Nested Loop Topic
+  // ==========================================
+  
+  // Game 1: Multiplication Table (Nested Loop)
+  function generateMultiplicationTable() {
+    const num = parseInt(document.getElementById('tableNumber').value);
+    const container = document.getElementById('tableGrid');
+    const resultDiv = document.getElementById('tableResult');
+    
+    if (isNaN(num) || num < 1 || num > 12) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> দয়া করে ১ থেকে ১২ এর মধ্যে একটি সংখ্যা দিন!';
+      resultDiv.style.background = '#dc3545';
+      setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 2000);
+      return;
+    }
+    
+    container.innerHTML = '';
+    let tableHTML = '';
+    
+    // Nested Loop: Outer loop for rows (i from 1 to num)
+    for (let i = 1; i <= num; i++) {
+      // Inner loop for columns (j from 1 to num)
+      for (let j = 1; j <= num; j++) {
+        tableHTML += `<div class="table-cell">${i} × ${j} = ${i * j}</div>`;
+      }
+    }
+    
+    container.innerHTML = tableHTML;
+    resultDiv.innerHTML = `<i class="fa-regular fa-circle-check me-1"></i> 🎉 ${num} পর্যন্ত নামতা তৈরি হলো! বাইরের লুপ (১-${num}), ভেতরের লুপ (১-${num}) — মোট ${num * num} টি ফলাফল!`;
+    resultDiv.style.background = '#28a745';
+    setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 3000);
+    createConfetti();
+  }
+  
+  // Game 2: Star Pattern (Nested Loop)
+  function generateStarPattern() {
+    const size = parseInt(document.getElementById('patternSize').value);
+    const container = document.getElementById('patternGrid');
+    const resultDiv = document.getElementById('patternResult');
+    
+    if (isNaN(size) || size < 1 || size > 8) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> দয়া করে ১ থেকে ৮ এর মধ্যে একটি সংখ্যা দিন!';
+      resultDiv.style.background = '#dc3545';
+      setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 2000);
+      return;
+    }
+    
+    container.innerHTML = '';
+    let patternHTML = '';
+    
+    // Nested Loop: Outer loop for rows (lines)
+    for (let i = 1; i <= size; i++) {
+      let rowHTML = '<div class="pattern-row">';
+      // Inner loop for stars in each row
+      for (let j = 1; j <= i; j++) {
+        rowHTML += `<div class="pattern-star">⭐</div>`;
+      }
+      rowHTML += '</div>';
+      patternHTML += rowHTML;
+    }
+    
+    container.innerHTML = patternHTML;
+    resultDiv.innerHTML = `<i class="fa-regular fa-circle-check me-1"></i> 🎉 ${size} লাইনের তারকা প্যাটার্ন তৈরি হলো! বাইরের লুপ লাইনের জন্য (১-${size}), ভেতরের লুপ তারকার জন্য — মোট ${(size * (size + 1)) / 2} টি তারকা!`;
+    resultDiv.style.background = '#28a745';
+    setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 3000);
+    createConfetti();
+  }
+  
+  // Challenge Reveal
+  function revealChallenge(id, answer) {
+    const span = document.getElementById(`challenge${id}`);
+    span.innerHTML = answer;
+    createConfetti();
+    showMessage(`✅ উত্তর: ${answer}`);
+  }
+  
+  // Show temporary message
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_nestedloop_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি নেস্টেড লুপ পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  // Next Topic
+  function goToNextTopic() {
+    localStorage.setItem('tara_level5_topic2_completed', 'true');
+    window.location.href = 'topics/level-5/topic-5-3.html';
+  }
+  
+  // Add animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.generateMultiplicationTable = generateMultiplicationTable;
+  window.generateStarPattern = generateStarPattern;
+  window.revealChallenge = revealChallenge;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,814 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | ম্যাট্রিক্স (Matrix)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Matrix Grid */
+    .matrix-grid {
+      display: inline-grid;
+      gap: 0.5rem;
+      background: rgba(0,0,0,0.3);
+      padding: 1rem;
+      border-radius: 20px;
+      margin: 1rem auto;
+    }
+    
+    .matrix-cell {
+      background: linear-gradient(135deg, #2a2a4a, #1a1a3e);
+      border-radius: 12px;
+      padding: 0.8rem;
+      text-align: center;
+      min-width: 70px;
+      border: 1px solid #ff8c00;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    
+    .matrix-cell.highlight {
+      background: #28a745;
+      border-color: #90ee90;
+      transform: scale(1.05);
+    }
+    
+    .matrix-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    
+    .matrix-label {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+    
+    .matrix-control {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .coord-input {
+      width: 80px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      text-align: center;
+      border-radius: 15px;
+      border: 2px solid #ff8c00;
+      background: #0f0f23;
+      color: white;
+      margin: 0.2rem;
+    }
+    
+    .search-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      margin: 0.3rem;
+    }
+    
+    .search-btn.reset {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    /* Fruit Matrix */
+    .fruit-matrix {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .matrix-cell {
+        min-width: 50px;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+      }
+      .coord-input {
+        width: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-6.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-table me-2"></i>ম্যাট্রিক্স (Matrix)</h2>
+      <small>Level 6 · Topic 1</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 6 · Topic 1</div>
+    <h1 class="topic-title">📊 ম্যাট্রিক্স (Matrix)</h1>
+    <div class="topic-description">
+      <strong>ম্যাট্রিক্স</strong> মানে হলো <strong>সারি ও কলামে সাজানো সংখ্যা বা জিনিসের আয়তাকার তালিকা</strong>। যেমন: ৩ সারি এবং ৩ কলামের একটি বর্গক্ষেত্র!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🧩📐</div>
+    <div class="story-title">📖 গল্প: টুনুর চকলেট বাক্স</div>
+    <div class="story-text">
+      <strong>টুনু</strong> তার জন্মদিনে ৩×৩ সাইজের একটি চকলেট বাক্স পেল। বাক্সটিতে ৩টি সারি (row) এবং ৩টি কলাম (column) আছে!<br><br>
+      🍫 <strong>সারি ০, কলাম ০</strong> → প্রথম ঘর<br>
+      🍫 <strong>সারি ১, কলাম ২</strong> → দ্বিতীয় সারির তৃতীয় ঘর<br><br>
+      টুনু যখন বলে — <strong>"সারি ১, কলাম ১ এ কী আছে?"</strong>, তুমি সহজেই উত্তর দিতে পারো!<br>
+      <span class="story-highlight">📌 ম্যাট্রিক্স = সারি ও কলামে সাজানো ডাটার তালিকা!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>ম্যাট্রিক্সের নিয়ম:</strong><br>
+      • একটি 3×3 ম্যাট্রিক্সে 3টি সারি (row) এবং 3টি কলাম (column) থাকে<br>
+      • প্রতিটি ঘর চিহ্নিত করা হয় (সারি নম্বর, কলাম নম্বর) দিয়ে<br>
+      • সারি ও কলামের নম্বর শুরু হয় <strong>০</strong> থেকে!<br>
+      যেমন: <strong>[1][2]</strong> মানে ২য় সারির ৩য় কলাম!
+    </div>
+  </div>
+  
+  <!-- Game 1: Number Matrix -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-calculator"></i> খেলা ১: সংখ্যার ম্যাট্রিক্স
+    </div>
+    
+    <div style="text-align: center;">
+      <div id="numberMatrix" class="matrix-grid" style="display: inline-grid;"></div>
+    </div>
+    
+    <div class="matrix-control">
+      <label>সারি (Row): </label>
+      <input type="number" id="rowInput" class="coord-input" min="0" max="2" value="0">
+      <label>কলাম (Column): </label>
+      <input type="number" id="colInput" class="coord-input" min="0" max="2" value="0">
+      <button class="search-btn" onclick="showMatrixValue()">
+        <i class="fa-solid fa-magnifying-glass me-1"></i>মান দেখাও
+      </button>
+    </div>
+    
+    <div class="result-box" id="matrixResult">
+      <i class="fa-regular fa-lightbulb me-1"></i> একটি সারি ও কলাম নম্বর লিখে "মান দেখাও" চাপো।
+    </div>
+  </div>
+  
+  <!-- Game 2: Fruit Matrix -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-apple-alt"></i> খেলা ২: ফলের ম্যাট্রিক্স
+    </div>
+    
+    <div style="text-align: center;">
+      <div id="fruitMatrix" class="matrix-grid" style="display: inline-grid;"></div>
+    </div>
+    
+    <div class="matrix-control">
+      <label>সারি (Row): </label>
+      <input type="number" id="fruitRow" class="coord-input" min="0" max="2" value="0">
+      <label>কলাম (Column): </label>
+      <input type="number" id="fruitCol" class="coord-input" min="0" max="2" value="0">
+      <button class="search-btn" onclick="showFruitValue()">
+        <i class="fa-solid fa-magnifying-glass me-1"></i>ফল দেখাও
+      </button>
+    </div>
+    
+    <div class="result-box" id="fruitResult">
+      <i class="fa-regular fa-lightbulb me-1"></i> একটি সারি ও কলাম নম্বর লিখে "ফল দেখাও" চাপো।
+    </div>
+  </div>
+  
+  <!-- Quick Challenge -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-brain"></i> দ্রুত চ্যালেঞ্জ
+    </div>
+    <div class="word-box" style="background: rgba(0,0,0,0.3); border-radius: 15px; padding: 1rem;">
+      <p style="text-align:center">📌 একটি 3×3 ম্যাট্রিক্সে <strong>সারি ২, কলাম ১</strong> বলতে কী বোঝায়?</p>
+      <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+        <button class="search-btn" onclick="challengeAnswer('তৃতীয় সারির দ্বিতীয় ঘর')">তৃতীয় সারির দ্বিতীয় ঘর</button>
+        <button class="search-btn" onclick="challengeAnswer('দ্বিতীয় সারির তৃতীয় ঘর')">দ্বিতীয় সারির তৃতীয় ঘর</button>
+        <button class="search-btn" onclick="challengeAnswer('প্রথম সারির প্রথম ঘর')">প্রথম সারির প্রথম ঘর</button>
+      </div>
+      <div class="result-box mt-2" id="challengeResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> সঠিক উত্তর বাছো!
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>ম্যাট্রিক্স সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">১. ম্যাট্রিক্স কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> সারি ও কলামে সাজানো তালিকা</label>
+        <label class="option"><input type="radio" name="q1" value="1"> শুধু একটি সংখ্যা</label>
+        <label class="option"><input type="radio" name="q1" value="2"> একটি শব্দ</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">২. 3×3 ম্যাট্রিক্সে কয়টি সারি থাকে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> 2টি</label>
+        <label class="option"><input type="radio" name="q2" value="1"> 4টি</label>
+        <label class="option"><input type="radio" name="q2" value="2"> 3টি</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. ম্যাট্রিক্সের প্রথম সারির প্রথম ঘরের ইনডেক্স কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> [0][0]</label>
+        <label class="option"><input type="radio" name="q3" value="1"> [1][1]</label>
+        <label class="option"><input type="radio" name="q3" value="2"> [0][1]</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৪. 3×3 ম্যাট্রিক্সে মোট কয়টি ঘর থাকে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> 6টি</label>
+        <label class="option"><input type="radio" name="q4" value="1"> 9টি</label>
+        <label class="option"><input type="radio" name="q4" value="2"> 12টি</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৫. [1][2] মানে কোন ঘর?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> দ্বিতীয় সারির তৃতীয় কলাম</label>
+        <label class="option"><input type="radio" name="q5" value="1"> প্রথম সারির দ্বিতীয় কলাম</label>
+        <label class="option"><input type="radio" name="q5" value="2"> তৃতীয় সারির প্রথম কলাম</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: ফাংশন (Function)
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      ম্যাট্রিক্স শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Matrix Topic
+  // ==========================================
+  
+  // Number Matrix 3x3
+  const numberMatrix = [
+    [5, 8, 2],
+    [7, 3, 9],
+    [4, 1, 6]
+  ];
+  
+  // Fruit Matrix 3x3
+  const fruitMatrix = [
+    ["🍎", "🍌", "🍊"],
+    ["🍇", "🥭", "🍓"],
+    ["🍉", "🍒", "🍑"]
+  ];
+  
+  // Display Number Matrix
+  function displayNumberMatrix() {
+    const container = document.getElementById('numberMatrix');
+    container.style.gridTemplateColumns = `repeat(3, 1fr)`;
+    container.innerHTML = '';
+    
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        const cell = document.createElement('div');
+        cell.className = 'matrix-cell';
+        cell.textContent = numberMatrix[i][j];
+        cell.setAttribute('data-row', i);
+        cell.setAttribute('data-col', j);
+        container.appendChild(cell);
+      }
+    }
+  }
+  
+  function showMatrixValue() {
+    const row = parseInt(document.getElementById('rowInput').value);
+    const col = parseInt(document.getElementById('colInput').value);
+    const resultDiv = document.getElementById('matrixResult');
+    const cells = document.querySelectorAll('#numberMatrix .matrix-cell');
+    
+    if (row >= 0 && row < 3 && col >= 0 && col < 3) {
+      const value = numberMatrix[row][col];
+      resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> সারি ${row}, কলাম ${col} → মান: <strong>${value}</strong>`;
+      resultDiv.style.background = '#28a745';
+      
+      // Highlight the cell
+      cells.forEach(cell => {
+        const cellRow = parseInt(cell.getAttribute('data-row'));
+        const cellCol = parseInt(cell.getAttribute('data-col'));
+        if (cellRow === row && cellCol === col) {
+          cell.classList.add('highlight');
+          setTimeout(() => cell.classList.remove('highlight'), 1000);
+        } else {
+          cell.classList.remove('highlight');
+        }
+      });
+    } else {
+      resultDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-1"></i> ভুল ইনডেক্স! সারি 0-2, কলাম 0-2 এর মধ্যে দিন।`;
+      resultDiv.style.background = '#dc3545';
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 2000);
+  }
+  
+  // Display Fruit Matrix
+  function displayFruitMatrix() {
+    const container = document.getElementById('fruitMatrix');
+    container.style.gridTemplateColumns = `repeat(3, 1fr)`;
+    container.innerHTML = '';
+    
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        const cell = document.createElement('div');
+        cell.className = 'matrix-cell';
+        cell.textContent = fruitMatrix[i][j];
+        cell.style.fontSize = '1.8rem';
+        cell.setAttribute('data-row', i);
+        cell.setAttribute('data-col', j);
+        container.appendChild(cell);
+      }
+    }
+  }
+  
+  function showFruitValue() {
+    const row = parseInt(document.getElementById('fruitRow').value);
+    const col = parseInt(document.getElementById('fruitCol').value);
+    const resultDiv = document.getElementById('fruitResult');
+    const cells = document.querySelectorAll('#fruitMatrix .matrix-cell');
+    
+    if (row >= 0 && row < 3 && col >= 0 && col < 3) {
+      const value = fruitMatrix[row][col];
+      resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> সারি ${row}, কলাম ${col} → ফল: <strong>${value}</strong>`;
+      resultDiv.style.background = '#28a745';
+      
+      // Highlight the cell
+      cells.forEach(cell => {
+        const cellRow = parseInt(cell.getAttribute('data-row'));
+        const cellCol = parseInt(cell.getAttribute('data-col'));
+        if (cellRow === row && cellCol === col) {
+          cell.classList.add('highlight');
+          setTimeout(() => cell.classList.remove('highlight'), 1000);
+        } else {
+          cell.classList.remove('highlight');
+        }
+      });
+    } else {
+      resultDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-1"></i> ভুল ইনডেক্স! সারি 0-2, কলাম 0-2 এর মধ্যে দিন।`;
+      resultDiv.style.background = '#dc3545';
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 2000);
+  }
+  
+  // Challenge
+  function challengeAnswer(answer) {
+    const resultDiv = document.getElementById('challengeResult');
+    const correct = 'তৃতীয় সারির দ্বিতীয় ঘর';
+    
+    if (answer === correct) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> ✅ সঠিক! সারি ২ মানে তৃতীয় সারি, কলাম ১ মানে দ্বিতীয় কলাম!';
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+    } else {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ❌ ভুল! সারি ২ মানে তৃতীয় সারি, কলাম ১ মানে দ্বিতীয় কলাম। আবার চেষ্টা করো।';
+      resultDiv.style.background = '#dc3545';
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_matrix_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি ম্যাট্রিক্স পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  function goToNextTopic() {
+    localStorage.setItem('tara_level6_topic1_completed', 'true');
+    window.location.href = 'topics/level-6/topic-6-2.html';
+  }
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.showMatrixValue = showMatrixValue;
+  window.showFruitValue = showFruitValue;
+  window.challengeAnswer = challengeAnswer;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+  
+  // Initialize
+  displayNumberMatrix();
+  displayFruitMatrix();
+</script>
+
+</body>
+</html>

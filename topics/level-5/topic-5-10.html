@@ -1,0 +1,806 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | প্যালিন্ড্রোম (Palindrome)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .word-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      text-align: center;
+    }
+    
+    .mirror-box {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .mirror-card {
+      background: linear-gradient(135deg, #2a2a4a, #1a1a3e);
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+      min-width: 120px;
+      border: 2px solid #ff8c00;
+    }
+    
+    .mirror-card.palindrome {
+      border-color: #28a745;
+      background: rgba(40,167,69,0.3);
+    }
+    
+    .mirror-card.not-palindrome {
+      border-color: #dc3545;
+      background: rgba(220,53,69,0.2);
+    }
+    
+    .mirror-word {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    
+    .mirror-status {
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    
+    .search-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .search-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      margin: 0.3rem;
+    }
+    
+    .search-btn.reset {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    .palindrome-check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    
+    .palindrome-input {
+      padding: 0.6rem;
+      font-size: 1rem;
+      border-radius: 15px;
+      border: 2px solid #ff8c00;
+      background: #0f0f23;
+      color: white;
+      width: 200px;
+      text-align: center;
+    }
+    
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .mirror-card {
+        min-width: 90px;
+        padding: 0.5rem;
+      }
+      .mirror-word {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-5.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-arrow-right-arrow-left me-2"></i>প্যালিন্ড্রোম (Palindrome)</h2>
+      <small>Level 5 · Topic 10</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 5 · Topic 10</div>
+    <h1 class="topic-title">🪞 প্যালিন্ড্রোম (Palindrome)</h1>
+    <div class="topic-description">
+      <strong>প্যালিন্ড্রোম</strong> মানে হলো সেই সব শব্দ বা সংখ্যা যেগুলো <strong>সামনে থেকে পড়লে যেমন, পেছন থেকে পড়লেও ঠিক তেমনই</strong> হয়!<br>
+      যেমন: <strong>MADAM</strong>, <strong>RADAR</strong>, <strong>121</strong>, <strong>LEVEL</strong>
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🪞✨</div>
+    <div class="story-title">📖 গল্প: আয়নার শব্দ</div>
+    <div class="story-text">
+      <strong>টুনু</strong> একটি ম্যাজিক আয়না পেল। আয়নায় যে শব্দ দেখাতো, উল্টো দিক থেকেও একই দেখাতো!<br><br>
+      🪞 <strong>MADAM</strong> শব্দটি আয়নায় দিল → সামনে MADAM, পেছনে MADAM → একই!<br>
+      🪞 <strong>RADAR</strong> শব্দটি → সামনে RADAR, পেছনে RADAR → একই!<br>
+      🪞 কিন্তু <strong>FISH</strong> শব্দটি → সামনে FISH, পেছনে HSIF → আলাদা!<br><br>
+      টুনু বুঝতে পারল — যে শব্দ সামনে-পেছনে একই থাকে, সেটাই <strong>প্যালিন্ড্রোম</strong>!<br>
+      <span class="story-highlight">📌 প্যালিন্ড্রোম = একই থাকে সামনে-পেছনে!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>প্যালিন্ড্রোমের উদাহরণ:</strong><br>
+      • <strong>MADAM</strong> → সামনে MADAM, পেছনে MADAM ✅<br>
+      • <strong>RADAR</strong> → RADAR, RADAR ✅<br>
+      • <strong>121</strong> → 121, 121 ✅<br>
+      • <strong>APPLE</strong> → APPLE, ELPPA ❌<br>
+      • <strong>BANANA</strong> → BANANA, ANANAB ❌
+    </div>
+  </div>
+  
+  <!-- Game 1: Which one is Palindrome? -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-question-circle"></i> খেলা ১: প্যালিন্ড্রোম চিনি?
+    </div>
+    
+    <div class="mirror-box" id="mirrorBox"></div>
+    
+    <div class="search-area">
+      <button class="search-btn reset" onclick="checkPalindromeGame()">
+        <i class="fa-solid fa-magnifying-glass me-1"></i>কোনটি প্যালিন্ড্রোম দেখাও
+      </button>
+    </div>
+    
+    <div class="result-box" id="gameResult">
+      <i class="fa-regular fa-lightbulb me-1"></i> "কোনটি প্যালিন্ড্রোম দেখাও" চাপো।
+    </div>
+  </div>
+  
+  <!-- Game 2: Check Your Own Word -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-pencil"></i> খেলা ২: তোমার শব্দ চেক করো
+    </div>
+    
+    <div class="word-box">
+      <div class="palindrome-check">
+        <input type="text" id="checkWord" class="palindrome-input" placeholder="শব্দ বা সংখ্যা লেখো">
+        <button class="search-btn" onclick="checkPalindrome()">
+          <i class="fa-solid fa-magnifying-glass me-1"></i>প্যালিন্ড্রোম কিনা দেখো
+        </button>
+        <button class="search-btn reset" onclick="clearCheck()">
+          <i class="fa-solid fa-eraser me-1"></i>সাফ করো
+        </button>
+      </div>
+    </div>
+    
+    <div class="result-box" id="checkResult">
+      <i class="fa-regular fa-lightbulb me-1"></i> একটি শব্দ বা সংখ্যা লিখে "প্যালিন্ড্রোম কিনা দেখো" চাপো।
+    </div>
+  </div>
+  
+  <!-- Quick Challenge -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-brain"></i> দ্রুত চ্যালেঞ্জ
+    </div>
+    <div class="word-box">
+      <p style="text-align:center">📌 নিচের কোনটি প্যালিন্ড্রোম?</p>
+      <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+        <button class="search-btn" onclick="quickChallenge('APPLE')">APPLE</button>
+        <button class="search-btn" onclick="quickChallenge('RADAR')">RADAR</button>
+        <button class="search-btn" onclick="quickChallenge('BANANA')">BANANA</button>
+        <button class="search-btn" onclick="quickChallenge('TABLE')">TABLE</button>
+      </div>
+      <div class="result-box mt-2" id="challengeResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> সঠিক উত্তর বাছো!
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>প্যালিন্ড্রোম সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">1. Palindrome means?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> Same forward and backward</label>
+        <label class="option"><input type="radio" name="q1" value="1"> Different forward and backward</label>
+        <label class="option"><input type="radio" name="q1" value="2"> Only numbers</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">2. Which one is a palindrome?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> TABLE</label>
+        <label class="option"><input type="radio" name="q2" value="1"> MADAM</label>
+        <label class="option"><input type="radio" name="q2" value="2"> CHAIR</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">3. Which number is a palindrome?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> 121</label>
+        <label class="option"><input type="radio" name="q3" value="1"> 123</label>
+        <label class="option"><input type="radio" name="q3" value="2"> 456</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">4. "LEVEL" is a palindrome?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> No</label>
+        <label class="option"><input type="radio" name="q4" value="1"> Maybe</label>
+        <label class="option"><input type="radio" name="q4" value="2"> Yes</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">5. What makes a word palindrome?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> Letters are same from both ends</label>
+        <label class="option"><input type="radio" name="q5" value="1"> It has 5 letters</label>
+        <label class="option"><input type="radio" name="q5" value="2"> It starts with A</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>Submit Answers
+    </button>
+  </div>
+  
+  <!-- Next Topic Button (Level 5 Complete) -->
+  <button class="next-btn" onclick="goToLevelQuiz()">
+    <i class="fa-solid fa-clipboard-list me-2"></i>Level 5 Quiz দাও
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      Palindrome শিখে ফেলেছো? এখন Level 5 এর Quiz দাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Palindrome Topic (Easy, English words)
+  // ==========================================
+  
+  // Game 1: Words to check
+  const wordList = [
+    { word: "MADAM", isPalindrome: true },
+    { word: "RADAR", isPalindrome: true },
+    { word: "LEVEL", isPalindrome: true },
+    { word: "APPLE", isPalindrome: false },
+    { word: "BANANA", isPalindrome: false },
+    { word: "CIVIC", isPalindrome: true }
+  ];
+  
+  let gameShown = false;
+  
+  function showMirrorBox() {
+    const container = document.getElementById('mirrorBox');
+    container.innerHTML = '';
+    
+    wordList.forEach((item, idx) => {
+      const card = document.createElement('div');
+      card.className = 'mirror-card';
+      card.setAttribute('data-index', idx);
+      card.setAttribute('data-palindrome', item.isPalindrome);
+      card.innerHTML = `
+        <div class="mirror-word">${item.word}</div>
+        <div class="mirror-status">?</div>
+      `;
+      container.appendChild(card);
+    });
+  }
+  
+  function checkPalindromeGame() {
+    const cards = document.querySelectorAll('#mirrorBox .mirror-card');
+    const resultDiv = document.getElementById('gameResult');
+    let palindromeList = [];
+    
+    cards.forEach((card, idx) => {
+      const isPalindrome = card.getAttribute('data-palindrome') === 'true';
+      const word = wordList[idx].word;
+      const statusDiv = card.querySelector('.mirror-status');
+      
+      if (isPalindrome) {
+        card.classList.add('palindrome');
+        statusDiv.innerHTML = '✅ Palindrome';
+        statusDiv.style.color = '#90ee90';
+        palindromeList.push(word);
+      } else {
+        card.classList.add('not-palindrome');
+        statusDiv.innerHTML = '❌ Not Palindrome';
+        statusDiv.style.color = '#ff8888';
+      }
+    });
+    
+    resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> 🎉 Palindrome গুলো হলো: ${palindromeList.join(', ')}`;
+    resultDiv.style.background = '#28a745';
+    createConfetti();
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 4000);
+  }
+  
+  // Game 2: Check user word
+  function checkPalindrome() {
+    const input = document.getElementById('checkWord');
+    let word = input.value.trim();
+    const resultDiv = document.getElementById('checkResult');
+    
+    if (word.length === 0) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> Please write a word or number!';
+      resultDiv.style.background = '#ffc107';
+      resultDiv.style.color = '#333';
+      setTimeout(() => {
+        resultDiv.style.background = 'rgba(0,0,0,0.3)';
+        resultDiv.style.color = 'white';
+      }, 2000);
+      return;
+    }
+    
+    // Convert to uppercase for case-insensitive check
+    const checkWord = word.toUpperCase();
+    const reversed = checkWord.split('').reverse().join('');
+    
+    if (checkWord === reversed) {
+      resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> ✅ "${word}" is a PALINDROME! It reads the same forward and backward!`;
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+    } else {
+      resultDiv.innerHTML = `<i class="fa-solid fa-circle-xmark me-1"></i> ❌ "${word}" is NOT a palindrome. Forward: ${checkWord}, Backward: ${reversed}`;
+      resultDiv.style.background = '#dc3545';
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 3000);
+  }
+  
+  function clearCheck() {
+    document.getElementById('checkWord').value = '';
+    document.getElementById('checkResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> Write a word or number and click "Check Palindrome"';
+  }
+  
+  // Quick Challenge
+  function quickChallenge(word) {
+    const resultDiv = document.getElementById('challengeResult');
+    const isPalindrome = word === word.split('').reverse().join('');
+    
+    if (isPalindrome && word === 'RADAR') {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> ✅ Correct! RADAR is a palindrome!';
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+    } else if (word === 'RADAR') {
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> ✅ Correct! RADAR is a palindrome!';
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+    } else {
+      resultDiv.innerHTML = `<i class="fa-solid fa-circle-xmark me-1"></i> ❌ "${word}" is not a palindrome. Try RADAR or MADAM!`;
+      resultDiv.style.background = '#dc3545';
+    }
+    
+    setTimeout(() => {
+      resultDiv.style.background = 'rgba(0,0,0,0.3)';
+    }, 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> Correct!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> Wrong! Try again.';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> Please select an answer.';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>You got ${correctCount} / ${total} correct!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_palindrome_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 Excellent! You have mastered Palindrome! 🎉');
+    }
+  }
+  
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  function goToLevelQuiz() {
+    localStorage.setItem('tara_level5_completed', 'true');
+    window.location.href = '../../quiz/quiz.html?level=5';
+  }
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.checkPalindromeGame = checkPalindromeGame;
+  window.checkPalindrome = checkPalindrome;
+  window.clearCheck = clearCheck;
+  window.quickChallenge = quickChallenge;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToLevelQuiz = goToLevelQuiz;
+  
+  // Initialize
+  showMirrorBox();
+</script>
+
+</body>
+</html>

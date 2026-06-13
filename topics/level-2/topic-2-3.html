@@ -1,0 +1,713 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | এক্সপ্রেশন</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    /* Header */
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    /* Main Container */
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    /* Topic Card */
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .topic-description {
+      font-size: 1rem;
+      color: #ccc;
+      line-height: 1.6;
+    }
+    
+    /* Math Box */
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .math-box-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 0.8rem;
+    }
+    
+    .math-box-text {
+      font-size: 1rem;
+      color: #ddd;
+      line-height: 1.6;
+    }
+    
+    /* Game Container */
+    .game-container {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-align: center;
+      color: #ff8c00;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Mango Banana Expression Box */
+    .expr-box {
+      background: rgba(255,140,0,0.1);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #ff8c00;
+    }
+    
+    .fruit-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    
+    .fruit-item {
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      min-width: 120px;
+    }
+    
+    .fruit-emoji {
+      font-size: 3rem;
+    }
+    
+    .fruit-name {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+    
+    .fruit-select {
+      background: #2a2a4a;
+      border: 2px solid #ff8c00;
+      border-radius: 15px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+    
+    .operator-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    
+    .op-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      background: #2a2a4a;
+      border: 2px solid #ff8c00;
+      color: #ff8c00;
+      font-size: 1.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .op-btn:hover, .op-btn.active {
+      background: #ff8c00;
+      color: #1a1a2e;
+      transform: scale(1.05);
+    }
+    
+    .expression-text {
+      background: #2a2a4a;
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .expression-code {
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: monospace;
+      color: #ff8c00;
+    }
+    
+    .result-box {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    .result-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    .result-value {
+      font-size: 2rem;
+      font-weight: 800;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    /* Next Button */
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    /* Footer */
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: scale(1); }
+      40% { transform: scale(1.2); }
+      70% { transform: scale(0.95); }
+    }
+    
+    .bounce {
+      animation: bounce 0.4s;
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .expression-code {
+        font-size: 1.2rem;
+      }
+      .op-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-2.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-code me-2"></i>এক্সপ্রেশন</h2>
+      <small>Level 2 · Topic 3</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 2 · Topic 3</div>
+    <h1 class="topic-title">📊 এক্সপ্রেশন (Expression)</h1>
+    <div class="topic-description">
+      <strong>এক্সপ্রেশন</strong> হলো একটি গণনার বাক্য। যেমন: <code>আম + কলা = মোট ফল</code> বা <code>৫ + ৩ = ৮</code>। 
+      প্রোগ্রামিং-এ এক্সপ্রেশন ব্যবহার করে আমরা বিভিন্ন মান গণনা করি।
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text">
+      ক্লাস ১-২ তে আমরা শিখি — <strong>"আম + আম + কলা = কত ফল?"</strong> এটাই এক্সপ্রেশন! 
+      গাণিতিক বাক্য যেমন <strong>(a + b) × c</strong> বা <strong>মোট দাম = দাম × পরিমাণ</strong> — এগুলো সব এক্সপ্রেশন।
+      প্রোগ্রামিং-এ এক্সপ্রেশন ব্যবহার করে অপারেটর ও ভেরিয়েবল দিয়ে হিসাব করি।
+    </div>
+  </div>
+  
+  <!-- Interactive Expression Game -->
+  <div class="game-container">
+    <div class="game-title">
+      <i class="fa-solid fa-gamepad me-2"></i>চলো খেলি! আম ও কলা দিয়ে এক্সপ্রেশন তৈরি করো
+    </div>
+    
+    <!-- Mango & Banana Expression -->
+    <div class="expr-box">
+      <div class="fruit-row">
+        <!-- Mango Box -->
+        <div class="fruit-item">
+          <div class="fruit-emoji">🥭</div>
+          <div class="fruit-name">আম</div>
+          <select class="fruit-select" id="mangoCount" onchange="updateExpression()">
+            <option value="1">১টি আম</option>
+            <option value="2" selected>২টি আম</option>
+            <option value="3">৩টি আম</option>
+            <option value="4">৪টি আম</option>
+            <option value="5">৫টি আম</option>
+          </select>
+        </div>
+        
+        <!-- Operator Buttons -->
+        <div class="operator-buttons">
+          <button class="op-btn" data-op="+" onclick="setExpressionOp('+')">+</button>
+          <button class="op-btn" data-op="-" onclick="setExpressionOp('-')">-</button>
+          <button class="op-btn" data-op="*" onclick="setExpressionOp('*')">×</button>
+        </div>
+        
+        <!-- Banana Box -->
+        <div class="fruit-item">
+          <div class="fruit-emoji">🍌</div>
+          <div class="fruit-name">কলা</div>
+          <select class="fruit-select" id="bananaCount" onchange="updateExpression()">
+            <option value="1">১টি কলা</option>
+            <option value="2" selected>২টি কলা</option>
+            <option value="3">৩টি কলা</option>
+            <option value="4">৪টি কলা</option>
+            <option value="5">৫টি কলা</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Expression Display -->
+      <div class="expression-text">
+        <div class="expression-code" id="expressionDisplay">
+          🥭 ২ + 🍌 ২ = ৪
+        </div>
+        <div class="text-muted small mt-1">এক্সপ্রেশন: <span id="expressionFull">mangoCount + bananaCount</span></div>
+      </div>
+      
+      <!-- Result Box -->
+      <div class="result-box">
+        <div class="result-label"><i class="fa-solid fa-equals me-1"></i>মোট ফল</div>
+        <div class="result-value" id="result">4</div>
+      </div>
+    </div>
+    
+    <div class="text-muted small text-center mt-2">
+      <i class="fa-solid fa-lightbulb me-1"></i> উপরের সংখ্যা ও অপারেটর পরিবর্তন করো। প্রতিবার এক্সপ্রেশন নিজেই বদলাবে!
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>জ্ঞান পরীক্ষা (MCQ)
+    </div>
+    
+    <!-- MCQ 1 -->
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">১. <strong>এক্সপ্রেশন</strong> বলতে কী বোঝায়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> একটি সংখ্যা</label>
+        <label class="option"><input type="radio" name="q1" value="1"> একটি শব্দ</label>
+        <label class="option"><input type="radio" name="q1" value="2"> একটি গণনার বাক্য</label>
+        <label class="option"><input type="radio" name="q1" value="3"> একটি ফলের নাম</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <!-- MCQ 2 -->
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">২. <strong>৩টি আম + ২টি কলা</strong> = কতটি ফল?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> ৪টি</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ৫টি</label>
+        <label class="option"><input type="radio" name="q2" value="2"> ৬টি</label>
+        <label class="option"><input type="radio" name="q2" value="3"> ৩টি</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <!-- MCQ 3 -->
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. <strong>৫টি কলা - ২টি কলা</strong> = কতটি কলা থাকবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> ৩টি</label>
+        <label class="option"><input type="radio" name="q3" value="1"> ৭টি</label>
+        <label class="option"><input type="radio" name="q3" value="2"> ১০টি</label>
+        <label class="option"><input type="radio" name="q3" value="3"> ২টি</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <!-- MCQ 4 -->
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৪. প্রোগ্রামিং-এ <strong>এক্সপ্রেশন</strong> এর উদাহরণ কোনটি?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> "হ্যালো"</label>
+        <label class="option"><input type="radio" name="q4" value="1"> mango</label>
+        <label class="option"><input type="radio" name="q4" value="2"> x + y</label>
+        <label class="option"><input type="radio" name="q4" value="3"> ৫</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <!-- MCQ 5 -->
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৫. <strong>৪টি আম × ২</strong> = কতটি আম হবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> ৬টি</label>
+        <label class="option"><input type="radio" name="q5" value="1"> ৮টি</label>
+        <label class="option"><input type="radio" name="q5" value="2"> ২টি</label>
+        <label class="option"><input type="radio" name="q5" value="3"> ৪টি</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" id="checkAnswersBtn" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" id="nextTopicBtn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: কাউন্টার
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      এক্সপ্রেশন শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - এক্সপ্রেশন টপিক
+  // ==========================================
+  
+  let currentOp = '+';
+  
+  // Update expression when values change
+  function updateExpression() {
+    const mango = parseInt(document.getElementById('mangoCount').value);
+    const banana = parseInt(document.getElementById('bananaCount').value);
+    let result = 0;
+    let symbol = currentOp;
+    
+    switch (currentOp) {
+      case '+':
+        result = mango + banana;
+        break;
+      case '-':
+        result = mango - banana;
+        break;
+      case '*':
+        result = mango * banana;
+        break;
+      default:
+        result = mango + banana;
+    }
+    
+    // Update display
+    const opSymbol = currentOp === '*' ? '×' : currentOp;
+    document.getElementById('expressionDisplay').innerHTML = `🥭 ${mango} ${opSymbol} 🍌 ${banana} = ${result}`;
+    document.getElementById('expressionFull').innerHTML = `mangoCount ${currentOp} bananaCount`;
+    document.getElementById('result').innerText = result;
+  }
+  
+  // Set operator
+  function setExpressionOp(op) {
+    currentOp = op;
+    
+    // Update active button style
+    const buttons = document.querySelectorAll('.op-btn');
+    buttons.forEach(btn => {
+      if (btn.getAttribute('data-op') === op) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+    
+    updateExpression();
+  }
+  
+  // Check all MCQ answers
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      const options = q.querySelectorAll('.option');
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    // Show overall result
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    
+    // Save to localStorage (for this topic only)
+    localStorage.setItem('tara_expression_mcq_score', correctCount);
+    
+    // Confetti if all correct
+    if (correctCount === total) {
+      createConfetti();
+    }
+  }
+  
+  // Create confetti effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // Add confetti animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Go to next topic
+  function goToNextTopic() {
+    localStorage.setItem('tara_level2_topic3_completed', 'true');
+    window.location.href = 'topics/level-2/topic-2-4.html';
+  }
+  
+  // Initialize
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.op-btn[data-op="+"]').classList.add('active');
+    updateExpression();
+  });
+</script>
+
+</body>
+</html>

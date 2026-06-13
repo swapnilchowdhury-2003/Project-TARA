@@ -1,0 +1,855 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | সর্টিং (Sorting)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .topic-description {
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Sorting Game Elements */
+    .sort-container {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .items-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    
+    .sort-item {
+      background: linear-gradient(135deg, #2a2a4a, #1a1a3e);
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 80px;
+      border: 2px solid #ff8c00;
+    }
+    
+    .sort-item:hover {
+      transform: scale(1.05);
+    }
+    
+    .sort-item.selected {
+      border-color: #28a745;
+      background: rgba(40,167,69,0.2);
+    }
+    
+    .sort-emoji {
+      font-size: 2rem;
+    }
+    
+    .sort-value {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 0.3rem;
+    }
+    
+    .sort-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      margin: 0.3rem;
+    }
+    
+    .sort-btn.reset {
+      background: linear-gradient(135deg, #dc3545, #c82333);
+    }
+    
+    .sort-btn.warning {
+      background: linear-gradient(135deg, #ffc107, #e0a800);
+      color: #333;
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    /* Number Sorting */
+    .number-bubbles {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .bubble {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .bubble:hover {
+      transform: scale(1.1);
+    }
+    
+    .bubble.selected {
+      box-shadow: 0 0 0 3px white, 0 0 0 6px #28a745;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .bounce {
+      animation: bounce 0.3s;
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .bubble {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+      .sort-item {
+        min-width: 60px;
+        padding: 0.5rem;
+      }
+      .sort-emoji {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-4.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-arrow-down-wide-short me-2"></i>সর্টিং (Sorting)</h2>
+      <small>Level 4 · Topic 3</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 4 · Topic 3</div>
+    <h1 class="topic-title">📊 সর্টিং (Sorting)</h1>
+    <div class="topic-description">
+      <strong>সর্টিং</strong> মানে হলো জিনিসগুলোকে <strong>সঠিক ক্রমে সাজানো</strong>। যেমন: ছোট থেকে বড়, ক থেকে জ, বা প্রথম থেকে শেষ!<br>
+      কম্পিউটারও এভাবেই ডাটা সাজায়!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">📚🎈</div>
+    <div class="story-title">📖 গল্প: মিমের বেলুন ও বইয়ের তাক</div>
+    <div class="story-text">
+      <strong>মিম</strong> খুব সাজানো-গোছানো মেয়ে। তার ৫টি বেলুন আছে — <strong>লাল, নীল, সবুজ, হলুদ, গোলাপি</strong>।<br>
+      সে বেলুনগুলোকে <strong>ছোট থেকে বড়</strong> সাজাতে চায়। কিন্তু এগুলো তো রঙের! তাই সে সাজালো <strong>বাংলা বর্ণমালার ক্রমে</strong> — <strong>গোলাপি, নীল, বেগুনি, লাল, সবুজ, হলুদ</strong>।<br><br>
+      তার আরও একটি <strong>বইয়ের তাক</strong> আছে। বইগুলো এলোমেলো আছে। সে বইগুলোকে <strong>ছোট থেকে বড়</strong> সাজাতে চায় — মানে পাতার সংখ্যা অনুযায়ী!<br><br>
+      <span class="story-highlight">📌 এটাই হলো <strong>সর্টিং</strong> — জিনিসগুলিকে নিয়ম অনুযায়ী সাজানো!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      ক্লাস ১-২ এ আমরা শিখি — <strong>"ছোট থেকে বড় সংখ্যা সাজানো"</strong> — এটাই সর্টিং!<br>
+      যেমন: ৩, ১, ৪, ২ → সাজালে → ১, ২, ৩, ৪<br>
+      <strong>কম্পিউটারও একই কাজ করে!</strong> ডাটা ছোট থেকে বড় বা বড় থেকে ছোট সাজায়।
+    </div>
+  </div>
+  
+  <!-- Game Container -->
+  <div class="game-container">
+    
+    <!-- Game 1: Fruit Sorting -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-apple-alt"></i> খেলা ১: ফল সাজাই
+      </div>
+      <div class="sort-container">
+        <div class="items-row" id="fruitRow">
+          <!-- Fruits will be added by JS -->
+        </div>
+        
+        <div class="text-center">
+          <button class="sort-btn" onclick="sortFruitsAscending()">
+            <i class="fa-solid fa-arrow-down-wide-short me-1"></i>ছোট থেকে বড় সাজাও (আ-অ)
+          </button>
+          <button class="sort-btn" onclick="sortFruitsDescending()">
+            <i class="fa-solid fa-arrow-up-wide-short me-1"></i>বড় থেকে ছোট সাজাও (অ-আ)
+          </button>
+          <button class="sort-btn reset" onclick="resetFruits()">
+            <i class="fa-solid fa-rotate-left me-1"></i>আসল অবস্থায় ফিরাও
+          </button>
+        </div>
+        
+        <div class="result-box" id="fruitResult">
+          <i class="fa-regular fa-lightbulb me-1"></i> এলোমেলো ফল আছে। বাটন চেপে সাজাও!
+        </div>
+      </div>
+    </div>
+    
+    <!-- Game 2: Number Sorting -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-hashtag"></i> খেলা ২: সংখ্যা সাজাই
+      </div>
+      <div class="sort-container">
+        <div class="number-bubbles" id="numberRow">
+          <!-- Numbers will be added by JS -->
+        </div>
+        
+        <div class="text-center">
+          <button class="sort-btn" onclick="sortNumbersAscending()">
+            <i class="fa-solid fa-arrow-down-1-9 me-1"></i>ছোট → বড় সাজাও
+          </button>
+          <button class="sort-btn" onclick="sortNumbersDescending()">
+            <i class="fa-solid fa-arrow-up-9-1 me-1"></i>বড় → ছোট সাজাও
+          </button>
+          <button class="sort-btn reset" onclick="resetNumbers()">
+            <i class="fa-solid fa-rotate-left me-1"></i>আসল অবস্থায় ফিরাও
+          </button>
+        </div>
+        
+        <div class="result-box" id="numberResult">
+          <i class="fa-regular fa-lightbulb me-1"></i> এলোমেলো সংখ্যা আছে। বাটন চেপে সাজাও!
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Challenge Box -->
+  <div class="math-box" style="border-left-color: #28a745;">
+    <div class="math-box-title">
+      <i class="fa-solid fa-puzzle-piece me-2"></i>সর্টিং চ্যালেঞ্জ!
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <p><strong>নিচের তালিকাগুলো সাজাতে সাহায্য করো:</strong></p>
+      <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+        <li>🍎, 🍌, 🍊, 🍇 → সাজানো ক্রম কী হবে? 
+          <span id="challenge1" style="color:#ffaa44;">?</span> 
+          <button class="btn btn-sm btn-outline-warning ms-2" onclick="revealChallenge(1, '🍎, 🍌, 🍊, 🍇')">উত্তর</button>
+        </li>
+        <li>৭, ২, ৯, ৪ → ছোট থেকে বড় সাজালে কী হবে? 
+          <span id="challenge2" style="color:#ffaa44;">?</span> 
+          <button class="btn btn-sm btn-outline-warning ms-2" onclick="revealChallenge(2, '২, ৪, ৭, ৯')">উত্তর</button>
+        </li>
+        <li>নীল, লাল, কালো, সাদা → বর্ণমালার ক্রমে সাজালে? 
+          <span id="challenge3" style="color:#ffaa44;">?</span> 
+          <button class="btn btn-sm btn-outline-warning ms-2" onclick="revealChallenge(3, 'কালো, নীল, লাল, সাদা')">উত্তর</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>সর্টিং সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">১. সর্টিং (Sorting) মানে কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> জিনিসকে সঠিক ক্রমে সাজানো</label>
+        <label class="option"><input type="radio" name="q1" value="1"> জিনিস মুছে ফেলা</label>
+        <label class="option"><input type="radio" name="q1" value="2"> জিনিস যোগ করা</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">২. ৫, ২, ৮, ১ সংখ্যাগুলো ছোট থেকে বড় সাজালে কী হবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> ৮, ৫, ২, ১</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ১, ২, ৫, ৮</label>
+        <label class="option"><input type="radio" name="q2" value="2"> ২, ৫, ১, ৮</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. 'গ', 'ক', 'খ', 'ঘ' বর্ণগুলো সঠিক ক্রমে সাজালে কী হবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> ক, খ, গ, ঘ</label>
+        <label class="option"><input type="radio" name="q3" value="1"> ঘ, গ, খ, ক</label>
+        <label class="option"><input type="radio" name="q3" value="2"> গ, ঘ, ক, খ</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৪. বড় থেকে ছোট সাজানো মানে কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> বেশি থেকে কম সাজানো</label>
+        <label class="option"><input type="radio" name="q4" value="1"> কম থেকে বেশি সাজানো</label>
+        <label class="option"><input type="radio" name="q4" value="2"> এলোমেলো রাখা</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: ব্রেক
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      সর্টিং শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Sorting Topic (No Code Syntax)
+  // ==========================================
+  
+  // Fruit Data
+  const originalFruits = [
+    { emoji: "🍎", name: "আপেল", bangla: "আ" },
+    { emoji: "🍌", name: "কলা", bangla: "ক" },
+    { emoji: "🍊", name: "কমলা", bangla: "ক" },
+    { emoji: "🍇", name: "আঙ্গুর", bangla: "আ" },
+    { emoji: "🥭", name: "আম", bangla: "আ" },
+    { emoji: "🍓", name: "স্ট্রবেরি", bangla: "স" },
+    { emoji: "🍉", name: "তরমুজ", bangla: "ত" }
+  ];
+  
+  let currentFruits = [...originalFruits];
+  
+  // Number Data
+  const originalNumbers = [7, 2, 9, 4, 1, 8, 5];
+  let currentNumbers = [...originalNumbers];
+  
+  // Initialize Fruit Display
+  function initFruits() {
+    const container = document.getElementById('fruitRow');
+    container.innerHTML = '';
+    
+    currentFruits.forEach((fruit, idx) => {
+      const fruitDiv = document.createElement('div');
+      fruitDiv.className = 'sort-item';
+      fruitDiv.innerHTML = `
+        <div class="sort-emoji">${fruit.emoji}</div>
+        <div class="sort-value">${fruit.name}</div>
+      `;
+      container.appendChild(fruitDiv);
+    });
+  }
+  
+  // Sort Fruits by Bangla Alphabet
+  function sortFruitsAscending() {
+    currentFruits.sort((a, b) => {
+      const order = { 'আ': 1, 'ক': 2, 'ত': 3, 'স': 4 };
+      const aOrder = order[a.bangla] || 5;
+      const bOrder = order[b.bangla] || 5;
+      return aOrder - bOrder;
+    });
+    initFruits();
+    showMessage('🍎 ফলগুলো বাংলা বর্ণমালা অনুযায়ী সাজানো হলো! (আ, ক, ত, স)');
+    document.getElementById('fruitResult').innerHTML = '<i class="fa-regular fa-circle-check me-1"></i> ফলগুলো সাজানো হয়েছে! দেখো কেমন সুন্দর হলো!';
+    createConfetti();
+  }
+  
+  function sortFruitsDescending() {
+    currentFruits.sort((a, b) => {
+      const order = { 'আ': 1, 'ক': 2, 'ত': 3, 'স': 4 };
+      const aOrder = order[a.bangla] || 5;
+      const bOrder = order[b.bangla] || 5;
+      return bOrder - aOrder;
+    });
+    initFruits();
+    showMessage('🍎 ফলগুলো উল্টো ক্রমে সাজানো হলো! (স, ত, ক, আ)');
+    document.getElementById('fruitResult').innerHTML = '<i class="fa-regular fa-circle-check me-1"></i> ফলগুলো উল্টো ক্রমে সাজানো হয়েছে!';
+    createConfetti();
+  }
+  
+  function resetFruits() {
+    currentFruits = [...originalFruits];
+    initFruits();
+    showMessage('🔄 ফলগুলো আবার এলোমেলো হয়ে গেল! আবার সাজাও!');
+    document.getElementById('fruitResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> ফলগুলো এলোমেলো হয়ে গেছে। আবার সাজাও!';
+  }
+  
+  // Initialize Number Display
+  function initNumbers() {
+    const container = document.getElementById('numberRow');
+    container.innerHTML = '';
+    
+    currentNumbers.forEach(num => {
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.textContent = num;
+      container.appendChild(bubble);
+    });
+  }
+  
+  function sortNumbersAscending() {
+    currentNumbers.sort((a, b) => a - b);
+    initNumbers();
+    showMessage('🔢 সংখ্যাগুলো ছোট থেকে বড় সাজানো হলো!');
+    document.getElementById('numberResult').innerHTML = '<i class="fa-regular fa-circle-check me-1"></i> সংখ্যাগুলো ছোট → বড় সাজানো হয়েছে!';
+    createConfetti();
+  }
+  
+  function sortNumbersDescending() {
+    currentNumbers.sort((a, b) => b - a);
+    initNumbers();
+    showMessage('🔢 সংখ্যাগুলো বড় থেকে ছোট সাজানো হলো!');
+    document.getElementById('numberResult').innerHTML = '<i class="fa-regular fa-circle-check me-1"></i> সংখ্যাগুলো বড় → ছোট সাজানো হয়েছে!';
+    createConfetti();
+  }
+  
+  function resetNumbers() {
+    currentNumbers = [...originalNumbers];
+    initNumbers();
+    showMessage('🔄 সংখ্যাগুলো আবার এলোমেলো হয়ে গেল! আবার সাজাও!');
+    document.getElementById('numberResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> সংখ্যাগুলো এলোমেলো হয়ে গেছে। আবার সাজাও!';
+  }
+  
+  // Challenge Reveal
+  function revealChallenge(id, answer) {
+    const span = document.getElementById(`challenge${id}`);
+    if (span.innerText === '?') {
+      span.innerText = answer;
+      createConfetti();
+      showMessage(`🎉 সঠিক! উত্তর: ${answer}`);
+    }
+  }
+  
+  // Show temporary message
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_sorting_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি সর্টিং পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  // Next Topic
+  function goToNextTopic() {
+    localStorage.setItem('tara_level4_topic3_completed', 'true');
+    window.location.href = 'topics/level-4/topic-4-4.html';
+  }
+  
+  // Add animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.sortFruitsAscending = sortFruitsAscending;
+  window.sortFruitsDescending = sortFruitsDescending;
+  window.resetFruits = resetFruits;
+  window.sortNumbersAscending = sortNumbersAscending;
+  window.sortNumbersDescending = sortNumbersDescending;
+  window.resetNumbers = resetNumbers;
+  window.revealChallenge = revealChallenge;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+  
+  // Initialize
+  initFruits();
+  initNumbers();
+</script>
+
+</body>
+</html>

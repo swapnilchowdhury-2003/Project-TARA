@@ -1,0 +1,740 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | ভেরিয়েবল (Variable) - খেলার ছলে শেখা</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2 family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    /* Story Box */
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-emoji {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .story-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+    
+    /* Interactive Box Game Styles */
+    .magic-game-card {
+      background: linear-gradient(135deg, #231942 0%, #5e548e 100%);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      border: 3px dashed #ff8c00;
+      box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+    }
+
+    .magic-box-container {
+      margin: 2rem auto;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .magic-box-container:active {
+      transform: scale(0.9);
+    }
+
+    .box-display {
+      font-size: 6rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .box-label {
+      background: #ff8c00;
+      color: #fff;
+      padding: 5px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 10px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+
+    .item-inside {
+      font-size: 3.5rem;
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    /* Story Cards for Examples */
+    .example-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .example-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .example-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .example-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255,140,0,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+    
+    .example-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ff8c00;
+    }
+    
+    .example-desc {
+      color: #ccc;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    
+    .variable-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 0.8rem;
+      margin-top: 0.5rem;
+      text-align: center;
+      font-family: monospace;
+      font-size: 1rem;
+      border: 1px dashed #ff8c00;
+    }
+    
+    /* Game Area */
+    .game-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .question-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    
+    .question-emoji {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option-btn {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid #ff8c00;
+      border-radius: 50px;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    
+    .option-btn:hover {
+      transform: scale(1.02);
+      background: rgba(255,140,0,0.2);
+    }
+    
+    .option-btn.correct {
+      background: #28a745;
+      border-color: #90ee90;
+    }
+    
+    .option-btn.wrong {
+      background: #dc3545;
+      border-color: #ff8888;
+    }
+    
+    .feedback-msg {
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    .feedback-msg.ok {
+      color: #90ee90;
+    }
+    
+    .feedback-msg.wrong {
+      color: #ff8888;
+    }
+    
+    /* Progress */
+    .progress-section {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .progress-bar-custom {
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      height: 10px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      background: linear-gradient(135deg, #28a745, #218838);
+      width: 0%;
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+    
+    .type-conclusion {
+      background: rgba(255,140,0,0.1);
+      border-radius: 15px;
+      padding: 0.8rem;
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.95rem;
+      border-left: 3px solid #ff8c00;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .option-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-1.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-box me-2"></i>ভেরিয়েবল (Variable)</h2>
+      <small>Level 1 · Topic 2</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 1 · Topic 2</div>
+    <h1 class="topic-title">📦 ভেরিয়েবল (Variable)</h1>
+    <div class="topic-description" style="color:#ccc;">
+      ভেরিয়েবল মানে হলো একটি <strong>নাম দেওয়া জাদুকরী বাক্স</strong>, যেখানে আমরা সুন্দর সুন্দর জিনিস রাখতে পারি এবং পরে চাইলে জিনিসগুলো বদলে ফেলতে পারি!
+    </div>
+  </div>
+  
+  <!-- Main Story -->
+  <div class="story-box">
+    <div class="story-emoji">🎁📦</div>
+    <div class="story-title">📖 গল্প: মিতুর ম্যাজিক বাক্স</div>
+    <div class="story-text">
+      <strong>মিতু</strong> একটি সুন্দর ম্যাজিক বাক্স পেল। বাক্সটির নাম দিল <strong>"গুপ্তধন"</strong>।<br><br>
+      🎁 সোমবার বাক্সের ভিতরে রাখল: <strong>🧸 পুতুল</strong><br>
+      🎁 মঙ্গলবার বের করে নতুন রাখল: <strong>🚗 গাড়ি</strong><br>
+      🎁 বুধবার আবার বদলে রাখল: <strong>⚽ বল</strong><br><br>
+      একটু খেয়াল করো! বাক্সের <strong>নাম কিন্তু একই</strong> আছে, শুধু <strong>ভিতরের জিনিসগুলো বদলে যাচ্ছে</strong>!<br>
+      <span class="story-highlight">📌 এই বাক্সটাই হলো আমাদের <strong>ভেরিয়েবল</strong> — একই নাম, কিন্তু বদলে যাওয়া মান!</span>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE BOX GAME -->
+  <div class="magic-game-card">
+    <h3 style="color: #ff8c00; font-weight: 700;">🎮 চলো ভেরিয়েবল নিয়ে খেলি!</h3>
+    <p style="color: #eee;">নিচের বাক্সটিতে বারবার চাপ দাও আর দেখো কীভাবে নাম ঠিক রেখে ভেতরের জিনিস বদলে যাচ্ছে!</p>
+    
+    <div class="magic-box-container" onclick="changeMagicItem()">
+      <div class="item-inside" id="magicItem">🧸</div>
+      <div class="box-display">📦</div>
+      <div class="box-label" id="boxLabel">ভেরিয়েবল বাক্স = "পুতুল"</div>
+    </div>
+    
+    <p class="mt-3" style="font-size: 0.95rem; color: #ffb703;" id="gameHint">
+      ✨ বাক্সের নাম কিন্তু "ম্যাজিক বাক্স" ই আছে, শুধু ভেতরের মান বদলাচ্ছে!
+    </p>
+  </div>
+  
+  <!-- Examples -->
+  <div class="example-card">
+    <div class="example-header">
+      <div class="example-icon">🍬</div>
+      <div class="example-name">ক্যান্ডির জার (CandyJar)</div>
+    </div>
+    <div class="example-desc">
+      রিমনের একটা ক্যান্ডির জার আছে, যার নাম <strong>"CandyJar"</strong>।<br>
+      সকালে জারে ছিল <strong>৩টি ক্যান্ডি</strong><br>
+      দুপুরে বন্ধু আরও ২টি ক্যান্ডি দিল এবং হয়ে গেল <strong>৫টি ক্যান্ডি</strong>
+    </div>
+    <div class="variable-box">
+      📦 CandyJar ছিল ৩ এখন হলো ৫ (একই নাম, বদলে যাওয়া জিনিস)
+    </div>
+  </div>
+  
+  <div class="example-card">
+    <div class="example-header">
+      <div class="example-icon">🎒</div>
+      <div class="example-name">স্কুল ব্যাগ (SchoolBag)</div>
+    </div>
+    <div class="example-desc">
+      মিতুর স্কুল ব্যাগের নাম <strong>"SchoolBag"</strong>।<br>
+      সোমবার ব্যাগে থাকে: <strong>বই এবং পেন্সিল</strong><br>
+      মঙ্গলবার ব্যাগে থাকে: <strong>স্কেল এবং রং পেন্সিল</strong>
+    </div>
+    <div class="variable-box">
+      📦 SchoolBag এর ভেতর সোমবারের বই বদলে মঙ্গলবারে রং পেন্সিল এলো
+    </div>
+  </div>
+  
+  <div class="example-card">
+    <div class="example-header">
+      <div class="example-icon">🥛</div>
+      <div class="example-name">পানির বোতল (WaterBottle)</div>
+    </div>
+    <div class="example-desc">
+      একটি বোতলের নাম <strong>"WaterBottle"</strong>।<br>
+      সকালে বোতলটি ছিল <strong>খালি</strong>, দুপুরে হলো <strong>অর্ধেক ভর্তি</strong> আর বিকেলে হলো <strong>পুরো ভর্তি</strong>!
+    </div>
+    <div class="variable-box">
+      📦 WaterBottle এর নাম ঠিক রেখে পানির পরিমাণ বদলে যাচ্ছে
+    </div>
+  </div>
+  
+  <!-- Progress Section -->
+  <div class="progress-section">
+    <div class="d-flex justify-content-between mb-2">
+      <span><i class="fa-solid fa-chart-line me-1"></i> অগ্রগতি</span>
+      <span id="progressText">0 / 4 প্রশ্ন সম্পন্ন</span>
+    </div>
+    <div class="progress-bar-custom">
+      <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+    </div>
+  </div>
+  
+  <!-- Game Section -->
+  <div class="game-section">
+    <div class="game-title">
+      <i class="fa-solid fa-gamepad me-2"></i>ভেরিয়েবল খেলা — সঠিক উত্তর দাও!
+    </div>
+    
+    <!-- Question 1 -->
+    <div class="question-card" id="q1">
+      <div class="question-text">
+        <span class="question-emoji">🍬</span> 
+        <strong>প্রশ্ন ১:</strong> রিমনের "CandyJar" নামের জারে সকালে ৩টি ক্যান্ডি ছিল। দুপুরে ক্যান্ডি হয়ে গেল ৫টি। 
+        এখানে জারের নাম এবং ভিতরের জিনিসের কী পরিবর্তন হলো?
+      </div>
+      <div class="options" id="q1Options">
+        <div class="option-btn" data-q="1" data-correct="true" data-value="variable">জারের নাম একই আছে, ভিতরের জিনিস বদলেছে — এটাই ভেরিয়েবল</div>
+        <div class="option-btn" data-q="1" data-correct="false" data-value="constant">জারের নাম বদলে গেছে, ভিতরের জিনিস একই আছে</div>
+        <div class="option-btn" data-q="1" data-correct="false" data-value="array">জারটা ভেঙে গেছে, নতুন জার আনতে হবে</div>
+      </div>
+      <div class="feedback-msg" id="fb1"></div>
+    </div>
+    
+    <!-- Question 2 -->
+    <div class="question-card" id="q2">
+      <div class="question-text">
+        <span class="question-emoji">🎒</span> 
+        <strong>প্রশ্ন ২:</strong> মিতুর স্কুল ব্যাগের নাম "SchoolBag"। সোমবার ব্যাগে বই ছিল, মঙ্গলবার সে রং পেন্সিল রাখল। 
+        এখানে কী বোঝা যায়?
+      </div>
+      <div class="options" id="q2Options">
+        <div class="option-btn" data-q="2" data-correct="true" data-value="variable">ব্যাগের নাম একই, ভিতরের জিনিস বদলাতে পারে — ভেরিয়েবল</div>
+        <div class="option-btn" data-q="2" data-correct="false" data-value="fixed">ব্যাগের নাম বদলাতে হবে</div>
+        <div class="option-btn" data-q="2" data-correct="false" data-value="empty">ব্যাগ ফেলে দিতে হবে</div>
+      </div>
+      <div class="feedback-msg" id="fb2"></div>
+    </div>
+    
+    <!-- Question 3 -->
+    <div class="question-card" id="q3">
+      <div class="question-text">
+        <span class="question-emoji">🥛</span> 
+        <strong>প্রশ্ন ৩:</strong> একটি বোতলের নাম "WaterBottle"। সকালে খালি, দুপুরে অর্ধেক ভর্তি, বিকেলে পুরো ভর্তি। 
+        এখানে কী পরিবর্তন হচ্ছে?
+      </div>
+      <div class="options" id="q3Options">
+        <div class="option-btn" data-q="3" data-correct="true" data-value="variable">বোতলের নাম একই, ভিতরের পানির পরিমাণ বদলাচ্ছে — ভেরিয়েবল</div>
+        <div class="option-btn" data-q="3" data-correct="false" data-value="name">বোতলের নাম প্রতিদিন বদলাতে হবে</div>
+        <div class="option-btn" data-q="3" data-correct="false" data-value="bottle">বোতলটা ফেলে দিতে হবে</div>
+      </div>
+      <div class="feedback-msg" id="fb3"></div>
+    </div>
+    
+    <!-- Question 4 -->
+    <div class="question-card" id="q4">
+      <div class="question-text">
+        <span class="question-emoji">📦</span> 
+        <strong>প্রশ্ন ৪:</strong> মিতুর একটি বাক্স আছে যার নাম "ToyBox"। প্রথমে বাক্সে ৫টি বই ছিল। পরে সে ৯টি কলম রেখে দিল। 
+        এই বাক্সটিকে আমরা কী বলব?
+      </div>
+      <div class="options" id="q4Options">
+        <div class="option-btn" data-q="4" data-correct="true" data-value="variable">ভেরিয়েবল — কারণ নাম একই, ভিতরের জিনিস বদলেছে</div>
+        <div class="option-btn" data-q="4" data-correct="false" data-value="constant">কনস্ট্যান্ট — কারণ মান বদলানো যাবে না</div>
+        <div class="option-btn" data-q="4" data-correct="false" data-value="array">এটাকে অ্যারে বলে</div>
+      </div>
+      <div class="feedback-msg" id="fb4"></div>
+    </div>
+  </div>
+  
+  <!-- Conclusion -->
+  <div class="type-conclusion">
+    📦 <strong>সহজ কথায়:</strong> ভেরিয়েবল হলো একটি নাম দেওয়া সুন্দর বাক্স, যার ভেতরের জিনিস আমরা যখন খুশি বদলে ফেলতে পারি!
+  </div>
+  
+  <!-- Next Button -->
+  <button class="next-btn" onclick="goToQuiz()">
+    <i class="fa-solid fa-clipboard-list me-2"></i>স্তরের কুইজ দাও
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      ভেরিয়েবল শিখে ফেলেছো? এখন লেভেল ১ এর কুইজ দাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Magic Box Items List
+  const magicItems = [
+    { emoji: "🧸", text: "পুতুল" },
+    { emoji: "🚗", text: "গাড়ি" },
+    { emoji: "⚽", text: "বল" },
+    { emoji: "🍕", text: "পিৎজা" },
+    { emoji: "🐱", text: "বিড়ালছানা" },
+    { emoji: "🚀", text: "রকেট" }
+  ];
+  let currentItemIndex = 0;
+
+  function changeMagicItem() {
+    currentItemIndex = (currentItemIndex + 1) % magicItems.length;
+    const item = magicItems[currentItemIndex];
+    
+    const emojiEl = document.getElementById('magicItem');
+    const labelEl = document.getElementById('boxLabel');
+    
+    // Animation Effect
+    emojiEl.style.transform = 'translateX(-50%) translateY(-50px) scale(0)';
+    emojiEl.style.opacity = '0';
+    
+    setTimeout(() => {
+      emojiEl.innerHTML = item.emoji;
+      labelEl.innerHTML = `ভেরিয়েবল বাক্স = "${item.text}"`;
+      emojiEl.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+      emojiEl.style.opacity = '1';
+    }, 200);
+  }
+
+  let answers = {
+    1: false,
+    2: false,
+    3: false,
+    4: false
+  };
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // Update Progress
+  function updateProgress() {
+    let completed = 0;
+    for (let i = 1; i <= 4; i++) {
+      if (answers[i]) completed++;
+    }
+    const percent = (completed / 4) * 100;
+    document.getElementById('progressFill').style.width = percent + '%';
+    document.getElementById('progressText').innerHTML = `${completed} / 4 প্রশ্ন সম্পন্ন`;
+    
+    if (completed === 4) {
+      const completeMsg = document.createElement('div');
+      completeMsg.className = 'alert alert-success mt-3 text-center';
+      completeMsg.innerHTML = '🎉 চমৎকার! তুমি ভেরিয়েবল পুরোপুরি বুঝতে পেরেছো! 🎉';
+      document.querySelector('.game-section').appendChild(completeMsg);
+      setTimeout(() => completeMsg.remove(), 3000);
+      createConfetti();
+    }
+  }
+  
+  // Check Answer
+  function checkAnswer(btn, qNum, isCorrect) {
+    if (answers[qNum]) return;
+    
+    const fbId = `fb${qNum}`;
+    const fb = document.getElementById(fbId);
+    const allOptions = btn.parentElement.querySelectorAll('.option-btn');
+    
+    if (isCorrect) {
+      btn.classList.add('correct');
+      const checkMark = document.createElement('span');
+      checkMark.innerHTML = ' ✓';
+      checkMark.style.marginLeft = '5px';
+      btn.appendChild(checkMark);
+      fb.innerHTML = '✅ সঠিক! দারুণ! 🎉';
+      fb.className = 'feedback-msg ok';
+      answers[qNum] = true;
+      updateProgress();
+      createConfetti();
+    } else {
+      btn.classList.add('wrong');
+      const wrongMark = document.createElement('span');
+      wrongMark.innerHTML = ' ✗';
+      wrongMark.style.marginLeft = '5px';
+      btn.appendChild(wrongMark);
+      fb.innerHTML = '❌ ভুল! আবার চেষ্টা করো। মনে রেখো, ভেরিয়েবল মানে নাম একই, কিন্তু ভেতরের জিনিস বদলে যায়!';
+      fb.className = 'feedback-msg wrong';
+      setTimeout(() => {
+        btn.classList.remove('wrong');
+        wrongMark.remove();
+      }, 800);
+    }
+    
+    if (isCorrect) {
+      allOptions.forEach(opt => {
+        opt.style.pointerEvents = 'none';
+        opt.style.opacity = '0.6';
+      });
+    }
+  }
+  
+  // Add event listeners to all option buttons
+  document.querySelectorAll('.option-btn').forEach(btn => {
+    const qNum = parseInt(btn.getAttribute('data-q'));
+    const isCorrect = btn.getAttribute('data-correct') === 'true';
+    btn.addEventListener('click', () => checkAnswer(btn, qNum, isCorrect));
+  });
+  
+  // Next - Go to Level 1 Quiz
+  function goToQuiz() {
+    localStorage.setItem('tara_level1_topic2_completed', 'true');
+    window.location.href = '../../quiz/quiz.html?level=1';
+  }
+  
+  window.goToQuiz = goToQuiz;
+  
+  // Add animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+</script>
+
+</body>
+</html>

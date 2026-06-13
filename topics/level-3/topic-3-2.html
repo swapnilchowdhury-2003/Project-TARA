@@ -1,0 +1,773 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | If/Else - শর্তের সিদ্ধান্ত</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    /* Header */
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    /* Main Container */
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    /* Topic Card */
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    /* Picture Box */
+    .picture-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .picture-box img {
+      max-width: 100%;
+      border-radius: 15px;
+    }
+    
+    /* Story Box */
+    .story-box {
+      background: rgba(255,140,0,0.1);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-left: 5px solid #ff8c00;
+    }
+    
+    .story-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 0.8rem;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #ddd;
+    }
+    
+    .code-box {
+      background: #0f0f23;
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-family: monospace;
+      font-size: 0.9rem;
+      border: 1px solid #ff8c00;
+    }
+    
+    /* Game Box */
+    .game-box {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+    }
+    
+    .money-display {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #ffaa44;
+      margin: 1rem 0;
+    }
+    
+    .item-select {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    
+    .item-card {
+      background: rgba(0,0,0,0.4);
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      min-width: 120px;
+    }
+    
+    .item-card:hover {
+      transform: scale(1.05);
+      border-color: #ff8c00;
+    }
+    
+    .item-card.selected {
+      border-color: #28a745;
+      background: rgba(40,167,69,0.2);
+    }
+    
+    .item-emoji {
+      font-size: 3rem;
+    }
+    
+    .item-name {
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+    
+    .item-price {
+      font-size: 0.8rem;
+      color: #ffaa44;
+    }
+    
+    .game-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      margin-top: 1rem;
+    }
+    
+    .game-result {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 15px;
+      font-weight: 600;
+    }
+    
+    /* Scenario Box */
+    .scenario-box {
+      background: rgba(40,167,69,0.1);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #28a745;
+    }
+    
+    .scenario-question {
+      font-size: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .emoji-options {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .emoji-option {
+      font-size: 3rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .emoji-option:hover {
+      transform: scale(1.2);
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .emoji-option.selected-correct {
+      background: #28a745;
+      animation: bounce 0.3s;
+    }
+    
+    .emoji-option.selected-wrong {
+      background: #dc3545;
+      animation: shake 0.3s;
+    }
+    
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    /* Theory Box */
+    .theory-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-right: 4px solid #ff8c00;
+    }
+    
+    .theory-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 0.8rem;
+    }
+    
+    /* Next Button */
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    /* Footer */
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .item-card {
+        min-width: 90px;
+      }
+      .item-emoji {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-3.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-code-branch me-2"></i>If/Else</h2>
+      <small>Level 3 · Topic 2</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 3 · Topic 2</div>
+    <h1 class="topic-title">🎯 If/Else - যদি/তাহলে/নাহলে</h1>
+    <div class="topic-description" style="color:#ccc;">
+      <strong>If/Else</strong> হলো প্রোগ্রামিং-এর সবচেয়ে গুরুত্বপূর্ণ সিদ্ধান্ত নেওয়ার নিয়ম।<br>
+      যদি একটি শর্ত সত্য হয়, তাহলে একটি কাজ করো। না হলে (else) অন্য কাজ করো।
+    </div>
+  </div>
+  
+  <!-- Picture Box -->
+  <div class="picture-box">
+    <img src="../../assets/images/pic4.png" alt="If/Else" onerror="this.src='https://placehold.co/600x250?text=If+Else+%F0%9F%8E%AF'">
+    <div class="picture-caption mt-2" style="color:#ccc;">
+      <i class="fa-solid fa-diagram-project me-1"></i> If/Else — শর্ত সত্য হলে এক কাজ, মিথ্যা হলে অন্য কাজ
+    </div>
+  </div>
+  
+  <!-- Story Box 1 -->
+  <div class="story-box">
+    <div class="story-title">
+      <i class="fa-solid fa-book-open me-2"></i>গল্প: নন্দির কেনাকাটা
+    </div>
+    <div class="story-text">
+      নন্দি দোকানে গেলো। তার কাছে কিছু টাকা আছে। দোকানদার বলল —<br>
+      <strong>"যদি তোমার ১০ টাকার বেশি থাকে, তাহলে তুমি চিপস কিনতে পারবে।<br>
+      না হলে (else), তুমি ক্যান্ডি কিনতে পারবে।"</strong>
+    </div>
+    <div class="code-box">
+      <i class="fa-solid fa-code me-2"></i> if (টাকা > ১০) {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;কিনবে = "চিপস 🍟";<br>
+      } else {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;কিনবে = "ক্যান্ডি 🍬";<br>
+      }
+    </div>
+  </div>
+  
+  <!-- Game Box - Interactive -->
+  <div class="game-box">
+    <div class="game-title">
+      <i class="fa-solid fa-gamepad me-2"></i>খেলা: নন্দির কেনাকাটা
+    </div>
+    <div class="money-display">
+      <i class="fa-solid fa-coins"></i> নন্দির কাছে: <span id="moneyAmount">12</span> টাকা
+    </div>
+    
+    <div class="item-select">
+      <div class="item-card" data-price="15" onclick="selectItem(this, 'chips')">
+        <div class="item-emoji">🍟</div>
+        <div class="item-name">চিপস</div>
+        <div class="item-price">১৫ টাকা</div>
+      </div>
+      <div class="item-card" data-price="5" onclick="selectItem(this, 'candy')">
+        <div class="item-emoji">🍬</div>
+        <div class="item-name">ক্যান্ডি</div>
+        <div class="item-price">৫ টাকা</div>
+      </div>
+    </div>
+    
+    <button class="game-btn" onclick="checkPurchase()">
+      <i class="fa-solid fa-cart-shopping me-2"></i>কেনাকাটা করো!
+    </button>
+    
+    <div class="game-result" id="gameResult"></div>
+  </div>
+  
+  <!-- Scenario Box -->
+  <div class="scenario-box">
+    <div class="story-title">
+      <i class="fa-solid fa-question-circle me-2"></i>পরিস্থিতি: নন্দির কাছে ১২ টাকা আছে
+    </div>
+    <div class="scenario-question">
+      নন্দি কী কিনবে? সঠিক ইমোজিতে চাপ দাও!
+    </div>
+    <div class="emoji-options">
+      <div class="emoji-option" onclick="answerScenario('chips', this)">🍟 চিপস</div>
+      <div class="emoji-option" onclick="answerScenario('candy', this)">🍬 ক্যান্ডি</div>
+    </div>
+    <div class="scenario-feedback mt-3" id="scenarioFeedback"></div>
+  </div>
+  
+  <!-- Theory Box -->
+  <div class="theory-box">
+    <div class="theory-title">
+      <i class="fa-solid fa-lightbulb me-2"></i>If/Else কীভাবে কাজ করে?
+    </div>
+    <div class="theory-text" style="color:#ddd;">
+      <p><strong>if (শর্ত) {</strong> → যদি শর্তটি সত্য হয়<br>
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;// সত্য হলে এই কাজ করো</strong><br>
+      <strong>} else {</strong> → যদি শর্তটি মিথ্যা হয়<br>
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;// মিথ্যা হলে এই কাজ করো</strong><br>
+      <strong>}</strong></p>
+      <p class="mt-2">📌 <strong>উদাহরণ:</strong> <code>if (টাকা > ১০) { চিপস } else { ক্যান্ডি }</code></p>
+      <p>🔹 যদি টাকা ১০-এর বেশি হয় → চিপস কিনবে<br>
+      🔹 যদি টাকা ১০ বা তার কম হয় → ক্যান্ডি কিনবে</p>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>If/Else সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">১. if-else ব্যবহার করা হয় কেন?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> শর্ত অনুযায়ী সিদ্ধান্ত নেওয়ার জন্য</label>
+        <label class="option"><input type="radio" name="q1" value="1"> বারবার একই কাজ করার জন্য</label>
+        <label class="option"><input type="radio" name="q1" value="2"> ডাটা সংরক্ষণের জন্য</label>
+        <label class="option"><input type="radio" name="q1" value="3"> গুন করার জন্য</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">২. if (টাকা > ১০) { চিপস } else { ক্যান্ডি } — টাকা = ৮ হলে কী হবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> চিপস</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ক্যান্ডি</label>
+        <label class="option"><input type="radio" name="q2" value="2"> কিছুই না</label>
+        <label class="option"><input type="radio" name="q2" value="3"> আপেল</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৩. else অংশটি কী কাজ করে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> সব সময় চলবে</label>
+        <label class="option"><input type="radio" name="q3" value="1"> শর্ত মিথ্যা হলে চলবে</label>
+        <label class="option"><input type="radio" name="q3" value="2"> শর্ত সত্য হলে চলবে</label>
+        <label class="option"><input type="radio" name="q3" value="3"> কখনও চলে না</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৪. নন্দির কাছে ১৫ টাকা থাকলে সে কী কিনবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> চিপস</label>
+        <label class="option"><input type="radio" name="q4" value="1"> ক্যান্ডি</label>
+        <label class="option"><input type="radio" name="q4" value="2"> কিছুই না</label>
+        <label class="option"><input type="radio" name="q4" value="3"> আইসক্রিম</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৫. if (বৃষ্টি == true) { ছাতা নিবো } else { ছাতা নিবো না } — এখানে শর্তটি কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> বৃষ্টি হওয়া</label>
+        <label class="option"><input type="radio" name="q5" value="1"> ছাতা নেওয়া</label>
+        <label class="option"><input type="radio" name="q5" value="2"> বাড়ি যাওয়া</label>
+        <label class="option"><input type="radio" name="q5" value="3"> স্কুল যাওয়া</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: প্যাটার্ন রিকগনিশন
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      If/Else শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - If/Else Topic
+  // ==========================================
+  
+  let selectedItem = null;
+  let currentMoney = 12;
+  let scenarioAnswered = false;
+  
+  // Select Item
+  function selectItem(element, item) {
+    // Remove selection from all
+    document.querySelectorAll('.item-card').forEach(card => {
+      card.classList.remove('selected');
+    });
+    element.classList.add('selected');
+    selectedItem = item;
+  }
+  
+  // Check Purchase
+  function checkPurchase() {
+    const resultDiv = document.getElementById('gameResult');
+    
+    if (!selectedItem) {
+      resultDiv.innerHTML = '⚠️ প্রথমে একটি আইটেম সিলেক্ট করো!';
+      resultDiv.style.background = '#ffc107';
+      resultDiv.style.color = '#333';
+      return;
+    }
+    
+    if (selectedItem === 'chips') {
+      if (currentMoney >= 15) {
+        resultDiv.innerHTML = '✅ শর্ত সত্য! ১৫ টাকা দিয়ে 🍟 চিপস কিনলো! "if" ব্লক কাজ করলো।';
+        resultDiv.style.background = '#28a745';
+        resultDiv.style.color = 'white';
+      } else {
+        resultDiv.innerHTML = `❌ শর্ত মিথ্যা! টাকা ${currentMoney} টাকা, চিপসের দাম ১৫ টাকা। "else" ব্লকে যাবে → 🍬 ক্যান্ডি কিনবে।`;
+        resultDiv.style.background = '#dc3545';
+        resultDiv.style.color = 'white';
+      }
+    } else if (selectedItem === 'candy') {
+      if (currentMoney >= 5) {
+        resultDiv.innerHTML = '✅ শর্ত সত্য! ৫ টাকা দিয়ে 🍬 ক্যান্ডি কিনলো! "if" ব্লক কাজ করলো।';
+        resultDiv.style.background = '#28a745';
+        resultDiv.style.color = 'white';
+      } else {
+        resultDiv.innerHTML = `❌ শর্ত মিথ্যা! টাকা ${currentMoney} টাকা, ক্যান্ডির দাম ৫ টাকা। কিছু কিনতে পারবে না।`;
+        resultDiv.style.background = '#dc3545';
+        resultDiv.style.color = 'white';
+      }
+    }
+    
+    createConfetti();
+  }
+  
+  // Scenario Answer
+  function answerScenario(answer, element) {
+    if (scenarioAnswered) {
+      document.getElementById('scenarioFeedback').innerHTML = '⏳ তুমি ইতিমধ্যে উত্তর দিয়ে ফেলেছো!';
+      return;
+    }
+    
+    const feedback = document.getElementById('scenarioFeedback');
+    
+    if (answer === 'chips') {
+      // ১২ টাকা → ১০ এর বেশি → চিপস সঠিক
+      element.classList.add('selected-correct');
+      feedback.innerHTML = '✅ সঠিক! নন্দির কাছে ১২ টাকা আছে, যা ১০-এর বেশি। তাই সে চিপস কিনবে! 🍟';
+      feedback.style.color = '#90ee90';
+      scenarioAnswered = true;
+      createConfetti();
+    } else {
+      element.classList.add('selected-wrong');
+      feedback.innerHTML = '❌ ভুল! নন্দির কাছে ১২ টাকা আছে। ১২ > ১০, তাই শর্ত সত্য → চিপস কিনবে। 🍟';
+      feedback.style.color = '#ff8888';
+      scenarioAnswered = true;
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      const options = q.querySelectorAll('.option');
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_ifelse_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+    }
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // Next Topic
+  function goToNextTopic() {
+    localStorage.setItem('tara_level3_topic2_completed', 'true');
+    window.location.href = 'topics/level-3/topic-3-3.html';
+  }
+  
+  // Make functions global
+  window.selectItem = selectItem;
+  window.checkPurchase = checkPurchase;
+  window.answerScenario = answerScenario;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+</script>
+
+</body>
+</html>

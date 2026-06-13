@@ -1,0 +1,608 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | সম্মতি ও নিবন্ধন</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .consent-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .consent-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .consent-title {
+      font-size: 2rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .consent-subtitle {
+      text-align: center;
+      color: #ccc;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    
+    .form-label {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: block;
+      color: #ffaa44;
+    }
+    
+    .form-control {
+      background: rgba(0,0,0,0.4);
+      border: 2px solid rgba(255,140,0,0.3);
+      border-radius: 15px;
+      padding: 0.8rem 1rem;
+      color: white;
+      font-size: 1rem;
+      width: 100%;
+      transition: all 0.2s;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: #ff8c00;
+      background: rgba(0,0,0,0.5);
+    }
+    
+    .form-control::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+    
+    select.form-control {
+      cursor: pointer;
+    }
+    
+    select.form-control option {
+      background: #1a1a2e;
+      color: white;
+    }
+    
+    .consent-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 1rem 0;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .consent-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #ddd;
+      margin-bottom: 1rem;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      cursor: pointer;
+    }
+    
+    .checkbox-group input {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #ff8c00;
+    }
+    
+    .checkbox-group label {
+      cursor: pointer;
+      font-weight: 600;
+      color: #ffaa44;
+      margin: 0;
+    }
+    
+    .start-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    
+    .start-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    .start-btn:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+      transform: none;
+      opacity: 0.7;
+    }
+    
+    .logout-btn {
+      background: linear-gradient(135deg, #dc3545, #c82333);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    
+    .logout-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .new-user-section {
+      margin-top: 1rem;
+      text-align: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .new-user-btn {
+      background: transparent;
+      border: 2px solid #ff8c00;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: #ff8c00;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .new-user-btn:hover {
+      background: rgba(255,140,0,0.2);
+    }
+    
+    .info-box {
+      background: rgba(255,140,0,0.1);
+      border-radius: 15px;
+      padding: 0.8rem;
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+    
+    .user-info-bar {
+      background: rgba(255,140,0,0.2);
+      border-radius: 15px;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .user-name-display {
+      font-weight: 600;
+      color: #ffaa44;
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @media (max-width: 768px) {
+      .consent-title {
+        font-size: 1.5rem;
+      }
+      .consent-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="index.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-house me-2"></i>হোম
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-file-signature me-2"></i>নিবন্ধন ও সম্মতি</h2>
+      <small>TARA গবেষণা অংশগ্রহণ</small>
+    </div>
+    <div>
+      <a href="dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="consent-container">
+  
+  <div class="consent-card" id="consentCard">
+    <div class="consent-title">
+      <i class="fa-solid fa-hand-peace me-2"></i>স্বাগতম
+    </div>
+    <div class="consent-subtitle">
+      TARA গবেষণায় অংশগ্রহণের জন্য নিচের তথ্য দিন
+    </div>
+    
+    <!-- User Info Bar (shown when logged in) -->
+    <div id="userInfoBar" class="user-info-bar" style="display: none;">
+      <div><i class="fa-solid fa-user-circle me-1"></i> <span id="loggedInUserName"></span></div>
+      <div><small><i class="fa-regular fa-clock me-1"></i>বর্তমানে লগইন আছেন</small></div>
+    </div>
+    
+    <!-- Registration Form -->
+    <div id="registrationForm">
+      <div class="form-group">
+        <label class="form-label"><i class="fa-solid fa-user me-1"></i> আপনার নাম</label>
+        <input type="text" id="userName" class="form-control" placeholder="যেমন: রহিম উদ্দিন" autocomplete="off">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label"><i class="fa-solid fa-calendar me-1"></i> বয়স</label>
+        <input type="number" id="userAge" class="form-control" placeholder="যেমন: ২৫" min="5" max="100">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label"><i class="fa-solid fa-briefcase me-1"></i> পেশা</label>
+        <select id="userProfession" class="form-control">
+          <option value="" disabled selected>পেশা নির্বাচন করুন</option>
+          <option value="ছাত্র">🎓 ছাত্র</option>
+          <option value="শিক্ষক">📚 শিক্ষক</option>
+          <option value="গবেষক">🔬 গবেষক</option>
+          <option value="আইটি পেশাজীবী">💻 আইটি পেশাজীবী</option>
+          <option value="অন্যান্য">📌 অন্যান্য</option>
+        </select>
+      </div>
+      
+      <div class="consent-box">
+        <div class="consent-text">
+          <i class="fa-solid fa-scale-balanced me-1"></i> <strong>গবেষণার সম্মতি</strong><br>
+          আমি স্বেচ্ছায়  গবেষণায় অংশগ্রহণ করতে রাজি আছি। আমি জানতে পেরেছি যে আমার তথ্য শুধুমাত্র গবেষণার কাজে ব্যবহার করা হবে। 
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="consentCheckbox">
+          <label for="consentCheckbox">আমি উপরের শর্তাবলীতে সম্মতি দিচ্ছি</label>
+        </div>
+      </div>
+      
+      <button class="start-btn" id="startBtn" disabled onclick="registerUser()">
+        <i class="fa-solid fa-rocket me-2"></i>যাত্রা শুরু করো
+      </button>
+    </div>
+    
+    <!-- Logout Section (shown when logged in) -->
+    <div id="logoutSection" style="display: none;">
+      <button class="logout-btn" onclick="logoutAndClear()">
+        <i class="fa-solid fa-sign-out-alt me-2"></i>লগআউট করে নতুন আইডি তৈরি করো
+      </button>
+      <div class="new-user-section">
+        <button class="new-user-btn" onclick="logoutAndClear()">
+          <i class="fa-solid fa-user-plus me-2"></i>নতুন ব্যবহারকারী হিসেবে শুরু করো
+        </button>
+      </div>
+    </div>
+    
+    <div class="info-box">
+      <i class="fa-solid fa-info-circle me-1"></i> আপনার তথ্য শুধুমাত্র গবেষণার কাজে ব্যবহার করা হবে এবং গোপন রাখা হবে।
+    </div>
+  </div>
+</div>
+
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      গবেষণায় অংশগ্রহণের জন্য সঠিক তথ্য দিন
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Consent & Registration with Remember User & Logout
+  // ==========================================
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyBoWaXDIBdX7OyJMsqIJ4paMIDe63QvEfc",
+    authDomain: "tara-research.firebaseapp.com",
+    projectId: "tara-research",
+    storageBucket: "tara-research.firebasestorage.app",
+    messagingSenderId: "761125280686",
+    appId: "1:761125280686:web:fd0ed50e950259c8fac63f",
+    measurementId: "G-KRN5SNJ2YR"
+  };
+  
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+  
+  let currentUser = null;
+  let currentUserData = null;
+  
+  // Check if all fields are filled
+  function checkFormValidity() {
+    const name = document.getElementById('userName').value.trim();
+    const age = document.getElementById('userAge').value.trim();
+    const profession = document.getElementById('userProfession').value;
+    const consent = document.getElementById('consentCheckbox').checked;
+    
+    const startBtn = document.getElementById('startBtn');
+    if (name && age && profession && profession !== "" && consent) {
+      startBtn.disabled = false;
+    } else {
+      startBtn.disabled = true;
+    }
+  }
+  
+  // Event listeners for form
+  document.getElementById('userName').addEventListener('input', checkFormValidity);
+  document.getElementById('userAge').addEventListener('input', checkFormValidity);
+  document.getElementById('userProfession').addEventListener('change', checkFormValidity);
+  document.getElementById('consentCheckbox').addEventListener('change', checkFormValidity);
+  
+  // Update UI based on login state
+  function updateUIForUser(userData) {
+    if (userData && userData.userName) {
+      // User is logged in - show user info and logout section
+      document.getElementById('userInfoBar').style.display = 'flex';
+      document.getElementById('loggedInUserName').innerHTML = `<i class="fa-solid fa-user-check me-1"></i>${userData.userName}`;
+      document.getElementById('registrationForm').style.display = 'none';
+      document.getElementById('logoutSection').style.display = 'block';
+      
+      // Store in localStorage
+      localStorage.setItem('tara_userName', userData.userName);
+      localStorage.setItem('tara_userId', currentUser);
+    } else {
+      // No user - show registration form
+      document.getElementById('userInfoBar').style.display = 'none';
+      document.getElementById('registrationForm').style.display = 'block';
+      document.getElementById('logoutSection').style.display = 'none';
+      
+      // Clear form
+      document.getElementById('userName').value = '';
+      document.getElementById('userAge').value = '';
+      document.getElementById('userProfession').value = '';
+      document.getElementById('consentCheckbox').checked = false;
+      document.getElementById('startBtn').disabled = true;
+    }
+  }
+  
+  // Load existing user data from Firebase
+  async function loadUserData(userId) {
+    try {
+      const userDoc = await db.collection('all_results').doc(userId).get();
+      if (userDoc.exists) {
+        currentUserData = userDoc.data();
+        updateUIForUser(currentUserData);
+        return true;
+      }
+    } catch (error) {
+      console.error("Error loading user data:", error);
+    }
+    return false;
+  }
+  
+  // Register new user
+  async function registerUser() {
+    const name = document.getElementById('userName').value.trim();
+    const age = parseInt(document.getElementById('userAge').value);
+    const profession = document.getElementById('userProfession').value;
+    const consent = document.getElementById('consentCheckbox').checked;
+    const startBtn = document.getElementById('startBtn');
+    
+    if (!name) { alert('দয়া করে আপনার নাম লিখুন!'); return; }
+    if (!age || isNaN(age) || age < 5 || age > 100) { alert('দয়া করে সঠিক বয়স লিখুন (৫-১০০ এর মধ্যে)!'); return; }
+    if (!profession || profession === "") { alert('দয়া করে আপনার পেশা নির্বাচন করুন!'); return; }
+    if (!consent) { alert('গবেষণার শর্তাবলীতে সম্মতি দিতে হবে!'); return; }
+    
+    startBtn.disabled = true;
+    startBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>নিবন্ধন হচ্ছে...';
+    
+    try {
+      // Sign in anonymously
+      let userCredential = await auth.signInAnonymously();
+      let userId = userCredential.user.uid;
+      
+      // Check if this user already has data (should not happen for new)
+      const existingDoc = await db.collection('all_results').doc(userId).get();
+      
+      // Save to Firestore
+      const userDocRef = db.collection('all_results').doc(userId);
+      await userDocRef.set({
+        userName: name,
+        age: age,
+        profession: profession,
+        consent: consent,
+        pretestScore: existingDoc.exists ? (existingDoc.data().pretestScore || 0) : 0,
+        level1Score: existingDoc.exists ? (existingDoc.data().level1Score || 0) : 0,
+        level2Score: existingDoc.exists ? (existingDoc.data().level2Score || 0) : 0,
+        level3Score: existingDoc.exists ? (existingDoc.data().level3Score || 0) : 0,
+        level4Score: existingDoc.exists ? (existingDoc.data().level4Score || 0) : 0,
+        level5Score: existingDoc.exists ? (existingDoc.data().level5Score || 0) : 0,
+        level6Score: existingDoc.exists ? (existingDoc.data().level6Score || 0) : 0,
+        totalScore: 0,
+        createdAt: existingDoc.exists ? (existingDoc.data().createdAt || firebase.firestore.FieldValue.serverTimestamp()) : firebase.firestore.FieldValue.serverTimestamp(),
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      
+      currentUser = userId;
+      currentUserData = { userName: name, age, profession, consent };
+      
+      // Save to localStorage
+      localStorage.setItem('tara_userName', name);
+      localStorage.setItem('tara_userId', userId);
+      localStorage.setItem('tara_userData', JSON.stringify({ name, age, profession, consent }));
+      
+      alert(`স্বাগতম ${name}! আপনার নিবন্ধন সফল হয়েছে।`);
+      
+      // Update UI and redirect to MAP (not pretest)
+      updateUIForUser(currentUserData);
+      window.location.href = 'map.html';
+      
+    } catch (error) {
+      console.error("Firebase Error:", error);
+      alert('নিবন্ধনে সমস্যা হয়েছে! আবার চেষ্টা করুন।');
+      startBtn.disabled = false;
+      startBtn.innerHTML = '<i class="fa-solid fa-rocket me-2"></i>যাত্রা শুরু করো';
+    }
+  }
+  
+  // Logout and clear local data
+  async function logoutAndClear() {
+    if (confirm('আপনি কি লগআউট করতে চান? আপনার অগ্রগতি সংরক্ষিত থাকবে। নতুন আইডি তৈরি করতে পারবেন।')) {
+      try {
+        // Sign out from Firebase
+        await auth.signOut();
+      } catch(e) { console.log("Sign out error:", e); }
+      
+      // Clear localStorage
+      localStorage.removeItem('tara_userName');
+      localStorage.removeItem('tara_userId');
+      localStorage.removeItem('tara_userData');
+      
+      currentUser = null;
+      currentUserData = null;
+      
+      // Update UI to show registration form
+      updateUIForUser(null);
+      
+      // Reload page to reset everything
+      window.location.reload();
+    }
+  }
+  
+  // Check existing session on page load
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      currentUser = user.uid;
+      const hasData = await loadUserData(currentUser);
+      
+      if (!hasData) {
+        // User exists in auth but not in Firestore - show registration form
+        updateUIForUser(null);
+      }
+      // Check localStorage for additional verification
+      const storedUserId = localStorage.getItem('tara_userId');
+      if (storedUserId && storedUserId === currentUser) {
+        // User is properly logged in
+      }
+    } else {
+      // No user - try to check localStorage for existing user
+      const storedUserId = localStorage.getItem('tara_userId');
+      const storedUserData = localStorage.getItem('tara_userData');
+      
+      if (storedUserId && storedUserData) {
+        // Try to sign in anonymously and restore
+        try {
+          const userCredential = await auth.signInAnonymously();
+          currentUser = userCredential.user.uid;
+          
+          if (currentUser === storedUserId) {
+            const parsedData = JSON.parse(storedUserData);
+            currentUserData = parsedData;
+            updateUIForUser(currentUserData);
+          } else {
+            // IDs don't match, need new registration
+            updateUIForUser(null);
+          }
+        } catch(e) {
+          updateUIForUser(null);
+        }
+      } else {
+        updateUIForUser(null);
+      }
+    }
+  });
+  
+  window.checkFormValidity = checkFormValidity;
+  window.registerUser = registerUser;
+  window.logoutAndClear = logoutAndClear;
+</script>
+
+</body>
+</html>

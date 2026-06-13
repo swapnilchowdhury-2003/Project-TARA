@@ -1,0 +1,621 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | ড্যাশবোর্ড - স্কোরবোর্ড</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a472a 0%, #0d2818 100%);
+      min-height: 100vh;
+    }
+    
+    /* Header */
+    .tara-header {
+      background: linear-gradient(135deg, #1a472a 0%, #0d2818 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    /* Main Container */
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    /* Welcome Card */
+    .welcome-card {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border-radius: 30px;
+      padding: 2rem;
+      color: white;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+    }
+    
+    .welcome-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    
+    .welcome-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    /* Stats Card */
+    .stats-card {
+      background: white;
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .stat-box {
+      text-align: center;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 20px;
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    /* Score Table */
+    .score-table-container {
+      background: white;
+      border-radius: 25px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2e7d32;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .score-table th {
+      background: #f5f5f5;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 700;
+      color: #333;
+      border-radius: 15px 15px 0 0;
+    }
+    
+    .score-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+    }
+    
+    .score-table tr:hover {
+      background: #f9f9f9;
+    }
+    
+    .level-badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .level-badge.level-1 { background: #ff6b6b; color: white; }
+    .level-badge.level-2 { background: #4ecdc4; color: white; }
+    .level-badge.level-3 { background: #45b7d1; color: white; }
+    .level-badge.level-4 { background: #96ceb4; color: white; }
+    .level-badge.level-5 { background: #f9ca24; color: #333; }
+    .level-badge.level-6 { background: #e056fd; color: white; }
+    
+    .score-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+    
+    .score-value.high {
+      color: #28a745;
+    }
+    
+    .score-value.medium {
+      color: #ffc107;
+    }
+    
+    .score-value.low {
+      color: #dc3545;
+    }
+    
+    .stars {
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .status-completed {
+      background: #28a745;
+      color: white;
+    }
+    
+    .status-pending {
+      background: #ffc107;
+      color: #333;
+    }
+    
+    .status-locked {
+      background: #6c757d;
+      color: white;
+    }
+    
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    
+    .action-btn {
+      padding: 0.8rem 1.8rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .action-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    
+    .action-btn.primary {
+      background: linear-gradient(145deg, #28a745, #218838);
+      color: white;
+    }
+    
+    .action-btn.secondary {
+      background: linear-gradient(145deg, #ff8c00, #e07600);
+      color: white;
+    }
+    
+    .action-btn.warning {
+      background: linear-gradient(145deg, #ffc107, #e0a800);
+      color: #333;
+    }
+    
+    /* Footer */
+    .tara-footer {
+      background: linear-gradient(135deg, #0d2818 0%, #1a472a 100%);
+      color: white;
+      margin-top: 3rem;
+      padding: 1.5rem 0;
+      text-align: center;
+    }
+    
+    /* Loading Spinner */
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.6s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .welcome-title {
+        font-size: 1.5rem;
+      }
+      
+      .score-table th, .score-table td {
+        padding: 0.8rem;
+        font-size: 0.85rem;
+      }
+      
+      .score-value {
+        font-size: 1.2rem;
+      }
+      
+      .action-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      
+      .stat-value {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="index.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-house me-2"></i>হোম
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-chart-simple me-2"></i>আমার অগ্রগতি</h2>
+      <small>TARA স্কোরবোর্ড</small>
+    </div>
+    <div>
+      <a href="map.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-map me-2"></i>ম্যাপ
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="dashboard-container">
+  
+  <!-- Welcome Card -->
+  <div class="welcome-card">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <div class="welcome-title" id="welcomeName">
+          <i class="fa-solid fa-user-graduate me-2"></i>স্বাগতম, অ্যাডভেঞ্চারার!
+        </div>
+        <div class="welcome-subtitle">
+          তোমার লেভেলভিত্তিক স্কোর নিচে দেখানো হলো। প্রতিটি লেভেলের কুইজে ১০ নম্বরের মধ্যে কত পেয়েছো তা দেখো।
+        </div>
+      </div>
+      <div>
+        <i class="fa-solid fa-trophy fa-3x"></i>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Stats Card -->
+  <div class="stats-card">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="stat-box">
+          <div class="stat-value" id="totalScore">0</div>
+          <div class="stat-label"><i class="fa-solid fa-star me-1"></i>মোট স্কোর</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-box">
+          <div class="stat-value" id="completedLevels">0</div>
+          <div class="stat-label"><i class="fa-solid fa-check-circle me-1"></i>কমপ্লিট লেভেল</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-box">
+          <div class="stat-value" id="averageScore">0</div>
+          <div class="stat-label"><i class="fa-solid fa-chart-line me-1"></i>গড় স্কোর (%)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Score Table -->
+  <div class="score-table-container">
+    <div class="section-title">
+      <i class="fa-solid fa-table-list"></i>
+      লেভেল ও স্কোর
+    </div>
+    
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th>লেভেল</th>
+          <th>টপিক</th>
+          <th>স্কোর (১০-এর মধ্যে)</th>
+          <th>তারা</th>
+          <th>স্ট্যাটাস</th>
+        </tr>
+      </thead>
+      <tbody id="scoreTableBody">
+        <tr><td colspan="5" class="text-center"><div class="loading-spinner"></div> লোড হচ্ছে...</td></tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <a href="map.html" class="action-btn primary">
+      <i class="fa-solid fa-map"></i> ম্যাপে যাও
+    </a>
+    <a href="level-1.html" class="action-btn secondary">
+      <i class="fa-solid fa-play"></i> খেলা চালিয়ে যাও
+    </a>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      প্রতিটি লেভেলে ১০টি MCQ। ৬ বা তার বেশি স্কোর করলে লেভেল কমপ্লিট হবে!
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - ড্যাশবোর্ড (Firebase সংযুক্ত)
+  // ==========================================
+  
+  // Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBoWaXDIBdX7OyJMsqIJ4paMIDe63QvEfc",
+    authDomain: "tara-research.firebaseapp.com",
+    projectId: "tara-research",
+    storageBucket: "tara-research.firebasestorage.app",
+    messagingSenderId: "761125280686",
+    appId: "1:761125280686:web:fd0ed50e950259c8fac63f",
+    measurementId: "G-KRN5SNJ2YR"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+  
+  let currentUserId = null;
+  let currentUserData = null;
+  
+  // লেভেলের তথ্য
+  const levels = [
+    { id: 1, name: 'Level 1', displayName: 'প্রথম দ্বীপ', topics: 'Data Type, Variable', badge: 'level-1', maxScore: 10 },
+    { id: 2, name: 'Level 2', displayName: 'অপারেটর দ্বীপ', topics: 'Operator, Input/Output, Expression, Counter', badge: 'level-2', maxScore: 10 },
+    { id: 3, name: 'Level 3', displayName: 'শর্তের বন', topics: 'Condition, If/Else, Pattern Recognition, Loop, Range', badge: 'level-3', maxScore: 10 },
+    { id: 4, name: 'Level 4', displayName: 'প্যাটার্ন চূড়া', topics: 'Accumulator, Indexing, Sorting, Break, Prime', badge: 'level-4', maxScore: 10 },
+    { id: 5, name: 'Level 5', displayName: 'লুপ লেগুন', topics: 'Continue, Nested Loop, Factorial, Fibonacci, Array, Searching, String, Character Searching, Reverse, Palindrome', badge: 'level-5', maxScore: 10 },
+    { id: 6, name: 'Level 6', displayName: 'ফাংশন ফোর্ট', topics: 'Matrix, Function, Parameter, Return Value', badge: 'level-6', maxScore: 10 }
+  ];
+  
+  // স্কোর অনুযায়ী তারার সংখ্যা (১০ এর মধ্যে)
+  function getStars(score) {
+    if (score === null || score === undefined) return '☆☆☆';
+    if (score >= 9) return '⭐⭐⭐';
+    if (score >= 7) return '⭐⭐☆';
+    if (score >= 6) return '⭐☆☆';
+    return '☆☆☆';
+  }
+  
+  // স্কোর অনুযায়ী ক্লাস
+  function getScoreClass(score) {
+    if (score === null || score === undefined) return '';
+    if (score >= 7) return 'high';
+    if (score >= 5) return 'medium';
+    return 'low';
+  }
+  
+  // স্ট্যাটাস ব্যাজ
+  function getStatusBadge(score) {
+    if (score === null || score === undefined) {
+      return '<span class="status-badge status-locked"><i class="fa-solid fa-clock me-1"></i>টেস্ট দাওনি</span>';
+    } else if (score >= 6) {
+      return '<span class="status-badge status-completed"><i class="fa-solid fa-check-circle me-1"></i>কমপ্লিট</span>';
+    } else {
+      return '<span class="status-badge status-pending"><i class="fa-solid fa-exclamation-triangle me-1"></i>পেন্ডিং</span>';
+    }
+  }
+  
+  // টেবিল আপডেট করা
+  function updateScoreboard(userData) {
+    const tbody = document.getElementById('scoreTableBody');
+    let totalScoreSum = 0;
+    let completedCount = 0;
+    let totalPossible = 0;
+    
+    tbody.innerHTML = '';
+    
+    levels.forEach(level => {
+      const scoreKey = `level${level.id}Score`;
+      const score = userData[scoreKey] || 0;
+      const isCompleted = score >= 6;
+      
+      totalScoreSum += score;
+      totalPossible += level.maxScore;
+      if (isCompleted) completedCount++;
+      
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>
+          <span class="level-badge ${level.badge}">${level.name}</span>
+          <div class="small text-muted mt-1">${level.displayName}</div>
+        </td>
+        <td>
+          <div class="small">${level.topics.substring(0, 40)}${level.topics.length > 40 ? '...' : ''}</div>
+        </td>
+        <td>
+          ${score > 0 ? `
+            <div class="score-value ${getScoreClass(score)}">${score}<span class="small text-muted">/${level.maxScore}</span></div>
+          ` : `
+            <div class="text-muted"><i class="fa-solid fa-question-circle me-1"></i>টেস্ট দাওনি</div>
+          `}
+        </td>
+        <td>
+          <div class="stars">${getStars(score)}</div>
+        </td>
+        <td>
+          ${getStatusBadge(score)}
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+    
+    // পরিসংখ্যান আপডেট
+    document.getElementById('totalScore').innerText = totalScoreSum;
+    document.getElementById('completedLevels').innerText = `${completedCount}/${levels.length}`;
+    const avgPercent = totalPossible > 0 ? Math.round((totalScoreSum / totalPossible) * 100) : 0;
+    document.getElementById('averageScore').innerText = `${avgPercent}%`;
+  }
+  
+  // ইউজারের নাম লোড ও প্রদর্শন
+  function loadUserName() {
+    const userName = localStorage.getItem('tara_userName');
+    if (userName) {
+      document.getElementById('welcomeName').innerHTML = `<i class="fa-solid fa-user-graduate me-2"></i>স্বাগতম, ${userName}!`;
+    }
+  }
+  
+  // Firebase থেকে ইউজারের ডাটা লোড
+  async function loadUserDataFromFirebase() {
+    if (!currentUserId) return;
+    
+    try {
+      const userDoc = await db.collection('all_results').doc(currentUserId).get();
+      
+      if (userDoc.exists) {
+        currentUserData = userDoc.data();
+        // localStorage এ নাম সেভ করে রাখি
+        if (currentUserData.userName) {
+          localStorage.setItem('tara_userName', currentUserData.userName);
+        }
+        loadUserName();
+        updateScoreboard(currentUserData);
+      } else {
+        // নতুন ইউজার, সব স্কোর 0 দেখাবে
+        const emptyData = {
+          level1Score: 0,
+          level2Score: 0,
+          level3Score: 0,
+          level4Score: 0,
+          level5Score: 0,
+          level6Score: 0
+        };
+        updateScoreboard(emptyData);
+        loadUserName();
+      }
+    } catch (error) {
+      console.error("Firebase ডাটা লোডে সমস্যা:", error);
+      // লোকাল স্টোরেজ থেকে ব্যাকআপ নেওয়া
+      const backupData = {
+        level1Score: parseInt(localStorage.getItem('tara_level1_score')) || 0,
+        level2Score: parseInt(localStorage.getItem('tara_level2_score')) || 0,
+        level3Score: parseInt(localStorage.getItem('tara_level3_score')) || 0,
+        level4Score: parseInt(localStorage.getItem('tara_level4_score')) || 0,
+        level5Score: parseInt(localStorage.getItem('tara_level5_score')) || 0,
+        level6Score: parseInt(localStorage.getItem('tara_level6_score')) || 0
+      };
+      updateScoreboard(backupData);
+      loadUserName();
+    }
+  }
+  
+  // Firebase Auth State Change
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      currentUserId = user.uid;
+      console.log("লগইন করা ইউজার:", currentUserId);
+      await loadUserDataFromFirebase();
+    } else {
+      // কেউ লগইন না থাকলে anonymous লগইন
+      try {
+        const userCredential = await auth.signInAnonymously();
+        currentUserId = userCredential.user.uid;
+        console.log("অ্যানোনিমাস লগইন:", currentUserId);
+        await loadUserDataFromFirebase();
+      } catch (error) {
+        console.error("অ্যানোনিমাস লগইন ব্যর্থ:", error);
+        // লোকাল স্টোরেজ ব্যাকআপ
+        const backupData = {
+          level1Score: parseInt(localStorage.getItem('tara_level1_score')) || 0,
+          level2Score: parseInt(localStorage.getItem('tara_level2_score')) || 0,
+          level3Score: parseInt(localStorage.getItem('tara_level3_score')) || 0,
+          level4Score: parseInt(localStorage.getItem('tara_level4_score')) || 0,
+          level5Score: parseInt(localStorage.getItem('tara_level5_score')) || 0,
+          level6Score: parseInt(localStorage.getItem('tara_level6_score')) || 0
+        };
+        updateScoreboard(backupData);
+        loadUserName();
+      }
+    }
+  });
+  
+  // এনিমেশন স্টাইল
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+</script>
+
+</body>
+</html>

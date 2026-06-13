@@ -1,0 +1,792 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | শর্ত (Condition)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    /* Header */
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    /* Main Container */
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    /* Topic Card */
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    /* Math Box */
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    /* Story Cards */
+    .story-card {
+      background: rgba(30, 30, 50, 0.9);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .story-card:hover {
+      transform: translateX(5px);
+      border-color: #ff8c00;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    
+    .story-characters {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .character {
+      text-align: center;
+      min-width: 100px;
+    }
+    
+    .character-emoji {
+      font-size: 3rem;
+    }
+    
+    .character-name {
+      font-weight: 600;
+      margin-top: 0.3rem;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #ddd;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+    }
+    
+    .condition-box {
+      background: rgba(255,140,0,0.15);
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 1rem 0;
+      text-align: center;
+      border: 1px dashed #ff8c00;
+    }
+    
+    .condition-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ffaa44;
+    }
+    
+    .question-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    /* Interactive Game */
+    .game-box {
+      background: linear-gradient(135deg, #2a2a4a, #1a1a3e);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    
+    .game-question {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .yes-no-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+    
+    .yes-btn, .no-btn {
+      padding: 0.8rem 2rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .yes-btn {
+      background: #28a745;
+      color: white;
+    }
+    
+    .no-btn {
+      background: #dc3545;
+      color: white;
+    }
+    
+    .yes-btn:hover, .no-btn:hover {
+      transform: scale(1.05);
+    }
+    
+    .game-result {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 15px;
+      font-weight: 600;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    /* Next Button */
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    /* Footer */
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .bounce {
+      animation: bounce 0.3s;
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .story-title {
+        font-size: 1.2rem;
+      }
+      .character-emoji {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-3.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-code-branch me-2"></i>শর্ত (Condition)</h2>
+      <small>Level 3 · Topic 1</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 3 · Topic 1</div>
+    <h1 class="topic-title">🎯 শর্ত (Condition)</h1>
+    <div class="topic-description" style="color:#ccc;">
+      <strong>শর্ত</strong> হলো সিদ্ধান্ত নেওয়ার নিয়ম — যদি কোনো কিছু সত্য হয়, তাহলে একটি কাজ করো, না হলে অন্য কাজ করো।<br>
+      প্রোগ্রামিং-এ <strong>if-else</strong> দিয়ে আমরা শর্ত ব্যবহার করি।
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      ক্লাস ৪-৫ এ আমরা শিখি — "যদি লাভ হয় তবে হাসো, ক্ষতি হলে কাঁদো" — এটাই শর্ত!<br>
+      <strong>প্রোগ্রামিং-এ শর্ত:</strong> <code>if (বৃষ্টি হয়) { আমিব যাব } else { যাব না }</code>
+    </div>
+  </div>
+  
+  <!-- ==================== গল্প ১ ==================== -->
+  <div class="story-card">
+    <div class="story-title">
+      <i class="fa-solid fa-users"></i> গল্প ১: কাকন ও আমল
+    </div>
+    <div class="story-characters">
+      <div class="character">
+        <div class="character-emoji">🐧</div>
+        <div class="character-name">কাকন</div>
+      </div>
+      <div class="character">
+        <div class="character-emoji">🐻</div>
+        <div class="character-name">আমল</div>
+      </div>
+    </div>
+    <div class="story-text">
+      কাকন ও আমল দুই খুব ভালো বন্ধু। তারা খেলতে খুব ভালোবাসে। কিন্তু আমলের একটা <strong>শর্ত</strong> আছে —<br>
+      <strong>"আমল শুধু তখনই খেলতে যায়, যখন কাকন খেলতে যায়।"</strong>
+    </div>
+    <div class="condition-box">
+      <div class="condition-text">
+        <i class="fa-solid fa-code-branch me-2"></i>
+        যদি (কাকন খেলতে যায়) { আমল খেলতে যাবে } না হলে { আমল খেলতে যাবে না }
+      </div>
+    </div>
+    <div class="question-box" data-story="1" data-correct="0">
+      <div class="question-text">📝 প্রশ্ন: কাকন খেলতে না গেলে, আমল কী করবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="story1" value="0"> আমলও খেলতে যাবে না</label>
+        <label class="option"><input type="radio" name="story1" value="1"> আমল একা খেলতে যাবে</label>
+        <label class="option"><input type="radio" name="story1" value="2"> আমল রাগ করবে</label>
+      </div>
+      <div class="feedback" id="story1Feedback"></div>
+    </div>
+  </div>
+  
+  <!-- ==================== গল্প ২ ==================== -->
+  <div class="story-card">
+    <div class="story-title">
+      <i class="fa-solid fa-cloud-rain"></i> গল্প ২: বৃষ্টি ও খেলা
+    </div>
+    <div class="story-characters">
+      <div class="character">
+        <div class="character-emoji">☔</div>
+        <div class="character-name">বৃষ্টি</div>
+      </div>
+      <div class="character">
+        <div class="character-emoji">👦</div>
+        <div class="character-name">আমি</div>
+      </div>
+    </div>
+    <div class="story-text">
+      আমি মাঠে খেলতে যেতে চাই। কিন্তু আমার মা একটি <strong>শর্ত</strong> দিয়ে দিয়েছেন —<br>
+      <strong>"বৃষ্টি পড়লে খেলতে যাবি না, বৃষ্টি না পড়লে যাবি।"</strong>
+    </div>
+    <div class="condition-box">
+      <div class="condition-text">
+        <i class="fa-solid fa-code-branch me-2"></i>
+        যদি (বৃষ্টি পড়ে) { আমি খেলতে যাব না } না হলে { আমি খেলতে যাব }
+      </div>
+    </div>
+    <div class="question-box" data-story="2" data-correct="1">
+      <div class="question-text">📝 প্রশ্ন: বৃষ্টি পড়লে আমি কী করব?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="story2" value="0"> আমি খেলতে যাব</label>
+        <label class="option"><input type="radio" name="story2" value="1"> আমি খেলতে যাব না</label>
+        <label class="option"><input type="radio" name="story2" value="2"> আমি বৃষ্টিতে ভিজব</label>
+      </div>
+      <div class="feedback" id="story2Feedback"></div>
+    </div>
+  </div>
+  
+  <!-- ==================== গল্প ৩ ==================== -->
+  <div class="story-card">
+    <div class="story-title">
+      <i class="fa-solid fa-comments"></i> গল্প ৩: তুমি কথা বললে আমি বলব
+    </div>
+    <div class="story-characters">
+      <div class="character">
+        <div class="character-emoji">🗣️</div>
+        <div class="character-name">তুমি</div>
+      </div>
+      <div class="character">
+        <div class="character-emoji">🤖</div>
+        <div class="character-name">আমি (রোবট)</div>
+      </div>
+    </div>
+    <div class="story-text">
+      আমার একটি মজার রোবট আছে। রোবটটির একটি <strong>শর্ত</strong> আছে —<br>
+      <strong>"তুমি কথা বললে, আমিও কথা বলব। তুমি না বললে, আমিও চুপ থাকব।"</strong>
+    </div>
+    <div class="condition-box">
+      <div class="condition-text">
+        <i class="fa-solid fa-code-branch me-2"></i>
+        যদি (তুমি কথা বলো) { রোবট কথা বলবে } না হলে { রোবট চুপ থাকবে }
+      </div>
+    </div>
+    <div class="question-box" data-story="3" data-correct="0">
+      <div class="question-text">📝 প্রশ্ন: তুমি কথা না বললে রোবট কী করবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="story3" value="0"> রোবট চুপ থাকবে</label>
+        <label class="option"><input type="radio" name="story3" value="1"> রোবট গান গাইবে</label>
+        <label class="option"><input type="radio" name="story3" value="2"> রোবট নাচবে</label>
+      </div>
+      <div class="feedback" id="story3Feedback"></div>
+    </div>
+  </div>
+  
+  <!-- ==================== ইন্টারেক্টিভ গেম ==================== -->
+  <div class="story-card">
+    <div class="story-title">
+      <i class="fa-solid fa-gamepad"></i> গেম: শর্ত খেলা
+    </div>
+    <div class="game-box">
+      <div class="game-question" id="gameQuestion">
+        🎲 বাইরে বৃষ্টি হচ্ছে?
+      </div>
+      <div class="yes-no-buttons">
+        <button class="yes-btn" onclick="answerGame(true)">✅ হ্যাঁ, বৃষ্টি হচ্ছে</button>
+        <button class="no-btn" onclick="answerGame(false)">❌ না, বৃষ্টি হচ্ছে না</button>
+      </div>
+      <div class="game-result" id="gameResult"></div>
+      <div class="condition-box mt-3">
+        <div class="condition-text">
+          <i class="fa-solid fa-code me-2"></i>
+          যদি (বৃষ্টি হয়) { ঘরে থাকো } না হলে { বাইরে খেলো }
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>শর্ত সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. প্রোগ্রামিং-এ শর্ত বোঝাতে কোন শব্দ ব্যবহার করা হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> loop</label>
+        <label class="option"><input type="radio" name="q1" value="1"> if</label>
+        <label class="option"><input type="radio" name="q1" value="2"> variable</label>
+        <label class="option"><input type="radio" name="q1" value="3"> function</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">২. "যদি বৃষ্টি হয়, তবে ছাতা নিবো" — এখানে শর্তটি কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> বৃষ্টি হওয়া</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ছাতা নেওয়া</label>
+        <label class="option"><input type="radio" name="q2" value="2"> বাড়ি যাওয়া</label>
+        <label class="option"><input type="radio" name="q2" value="3"> খেলা করা</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৩. নিচের কোনটি শর্তের উদাহরণ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> ৫ + ৩ = ৮</label>
+        <label class="option"><input type="radio" name="q3" value="1"> x = ১০</label>
+        <label class="option"><input type="radio" name="q3" value="2"> যদি (x > ৫) { তাহলে... }</label>
+        <label class="option"><input type="radio" name="q3" value="3"> for (i=0; i<10; i++)</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৪. কাকন খেলতে না গেলে আমল কী করবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> খেলতে যাবে</label>
+        <label class="option"><input type="radio" name="q4" value="1"> খেলতে যাবে না</label>
+        <label class="option"><input type="radio" name="q4" value="2"> কাকনকে ডাকবে</label>
+        <label class="option"><input type="radio" name="q4" value="3"> ঘুমাবে</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৫. "if-else" এর কাজ কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> শর্ত অনুযায়ী সিদ্ধান্ত নেওয়া</label>
+        <label class="option"><input type="radio" name="q5" value="1"> বারবার একই কাজ করা</label>
+        <label class="option"><input type="radio" name="q5" value="2"> ডাটা সংরক্ষণ করা</label>
+        <label class="option"><input type="radio" name="q5" value="3"> সংখ্যা গণনা করা</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: If/Else
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      শর্ত শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Condition Topic (শর্ত)
+  // ==========================================
+  
+  // গল্পের উত্তর চেক করার ফাংশন
+  function checkStoryAnswers() {
+    // গল্প ১
+    const story1Selected = document.querySelector('input[name="story1"]:checked');
+    if (story1Selected) {
+      const feedback = document.getElementById('story1Feedback');
+      if (story1Selected.value === '0') {
+        feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! কাকন না গেলে আমলও যাবে না। এটাই শর্ত!';
+        feedback.className = 'feedback correct';
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আমল শুধু কাকনের সাথে খেলতে যায়। আবার চেষ্টা করো।';
+        feedback.className = 'feedback wrong';
+      }
+    }
+    
+    // গল্প ২
+    const story2Selected = document.querySelector('input[name="story2"]:checked');
+    if (story2Selected) {
+      const feedback = document.getElementById('story2Feedback');
+      if (story2Selected.value === '1') {
+        feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! বৃষ্টি পড়লে খেলতে যাওয়া যাবে না।';
+        feedback.className = 'feedback correct';
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! বৃষ্টি পড়লে খেলতে যাওয়া উচিত না।';
+        feedback.className = 'feedback wrong';
+      }
+    }
+    
+    // গল্প ৩
+    const story3Selected = document.querySelector('input[name="story3"]:checked');
+    if (story3Selected) {
+      const feedback = document.getElementById('story3Feedback');
+      if (story3Selected.value === '0') {
+        feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! তুমি না বললে রোবট চুপ থাকবে।';
+        feedback.className = 'feedback correct';
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! রোবট শুধু কথা বললে সাড়া দেয়।';
+        feedback.className = 'feedback wrong';
+      }
+    }
+  }
+  
+  // গেমের উত্তর
+  function answerGame(isRaining) {
+    const gameResult = document.getElementById('gameResult');
+    if (isRaining) {
+      gameResult.innerHTML = '🌧️ বৃষ্টি হচ্ছে! শর্ত অনুযায়ী → <strong>✅ ঘরে থাকো</strong>';
+      gameResult.className = 'game-result';
+      gameResult.style.background = '#dc3545';
+      gameResult.style.color = 'white';
+    } else {
+      gameResult.innerHTML = '☀️ বৃষ্টি হচ্ছে না! শর্ত অনুযায়ী → <strong>🎮 বাইরে খেলো!</strong>';
+      gameResult.className = 'game-result';
+      gameResult.style.background = '#28a745';
+      gameResult.style.color = 'white';
+    }
+    gameResult.classList.add('bounce');
+    setTimeout(() => gameResult.classList.remove('bounce'), 500);
+  }
+  
+  // MCQ উত্তর চেক
+  function checkAllAnswers() {
+    // প্রথমে গল্পের উত্তর চেক
+    checkStoryAnswers();
+    
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      const options = q.querySelectorAll('.option');
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_condition_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+    }
+  }
+  
+  // কনফেটি
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // পরবর্তী টপিকে যাও
+  function goToNextTopic() {
+    localStorage.setItem('tara_level3_topic1_completed', 'true');
+    window.location.href = 'topics/level-3/topic-3-2.html';
+  }
+  
+  // ইভেন্ট লিসেনার
+  document.querySelectorAll('.question-box .option').forEach(opt => {
+    opt.addEventListener('click', function() {
+      const questionBox = this.closest('.question-box');
+      const storyId = questionBox.getAttribute('data-story');
+      const feedbackId = `story${storyId}Feedback`;
+      const correctValue = parseInt(questionBox.getAttribute('data-correct'));
+      const selectedValue = parseInt(this.querySelector('input').value);
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selectedValue === correctValue) {
+        feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! দারুণ!';
+        feedback.className = 'feedback correct';
+        this.classList.add('correct');
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চিন্তা করো।';
+        feedback.className = 'feedback wrong';
+        this.classList.add('wrong');
+      }
+    });
+  });
+  
+  window.answerGame = answerGame;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+</script>
+
+</body>
+</html>

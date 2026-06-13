@@ -1,0 +1,645 @@
+﻿:root {
+  --tara-bg: #f4f7fb;
+  --tara-surface: rgba(255, 255, 255, 0.9);
+  --tara-surface-strong: #ffffff;
+  --tara-border: rgba(18, 38, 63, 0.12);
+  --tara-text: #12263f;
+  --tara-muted: #5b6b7f;
+  --tara-primary: #155eef;
+  --tara-primary-strong: #0f4ad0;
+  --tara-accent: #0f9d8f;
+  --tara-warm: #f59e0b;
+  --tara-shadow: 0 18px 48px rgba(18, 38, 63, 0.12);
+  --tara-page-bg: #f4f7fb;
+  --tara-page-text: #12263f;
+  --tara-home-overlay: rgba(248, 251, 255, 0.16);
+  --tara-home-overlay-strong: rgba(244, 247, 251, 0.22);
+  --tara-home-panel-bg: rgba(255, 255, 255, 0.94);
+  --tara-home-hero-bg: rgba(255, 255, 255, 0.76);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+  color: var(--tara-page-text);
+  background:
+    radial-gradient(circle at top left, rgba(21, 94, 239, 0.12), transparent 30%),
+    radial-gradient(circle at top right, rgba(15, 157, 143, 0.12), transparent 28%),
+    linear-gradient(180deg, #f8fbff 0%, var(--tara-page-bg) 100%);
+}
+
+body.tara-home-page {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(248, 251, 255, 0.28) 0%, rgba(244, 247, 251, 0.42) 100%),
+    url('../assets/images/pic1.png') center top / cover no-repeat fixed;
+  background-blend-mode: screen, normal;
+}
+
+body.tara-home-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.22), transparent 22%),
+    radial-gradient(circle at 85% 10%, rgba(255, 230, 157, 0.14), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.1));
+  z-index: 0;
+}
+
+body.tara-home-page main {
+  position: relative;
+  z-index: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.navbar-brand,
+.btn,
+.badge,
+.tara-badge,
+.tara-status {
+  font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+}
+
+body,
+p,
+small,
+.text-muted,
+.lead {
+  line-height: 1.7;
+}
+
+a {
+  text-decoration: none;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+.tara-shell {
+  max-width: 1180px;
+}
+
+.tara-hero,
+.tara-card,
+.tara-topic-card,
+.tara-auth-card,
+.tara-stat-card {
+  background: var(--tara-surface);
+  border: 1px solid var(--tara-border);
+  border-radius: 24px;
+  box-shadow: var(--tara-shadow);
+  backdrop-filter: blur(10px);
+}
+
+.tara-hero {
+  overflow: hidden;
+}
+
+.tara-home-shell {
+  max-width: 1200px;
+}
+
+.tara-home-hero {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.64)),
+    var(--tara-home-hero-bg);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.tara-home-hero::before {
+  inset: auto -70px -80px auto;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.18), rgba(21, 94, 239, 0.04) 62%, transparent 72%);
+}
+
+.tara-home-hero::after {
+  content: '';
+  position: absolute;
+  inset: 18px auto auto 18px;
+  width: 84px;
+  height: 84px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(21, 94, 239, 0.08));
+  transform: rotate(10deg);
+  opacity: 0.8;
+}
+
+.tara-home-badge {
+  background: rgba(245, 158, 11, 0.14);
+  color: #9a5a00;
+}
+
+.tara-home-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 251, 255, 0.94));
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.tara-theme-toggle {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1040;
+  border-radius: 999px;
+  padding: 0.75rem 1rem;
+  background: rgba(18, 38, 63, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tara-theme-toggle:hover,
+.tara-theme-toggle:focus {
+  background: rgba(18, 38, 63, 1);
+}
+
+.tara-home-panel li {
+  padding: 0.15rem 0;
+}
+
+.tara-hero::before {
+  content: '';
+  position: absolute;
+  inset: auto -90px -110px auto;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(21, 94, 239, 0.09);
+  filter: blur(4px);
+}
+
+.tara-kicker,
+.section-kicker {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tara-accent);
+}
+
+.tara-display {
+  font-size: clamp(2.25rem, 5vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.tara-subtitle {
+  color: var(--tara-muted);
+  max-width: 62ch;
+}
+
+.tara-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(21, 94, 239, 0.09);
+  color: var(--tara-primary-strong);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.tara-surface-strong {
+  background: var(--tara-surface-strong);
+}
+
+.tara-stat-card {
+  padding: 1rem 1.25rem;
+  min-height: 100%;
+}
+
+.tara-stat-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.tara-progress,
+.progress.tara-progress {
+  height: 12px;
+  background: rgba(21, 94, 239, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.tara-progress .progress-bar,
+.progress.tara-progress .progress-bar {
+  background: linear-gradient(90deg, var(--tara-primary), var(--tara-accent));
+  border-radius: 999px;
+}
+
+.tara-topic-card {
+  position: relative;
+  height: 100%;
+  padding: 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.tara-topic-card:hover {
+  transform: translateY(-3px);
+}
+
+.tara-topic-card.is-locked {
+  opacity: 0.72;
+}
+
+.tara-topic-card.is-complete {
+  border-color: rgba(15, 157, 143, 0.25);
+}
+
+.tara-topic-card.is-unlocked {
+  border-color: rgba(21, 94, 239, 0.22);
+}
+
+.tara-status {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(91, 107, 127, 0.09);
+  color: var(--tara-muted);
+}
+
+.tara-topic-card.is-unlocked .tara-status {
+  background: rgba(21, 94, 239, 0.1);
+  color: var(--tara-primary-strong);
+}
+
+.tara-topic-card.is-complete .tara-status {
+  background: rgba(15, 157, 143, 0.12);
+  color: var(--tara-accent);
+}
+
+.tara-topic-card.is-locked [data-topic-link] {
+  pointer-events: none;
+}
+
+.tara-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: rgba(21, 94, 239, 0.08);
+  color: var(--tara-primary-strong);
+  font-weight: 700;
+}
+
+.tara-quiz-card {
+  background: var(--tara-surface-strong);
+  border: 1px solid var(--tara-border);
+  border-radius: 20px;
+  padding: 1rem 1.15rem;
+}
+
+.tara-question-title {
+  font-weight: 700;
+}
+
+.tara-muted-box {
+  background: rgba(21, 94, 239, 0.05);
+  border: 1px solid rgba(21, 94, 239, 0.1);
+  border-radius: 18px;
+}
+
+.table thead th {
+  white-space: nowrap;
+}
+
+.btn {
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--tara-primary), var(--tara-primary-strong));
+  border: none;
+  box-shadow: 0 12px 26px rgba(21, 94, 239, 0.22);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: linear-gradient(135deg, var(--tara-primary-strong), #0938a8);
+}
+
+.btn-outline-primary {
+  border-color: rgba(21, 94, 239, 0.3);
+  color: var(--tara-primary-strong);
+}
+
+.btn-outline-primary:hover {
+  background: rgba(21, 94, 239, 0.08);
+  color: var(--tara-primary-strong);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tara-bg: #0b1220;
+    --tara-surface: rgba(15, 23, 42, 0.84);
+    --tara-surface-strong: #111827;
+    --tara-border: rgba(148, 163, 184, 0.16);
+    --tara-text: #e5eefc;
+    --tara-muted: #9fb0c7;
+    --tara-primary: #60a5fa;
+    --tara-primary-strong: #93c5fd;
+    --tara-accent: #34d399;
+    --tara-warm: #fbbf24;
+    --tara-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+    --tara-page-bg: #0b1220;
+    --tara-page-text: #e5eefc;
+    --tara-home-overlay: rgba(11, 18, 32, 0.18);
+    --tara-home-overlay-strong: rgba(11, 18, 32, 0.28);
+    --tara-home-panel-bg: rgba(17, 24, 39, 0.92);
+    --tara-home-hero-bg: rgba(17, 24, 39, 0.78);
+  }
+
+  body {
+    background:
+      radial-gradient(circle at top left, rgba(96, 165, 250, 0.14), transparent 30%),
+      radial-gradient(circle at top right, rgba(52, 211, 153, 0.12), transparent 28%),
+      linear-gradient(180deg, #0f172a 0%, var(--tara-page-bg) 100%);
+  }
+
+  body.tara-home-page {
+    background:
+      linear-gradient(180deg, rgba(11, 18, 32, 0.22) 0%, rgba(11, 18, 32, 0.32) 100%),
+      url('../assets/images/pic1.png') center top / cover no-repeat fixed;
+    background-blend-mode: multiply, normal;
+  }
+
+  body.tara-home-page::before {
+    background:
+      radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.08), transparent 22%),
+      radial-gradient(circle at 85% 10%, rgba(251, 191, 36, 0.1), transparent 18%),
+      linear-gradient(180deg, rgba(11, 18, 32, 0.05), rgba(11, 18, 32, 0.12));
+  }
+
+  .tara-theme-toggle {
+    background: rgba(248, 250, 252, 0.92);
+    color: #0f172a;
+    border-color: rgba(15, 23, 42, 0.1);
+  }
+
+  .btn-outline-primary {
+    color: var(--tara-primary-strong);
+    border-color: rgba(147, 197, 253, 0.42);
+  }
+
+  .btn-outline-primary:hover {
+    background: rgba(96, 165, 250, 0.12);
+    color: var(--tara-primary-strong);
+  }
+
+  .tara-home-hero {
+    background:
+      linear-gradient(135deg, rgba(17, 24, 39, 0.86), rgba(17, 24, 39, 0.7)),
+      var(--tara-home-hero-bg);
+    border-color: rgba(148, 163, 184, 0.18);
+  }
+
+  .tara-home-panel {
+    background:
+      linear-gradient(180deg, rgba(17, 24, 39, 0.98), rgba(15, 23, 42, 0.92));
+    border-color: rgba(148, 163, 184, 0.16);
+  }
+
+  .tara-home-badge {
+    background: rgba(251, 191, 36, 0.16);
+    color: #facc15;
+  }
+
+  .form-control,
+  .form-select {
+    background-color: rgba(15, 23, 42, 0.9);
+    color: var(--tara-text);
+    border-color: rgba(148, 163, 184, 0.18);
+  }
+
+  .form-control::placeholder {
+    color: #94a3b8;
+  }
+
+  .table {
+    color: var(--tara-text);
+  }
+}
+
+body.theme-dark {
+  color-scheme: dark;
+}
+
+body.theme-dark {
+  --tara-bg: #0b1220;
+  --tara-surface: rgba(15, 23, 42, 0.84);
+  --tara-surface-strong: #111827;
+  --tara-border: rgba(148, 163, 184, 0.16);
+  --tara-text: #e5eefc;
+  --tara-muted: #9fb0c7;
+  --tara-primary: #60a5fa;
+  --tara-primary-strong: #93c5fd;
+  --tara-accent: #34d399;
+  --tara-warm: #fbbf24;
+  --tara-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --tara-page-bg: #0b1220;
+  --tara-page-text: #e5eefc;
+  --tara-home-overlay: rgba(11, 18, 32, 0.18);
+  --tara-home-overlay-strong: rgba(11, 18, 32, 0.28);
+  --tara-home-panel-bg: rgba(17, 24, 39, 0.92);
+  --tara-home-hero-bg: rgba(17, 24, 39, 0.78);
+}
+
+body.theme-dark {
+  background:
+    radial-gradient(circle at top left, rgba(96, 165, 250, 0.14), transparent 30%),
+    radial-gradient(circle at top right, rgba(52, 211, 153, 0.12), transparent 28%),
+    linear-gradient(180deg, #0f172a 0%, var(--tara-page-bg) 100%);
+}
+
+body.theme-dark .tara-home-page,
+body.theme-dark.tara-home-page {
+  background:
+    linear-gradient(180deg, rgba(11, 18, 32, 0.22) 0%, rgba(11, 18, 32, 0.32) 100%),
+    url('../assets/images/pic1.png') center top / cover no-repeat fixed;
+  background-blend-mode: multiply, normal;
+}
+
+body.theme-dark .tara-home-hero,
+body.theme-dark .tara-home-panel,
+body.theme-dark .tara-card,
+body.theme-dark .tara-topic-card,
+body.theme-dark .tara-auth-card,
+body.theme-dark .tara-stat-card,
+body.theme-dark .tara-quiz-card,
+body.theme-dark .tara-muted-box {
+  background-color: var(--tara-surface);
+}
+
+body.theme-dark .btn-outline-primary {
+  color: var(--tara-primary-strong);
+  border-color: rgba(147, 197, 253, 0.42);
+}
+
+body.theme-dark .btn-outline-primary:hover {
+  background: rgba(96, 165, 250, 0.12);
+  color: var(--tara-primary-strong);
+}
+
+body.theme-dark .form-control,
+body.theme-dark .form-select {
+  background-color: rgba(15, 23, 42, 0.9);
+  color: var(--tara-text);
+  border-color: rgba(148, 163, 184, 0.18);
+}
+
+body.theme-dark .form-control::placeholder {
+  color: #94a3b8;
+}
+
+body.theme-dark .table {
+  color: var(--tara-text);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #169a71, #0f7c5b);
+  border: none;
+}
+
+.form-control,
+.form-select {
+  border-radius: 14px;
+  border-color: var(--tara-border);
+  min-height: 48px;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: rgba(21, 94, 239, 0.35);
+  box-shadow: 0 0 0 0.2rem rgba(21, 94, 239, 0.12);
+}
+
+.nav-pills .nav-link {
+  border-radius: 999px;
+}
+
+@media (max-width: 767.98px) {
+  .tara-display {
+    font-size: clamp(2rem, 10vw, 3.2rem);
+  }
+
+  .tara-hero,
+  .tara-card,
+  .tara-topic-card,
+  .tara-auth-card,
+  .tara-stat-card {
+    border-radius: 20px;
+  }
+}
+
+.tara-site-header,
+.tara-site-footer {
+  background: #000000;
+  color: #ffffff;
+}
+
+.tara-site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.tara-site-header .navbar-brand,
+.tara-site-header .nav-link,
+.tara-site-footer {
+  color: #ffffff !important;
+}
+
+.tara-site-header .nav-link {
+  opacity: 0.88;
+  font-weight: 600;
+}
+
+.tara-site-header .nav-link:hover,
+.tara-site-header .nav-link:focus {
+  opacity: 1;
+  color: #ffd95c !important;
+}
+
+.tara-brand {
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.tara-stars,
+.tara-footer-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #ffd95c;
+}
+
+.tara-footer-stars i {
+  filter: drop-shadow(0 0 6px rgba(255, 217, 92, 0.35));
+}
+
+.tara-site-footer {
+  margin-top: 3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tara-footer-text {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.tara-footer-credit {
+  font-weight: 700;
+  color: #ffd95c;
+}
+
+.tara-site-header .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.tara-site-header .navbar-toggler:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 217, 92, 0.15);
+}
+
+.tara-site-header .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+body.tara-home-page .tara-home-hero,
+body.theme-dark.tara-home-page .tara-home-hero {
+  backdrop-filter: blur(16px) saturate(1.15);
+}
+
+body.tara-home-page .tara-home-panel,
+body.theme-dark.tara-home-page .tara-home-panel {
+  backdrop-filter: blur(14px) saturate(1.1);
+}
+
+body.tara-home-page .tara-home-panel,
+body.theme-dark.tara-home-page .tara-home-panel,
+body.tara-home-page .tara-home-hero,
+body.theme-dark.tara-home-page .tara-home-hero {
+  box-shadow: 0 18px 48px rgba(18, 38, 63, 0.16);
+}

@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | ডাটা টাইপ (Data Type) - সম্পূর্ণ খেলা</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    /* Story Box */
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+      text-align: center;
+    }
+    
+    .story-emoji {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .story-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 0.5rem;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #ddd;
+    }
+    
+    /* Character Cards */
+    .character-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .character-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .character-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .character-avatar {
+      width: 70px;
+      height: 70px;
+      background: rgba(255,140,0,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+    
+    .character-info {
+      flex: 1;
+    }
+    
+    .character-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ff8c00;
+    }
+    
+    .character-type {
+      display: inline-block;
+      background: rgba(255,140,0,0.3);
+      border-radius: 50px;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+    }
+    
+    .character-desc {
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    
+    /* Fruit Grid */
+    .fruit-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .fruit-item {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid #ff8c00;
+      min-width: 100px;
+    }
+    
+    .fruit-item:hover {
+      transform: scale(1.05);
+    }
+    
+    .fruit-item.correct {
+      background: #28a745;
+      border-color: #90ee90;
+    }
+    
+    .fruit-item.wrong {
+      background: #dc3545;
+      border-color: #ff8888;
+    }
+    
+    .fruit-emoji {
+      font-size: 2.5rem;
+    }
+    
+    .fruit-label {
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+    }
+    
+    .result-icon {
+      display: inline-block;
+      margin-left: 0.3rem;
+      font-size: 1rem;
+    }
+    
+    /* Text Game */
+    .text-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    
+    .text-item {
+      background: rgba(0,0,0,0.3);
+      border-radius: 50px;
+      padding: 0.8rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid #ff8c00;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    
+    .text-item:hover {
+      transform: scale(1.05);
+    }
+    
+    .text-item.correct {
+      background: #28a745;
+      border-color: #90ee90;
+    }
+    
+    .text-item.wrong {
+      background: #dc3545;
+      border-color: #ff8888;
+    }
+    
+    /* TF Game */
+    .tf-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin: 1rem 0;
+    }
+    
+    .tf-visual {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .tf-statement {
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    
+    .tf-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    
+    .tf-btn {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid #ff8c00;
+      border-radius: 50px;
+      padding: 0.7rem 2rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+      font-size: 1rem;
+    }
+    
+    .tf-btn:hover {
+      transform: scale(1.05);
+    }
+    
+    .tf-btn.correct {
+      background: #28a745;
+      border-color: #90ee90;
+    }
+    
+    .tf-btn.wrong {
+      background: #dc3545;
+      border-color: #ff8888;
+    }
+    
+    .feedback-msg {
+      margin-top: 0.8rem;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    
+    .feedback-msg.ok {
+      color: #90ee90;
+    }
+    
+    .feedback-msg.wrong {
+      color: #ff8888;
+    }
+    
+    /* Type Conclusion */
+    .type-conclusion {
+      background: rgba(255,140,0,0.1);
+      border-radius: 15px;
+      padding: 0.8rem;
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 1rem;
+      border-left: 3px solid #ff8c00;
+    }
+    
+    /* Progress Dots */
+    .progress-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transition: all 0.3s;
+    }
+    
+    .dot.active {
+      background: #ff8c00;
+      width: 20px;
+      border-radius: 10px;
+    }
+    
+    .dot.done {
+      background: #28a745;
+    }
+    
+    /* Bonus MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .mcq-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .mcq-question {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .mcq-question-text {
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      font-size: 1rem;
+    }
+    
+    .mcq-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .mcq-opt {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid #ff8c00;
+      border-radius: 50px;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+    
+    .mcq-opt:hover {
+      transform: scale(1.02);
+      background: rgba(255,140,0,0.2);
+    }
+    
+    .mcq-opt.correct {
+      background: #28a745;
+      border-color: #90ee90;
+    }
+    
+    .mcq-opt.wrong {
+      background: #dc3545;
+      border-color: #ff8888;
+    }
+    
+    /* Next Button */
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .fruit-item {
+        min-width: 75px;
+        padding: 0.7rem;
+      }
+      .fruit-emoji {
+        font-size: 1.8rem;
+      }
+      .character-avatar {
+        width: 55px;
+        height: 55px;
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-1.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-database me-2"></i>ডাটা টাইপ</h2>
+      <small>Level 1 · Topic 1</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 1 · Topic 1</div>
+    <h1 class="topic-title">🎮 ডাটা টাইপ (Data Type)</h1>
+    <div class="topic-description" style="color:#ccc;">
+      প্রোগ্রামিং-এ প্রতিটি ডাটার নিজস্ব ধরন আছে। নিচের চরিত্রদের অভ্যাস দেখে ডাটা টাইপ শিখি!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-emoji">🍎🎮📚</div>
+    <div class="story-title">📖 ছোট্ট গল্প: ডাটা টাইপের রাজ্য</div>
+    <div class="story-text">
+      অবনি, মিতু, উৎস আর অংকি ছিল খুব ভালো বন্ধু। 
+      প্রত্যেকের নিজস্ব পছন্দ ও অভ্যাস আছে। আজ আমরা তাদের কাছ থেকে শিখব ডাটা টাইপ সম্পর্কে!
+    </div>
+  </div>
+  
+  <!-- Progress Dots -->
+  <div class="progress-dots">
+    <div class="dot active" id="dot0"></div>
+    <div class="dot" id="dot1"></div>
+    <div class="dot" id="dot2"></div>
+    <div class="dot" id="dot3"></div>
+    <div class="dot" id="dot4"></div>
+    <div class="dot" id="dot5"></div>
+  </div>
+  
+  <!-- ========== Section 1: অবনি (Integer) ========== -->
+  <div class="character-card" id="section1">
+    <div class="character-header">
+      <div class="character-avatar">🧒</div>
+      <div class="character-info">
+        <div class="character-name">অবনি</div>
+        <div class="character-type">Integer (পূর্ণসংখ্যা)</div>
+      </div>
+    </div>
+    <div class="character-desc">
+      অবনি <strong>শুধু গোটা ফল</strong> খায়। অর্ধেক বা ভাঙা ফল খায় না! 
+      Integer মানে পুরো সংখ্যা — যেমন: ১, ২, ৩, ১০০
+    </div>
+    
+    <div class="fruit-grid" id="gameAboni1"></div>
+    <div class="fruit-grid" id="gameAboni2"></div>
+    <div class="feedback-msg" id="fbAboni"></div>
+    
+    <div class="type-conclusion">
+      🔢 <strong>Integer</strong> — শুধু গোটা সংখ্যা, ভাঙা নেই!
+    </div>
+  </div>
+  
+  <!-- ========== Section 2: মিতু (Float) ========== -->
+  <div class="character-card" id="section2">
+    <div class="character-header">
+      <div class="character-avatar">👧</div>
+      <div class="character-info">
+        <div class="character-name">মিতু</div>
+        <div class="character-type">Float (দশমিক সংখ্যা)</div>
+      </div>
+    </div>
+    <div class="character-desc">
+      মিতু <strong>শুধু অর্ধেক বা ভাঙা ফল</strong> খায়। পুরো ফল খায় না!
+      Float মানে দশমিক সংখ্যা — যেমন: ০.৫, ১.৭৫, ২.৫
+    </div>
+    
+    <div class="fruit-grid" id="gameMitu1"></div>
+    <div class="fruit-grid" id="gameMitu2"></div>
+    <div class="feedback-msg" id="fbMitu"></div>
+    
+    <div class="type-conclusion">
+      🔢 <strong>Float</strong> — দশমিক সংখ্যা, যেমন অর্ধেক বা সওয়া!
+    </div>
+  </div>
+  
+  <!-- ========== Section 3: উৎস (Double) ========== -->
+  <div class="character-card" id="section3">
+    <div class="character-header">
+      <div class="character-avatar">🧑</div>
+      <div class="character-info">
+        <div class="character-name">উৎস</div>
+        <div class="character-type">Double (বড় দশমিক)</div>
+      </div>
+    </div>
+    <div class="character-desc">
+      উৎস <strong>বেশি পরিমাণে</strong> খাবার খায় — একসাথে অনেক ফল!
+      Double মানে অনেক বড় দশমিক সংখ্যা।
+    </div>
+    
+    <div class="fruit-grid" id="gameUtso1"></div>
+    <div class="feedback-msg" id="fbUtso"></div>
+    
+    <div class="type-conclusion">
+      🔢 <strong>Double</strong> — বড় আকারের দশমিক সংখ্যা!
+    </div>
+  </div>
+  
+  <!-- ========== Section 4: অংকি (String) ========== -->
+  <div class="character-card" id="section4">
+    <div class="character-header">
+      <div class="character-avatar">👦</div>
+      <div class="character-info">
+        <div class="character-name">অংকি</div>
+        <div class="character-type">String (অক্ষরের দল)</div>
+      </div>
+    </div>
+    <div class="character-desc">
+      অংকি <strong>শুধু নাম ও অক্ষর</strong> লিখতে পারে। সংখ্যা লিখতে পারে না!
+      String মানে অক্ষর বা শব্দ — যেমন: "মা", "বাংলা", "Hello"
+    </div>
+    
+    <div class="text-grid" id="gameAnki1"></div>
+    <div class="feedback-msg" id="fbAnki"></div>
+    
+    <div class="type-conclusion">
+      📝 <strong>String</strong> — অক্ষর ও শব্দের দল!
+    </div>
+  </div>
+  
+  <!-- ========== Section 5: Boolean ========== -->
+  <div class="character-card" id="section5">
+    <div class="character-header">
+      <div class="character-avatar">⚖️</div>
+      <div class="character-info">
+        <div class="character-name">সত্য না মিথ্যা?</div>
+        <div class="character-type">Boolean (সত্য/মিথ্যা)</div>
+      </div>
+    </div>
+    <div class="character-desc">
+      Boolean মানে শুধু <strong>দুটি সম্ভাবনা</strong> — সত্য (True) অথবা মিথ্যা (False)!
+    </div>
+    
+    <!-- TF Game 1 -->
+    <div class="tf-card">
+      <div class="tf-visual">🍎🍎🍎🍎🍎</div>
+      <div class="tf-statement">এখানে ৫টি আপেল আছে। বিবৃতিটি সত্য নাকি মিথ্যা?</div>
+      <div class="tf-buttons">
+        <button class="tf-btn" data-tf="1" data-answer="true" onclick="checkTF(this, 1, 'true')">✅ সত্য</button>
+        <button class="tf-btn" data-tf="1" data-answer="false" onclick="checkTF(this, 1, 'false')">❌ মিথ্যা</button>
+      </div>
+      <div class="feedback-msg" id="fbTF1"></div>
+    </div>
+    
+    <!-- TF Game 2 -->
+    <div class="tf-card">
+      <div class="tf-visual">🥭🥭🥭🥭🥭</div>
+      <div class="tf-statement">এখানে ৪টি আম আছে। বিবৃতিটি সত্য নাকি মিথ্যা?</div>
+      <div class="tf-buttons">
+        <button class="tf-btn" data-tf="2" data-answer="true" onclick="checkTF(this, 2, 'true')">✅ সত্য</button>
+        <button class="tf-btn" data-tf="2" data-answer="false" onclick="checkTF(this, 2, 'false')">❌ মিথ্যা</button>
+      </div>
+      <div class="feedback-msg" id="fbTF2"></div>
+    </div>
+    
+    <div class="type-conclusion">
+      ✅ <strong>Boolean</strong> — হয় সত্য (True), নয় মিথ্যা (False)!
+    </div>
+  </div>
+  
+  <!-- ========== BONUS: MCQ Game ========== -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>ডাটা টাইপ কুইজ
+    </div>
+    
+    <div class="mcq-question" id="mcq1">
+      <div class="mcq-question-text">১. "৭" কোন ধরনের ডাটা টাইপের উদাহরণ?</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-mcq="1" data-correct="true" onclick="checkMCQ(this, 1, true)">🔢 Integer (পূর্ণসংখ্যা)</div>
+        <div class="mcq-opt" data-mcq="1" data-correct="false" onclick="checkMCQ(this, 1, false)">🔤 String (শব্দ)</div>
+        <div class="mcq-opt" data-mcq="1" data-correct="false" onclick="checkMCQ(this, 1, false)">✅ Boolean (সত্য/মিথ্যা)</div>
+      </div>
+      <div class="feedback-msg" id="fbMcq1"></div>
+    </div>
+    
+    <div class="mcq-question" id="mcq2">
+      <div class="mcq-question-text">২. "আমি বাংলা বলি" — এটি কোন ধরনের ডাটা টাইপ?</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-mcq="2" data-correct="false" onclick="checkMCQ(this, 2, false)">🔢 Integer</div>
+        <div class="mcq-opt" data-mcq="2" data-correct="true" onclick="checkMCQ(this, 2, true)">🔤 String</div>
+        <div class="mcq-opt" data-mcq="2" data-correct="false" onclick="checkMCQ(this, 2, false)">✅ Boolean</div>
+      </div>
+      <div class="feedback-msg" id="fbMcq2"></div>
+    </div>
+    
+    <div class="mcq-question" id="mcq3">
+      <div class="mcq-question-text">৩. "৩.৫" (সাড়ে তিন) কোন ডাটা টাইপের উদাহরণ?</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-mcq="3" data-correct="false" onclick="checkMCQ(this, 3, false)">🔢 Integer</div>
+        <div class="mcq-opt" data-mcq="3" data-correct="true" onclick="checkMCQ(this, 3, true)">📊 Float (দশমিক)</div>
+        <div class="mcq-opt" data-mcq="3" data-correct="false" onclick="checkMCQ(this, 3, false)">📝 String</div>
+      </div>
+      <div class="feedback-msg" id="fbMcq3"></div>
+    </div>
+    
+    <div class="mcq-question" id="mcq4">
+      <div class="mcq-question-text">৪. Boolean ডাটা টাইপের সম্ভাব্য মান কয়টি?</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-mcq="4" data-correct="false" onclick="checkMCQ(this, 4, false)">অনেকগুলো</div>
+        <div class="mcq-opt" data-mcq="4" data-correct="true" onclick="checkMCQ(this, 4, true)">শুধু ২টি (সত্য/মিথ্যা)</div>
+        <div class="mcq-opt" data-mcq="4" data-correct="false" onclick="checkMCQ(this, 4, false)">শুধু ১টি</div>
+      </div>
+      <div class="feedback-msg" id="fbMcq4"></div>
+    </div>
+    
+    <div class="mcq-question" id="mcq5">
+      <div class="mcq-question-text">৫. নিচের কোনটি Integer-এর উদাহরণ?</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-mcq="5" data-correct="true" onclick="checkMCQ(this, 5, true)">১০০</div>
+        <div class="mcq-opt" data-mcq="5" data-correct="false" onclick="checkMCQ(this, 5, false)">১০.৫</div>
+        <div class="mcq-opt" data-mcq="5" data-correct="false" onclick="checkMCQ(this, 5, false)">"১০০"</div>
+      </div>
+      <div class="feedback-msg" id="fbMcq5"></div>
+    </div>
+  </div>
+  
+  <!-- Next Button -->
+  <button class="next-btn" onclick="goToNext()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: ভেরিয়েবল
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      ডাটা টাইপ শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Data Type Game (Complete)
+  // ==========================================
+  
+  let completedSections = [false, false, false, false, false, false];
+  let mcqAnswers = [false, false, false, false, false];
+  let aboniAnswered1 = false;
+  let aboniAnswered2 = false;
+  let mituAnswered1 = false;
+  let mituAnswered2 = false;
+  let utsoAnswered = false;
+  let ankiAnswered = false;
+  let tf1Answered = false;
+  let tf2Answered = false;
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // Update Progress Dots
+  function updateDots() {
+    for (let i = 0; i < 6; i++) {
+      const dot = document.getElementById(`dot${i}`);
+      if (completedSections[i]) {
+        dot.classList.remove('active');
+        dot.classList.add('done');
+      } else if (i === 0 || completedSections[i-1]) {
+        dot.classList.add('active');
+        dot.classList.remove('done');
+      } else {
+        dot.classList.remove('active', 'done');
+      }
+    }
+  }
+  
+  // Mark section complete
+  function markComplete(sectionIndex) {
+    if (!completedSections[sectionIndex]) {
+      completedSections[sectionIndex] = true;
+      updateDots();
+      createConfetti();
+    }
+  }
+  
+  // Check if Aboni section is complete
+  function checkAboniComplete() {
+    if (aboniAnswered1 && aboniAnswered2 && !completedSections[0]) {
+      markComplete(0);
+      document.getElementById('fbAboni').innerHTML = '🎉 দারুণ! তুমি Integer পুরোপুরি বুঝতে পেরেছো! 🎉';
+      document.getElementById('fbAboni').className = 'feedback-msg ok';
+    }
+  }
+  
+  // Check if Mitu section is complete
+  function checkMituComplete() {
+    if (mituAnswered1 && mituAnswered2 && !completedSections[1]) {
+      markComplete(1);
+      document.getElementById('fbMitu').innerHTML = '🎉 চমৎকার! তুমি Float পুরোপুরি বুঝতে পেরেছো! 🎉';
+      document.getElementById('fbMitu').className = 'feedback-msg ok';
+    }
+  }
+  
+  // Game Helper for Fruits
+  function createFruitGame(containerId, items, correctIndices, gameType, callback) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    items.forEach((item, idx) => {
+      const fruitDiv = document.createElement('div');
+      fruitDiv.className = 'fruit-item';
+      fruitDiv.innerHTML = `
+        <div class="fruit-emoji">${item.emoji}</div>
+        <div class="fruit-label">${item.label}</div>
+      `;
+      fruitDiv.onclick = () => {
+        const isCorrect = correctIndices.includes(idx);
+        const fb = document.getElementById('fbAboni');
+        
+        if (isCorrect) {
+          if (fruitDiv.classList.contains('correct')) return;
+          fruitDiv.classList.add('correct');
+          const checkMark = document.createElement('span');
+          checkMark.className = 'result-icon';
+          checkMark.innerHTML = ' ✓';
+          checkMark.style.color = '#90ee90';
+          fruitDiv.appendChild(checkMark);
+          
+          if (gameType === 'aboni1') aboniAnswered1 = true;
+          if (gameType === 'aboni2') aboniAnswered2 = true;
+          if (gameType === 'mitu1') mituAnswered1 = true;
+          if (gameType === 'mitu2') mituAnswered2 = true;
+          if (gameType === 'utso') utsoAnswered = true;
+          
+          if (gameType === 'aboni1' || gameType === 'aboni2') checkAboniComplete();
+          if (gameType === 'mitu1' || gameType === 'mitu2') checkMituComplete();
+          if (gameType === 'utso' && !completedSections[2]) {
+            markComplete(2);
+            document.getElementById('fbUtso').innerHTML = '🎉 অসাধারণ! তুমি Double পুরোপুরি বুঝতে পেরেছো! 🎉';
+            document.getElementById('fbUtso').className = 'feedback-msg ok';
+          }
+          
+          createConfetti();
+        } else {
+          fruitDiv.classList.add('wrong');
+          const wrongMark = document.createElement('span');
+          wrongMark.className = 'result-icon';
+          wrongMark.innerHTML = ' ✗';
+          wrongMark.style.color = '#ff8888';
+          fruitDiv.appendChild(wrongMark);
+          setTimeout(() => {
+            fruitDiv.classList.remove('wrong');
+            wrongMark.remove();
+          }, 800);
+        }
+      };
+      container.appendChild(fruitDiv);
+    });
+  }
+  
+  // Text Game Helper
+  function createTextGame(containerId, items, correctIndices, callback) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    items.forEach((item, idx) => {
+      const textDiv = document.createElement('div');
+      textDiv.className = 'text-item';
+      textDiv.textContent = item;
+      textDiv.onclick = () => {
+        const isCorrect = correctIndices.includes(idx);
+        const fb = document.getElementById('fbAnki');
+        
+        if (isCorrect) {
+          if (textDiv.classList.contains('correct')) return;
+          textDiv.classList.add('correct');
+          const checkMark = document.createElement('span');
+          checkMark.className = 'result-icon';
+          checkMark.innerHTML = ' ✓';
+          checkMark.style.color = '#90ee90';
+          textDiv.appendChild(checkMark);
+          
+          if (!ankiAnswered) {
+            ankiAnswered = true;
+            markComplete(3);
+            fb.innerHTML = '🎉 চমৎকার! তুমি String পুরোপুরি বুঝতে পেরেছো! 🎉';
+            fb.className = 'feedback-msg ok';
+          }
+          createConfetti();
+        } else {
+          textDiv.classList.add('wrong');
+          const wrongMark = document.createElement('span');
+          wrongMark.className = 'result-icon';
+          wrongMark.innerHTML = ' ✗';
+          wrongMark.style.color = '#ff8888';
+          textDiv.appendChild(wrongMark);
+          setTimeout(() => {
+            textDiv.classList.remove('wrong');
+            wrongMark.remove();
+          }, 800);
+        }
+      };
+      container.appendChild(textDiv);
+    });
+  }
+  
+  // Initialize Games
+  
+  // Aboni Game 1
+  createFruitGame('gameAboni1', [
+    { emoji: '🍎', label: 'গোটা আপেল' },
+    { emoji: '🍎½', label: 'আধা আপেল' },
+    { emoji: '🍌', label: 'গোটা কলা' },
+    { emoji: '🍊½', label: 'আধা কমলা' }
+  ], [0, 2], 'aboni1', null);
+  
+  // Aboni Game 2
+  createFruitGame('gameAboni2', [
+    { emoji: '🥭', label: 'গোটা আম' },
+    { emoji: '🍓½', label: 'আধা স্ট্রবেরি' },
+    { emoji: '🍇', label: 'গোটা আঙ্গুর' },
+    { emoji: '🍋½', label: 'আধা লেবু' }
+  ], [0, 2], 'aboni2', null);
+  
+  // Mitu Game 1
+  createFruitGame('gameMitu1', [
+    { emoji: '🍎', label: 'গোটা আপেল' },
+    { emoji: '🍎½', label: 'আধা আপেল' },
+    { emoji: '🍌', label: 'গোটা কলা' },
+    { emoji: '🍊½', label: 'আধা কমলা' }
+  ], [1, 3], 'mitu1', null);
+  
+  // Mitu Game 2
+  createFruitGame('gameMitu2', [
+    { emoji: '🥭', label: 'গোটা আম' },
+    { emoji: '🍓½', label: 'আধা স্ট্রবেরি' },
+    { emoji: '🍇', label: 'গোটা আঙ্গুর' },
+    { emoji: '🍋½', label: 'আধা লেবু' }
+  ], [1, 3], 'mitu2', null);
+  
+  // Utso Game
+  createFruitGame('gameUtso1', [
+    { emoji: '🍎🍎🍎', label: '৩টি আপেল' },
+    { emoji: '🍌', label: '১টি কলা' },
+    { emoji: '🥭🥭', label: '২টি আম' },
+    { emoji: '🍇', label: '১টি আঙ্গুর' }
+  ], [0, 2], 'utso', null);
+  
+  // Anki Game
+  createTextGame('gameAnki1', ['১২৩', 'মা', '৪৫', 'বাবা', '৭৮৯', 'দাদু'], [1, 3, 5], null);
+  
+  // TF Game
+  function checkTF(btn, tfNumber, selectedAnswer) {
+    const fbId = `fbTF${tfNumber}`;
+    const fb = document.getElementById(fbId);
+    const buttons = btn.parentElement.querySelectorAll('.tf-btn');
+    
+    let isCorrect = false;
+    if (tfNumber === 1) {
+      isCorrect = (selectedAnswer === 'true');
+    } else {
+      isCorrect = (selectedAnswer === 'false');
+    }
+    
+    if (isCorrect) {
+      if (btn.classList.contains('correct')) return;
+      btn.classList.add('correct');
+      const checkMark = document.createElement('span');
+      checkMark.innerHTML = ' ✓';
+      checkMark.style.marginLeft = '5px';
+      btn.appendChild(checkMark);
+      fb.innerHTML = '✅ সঠিক! উত্তম! 🎉';
+      fb.className = 'feedback-msg ok';
+      
+      if (tfNumber === 1 && !tf1Answered) {
+        tf1Answered = true;
+      }
+      if (tfNumber === 2 && !tf2Answered) {
+        tf2Answered = true;
+      }
+      
+      if (tf1Answered && tf2Answered && !completedSections[4]) {
+        markComplete(4);
+        fb.innerHTML = '🎉 অসাধারণ! তুমি Boolean পুরোপুরি বুঝতে পেরেছো! 🎉';
+      }
+      
+      createConfetti();
+    } else {
+      btn.classList.add('wrong');
+      const wrongMark = document.createElement('span');
+      wrongMark.innerHTML = ' ✗';
+      wrongMark.style.marginLeft = '5px';
+      btn.appendChild(wrongMark);
+      fb.innerHTML = '❌ ভুল! আবার চেষ্টা করো।';
+      fb.className = 'feedback-msg wrong';
+      setTimeout(() => {
+        btn.classList.remove('wrong');
+        wrongMark.remove();
+      }, 800);
+    }
+    
+    if (isCorrect) {
+      buttons.forEach(b => {
+        b.disabled = true;
+      });
+    }
+  }
+  
+  // MCQ Check
+  function checkMCQ(btn, mcqNumber, isCorrect) {
+    const fbId = `fbMcq${mcqNumber}`;
+    const fb = document.getElementById(fbId);
+    const allOptions = btn.parentElement.querySelectorAll('.mcq-opt');
+    
+    if (mcqAnswers[mcqNumber - 1]) {
+      fb.innerHTML = '⏳ তুমি ইতিমধ্যে এই প্রশ্নের উত্তর দিয়েছ!';
+      fb.className = 'feedback-msg ok';
+      return;
+    }
+    
+    if (isCorrect) {
+      btn.classList.add('correct');
+      const checkMark = document.createElement('span');
+      checkMark.innerHTML = ' ✓';
+      checkMark.style.marginLeft = '5px';
+      btn.appendChild(checkMark);
+      fb.innerHTML = '✅ সঠিক! চমৎকার! 🎉';
+      fb.className = 'feedback-msg ok';
+      mcqAnswers[mcqNumber - 1] = true;
+      createConfetti();
+      
+      let allMcqDone = true;
+      for (let i = 0; i < 5; i++) {
+        if (!mcqAnswers[i]) allMcqDone = false;
+      }
+      if (allMcqDone && !completedSections[5]) {
+        markComplete(5);
+        const mcqSection = document.querySelector('.mcq-section');
+        const completeMsg = document.createElement('div');
+        completeMsg.className = 'alert alert-success mt-3 text-center';
+        completeMsg.innerHTML = '🎉 চমৎকার! তুমি সব কুইজের সঠিক উত্তর দিয়েছো! 🎉';
+        mcqSection.appendChild(completeMsg);
+        setTimeout(() => completeMsg.remove(), 3000);
+      }
+    } else {
+      btn.classList.add('wrong');
+      const wrongMark = document.createElement('span');
+      wrongMark.innerHTML = ' ✗';
+      wrongMark.style.marginLeft = '5px';
+      btn.appendChild(wrongMark);
+      fb.innerHTML = '❌ ভুল! আবার চেষ্টা করো।';
+      fb.className = 'feedback-msg wrong';
+      setTimeout(() => {
+        btn.classList.remove('wrong');
+        wrongMark.remove();
+      }, 800);
+    }
+    
+    if (isCorrect) {
+      allOptions.forEach(opt => {
+        opt.style.pointerEvents = 'none';
+        opt.style.opacity = '0.6';
+      });
+    }
+  }
+  
+  // Next Topic
+  function goToNext() {
+    window.location.href = 'topics/level-1/topic-1-2.html';
+  }
+  
+  // Make functions global
+  window.checkTF = checkTF;
+  window.checkMCQ = checkMCQ;
+  window.goToNext = goToNext;
+  
+  // Add animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Initialize dots
+  updateDots();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,929 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | ফিবোনাচ্চি (Fibonacci)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .topic-description {
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Rabbit Counter */
+    .rabbit-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .rabbit-display {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      min-height: 80px;
+    }
+    
+    .rabbit-emoji {
+      font-size: 2rem;
+      animation: popIn 0.2s ease;
+    }
+    
+    .fib-number {
+      display: inline-block;
+      background: rgba(255,140,0,0.2);
+      border-radius: 50px;
+      padding: 0.3rem 0.8rem;
+      margin: 0.2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    
+    .calc-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      margin: 0.3rem;
+    }
+    
+    .calc-btn.reset {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+    
+    .result-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    
+    /* Block Game */
+    .block-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .block-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .block {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      border-radius: 10px;
+      padding: 0.5rem;
+      min-width: 60px;
+      text-align: center;
+      animation: popIn 0.2s ease;
+    }
+    
+    .block.red { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
+    .block.blue { background: linear-gradient(135deg, #4ecdc4, #44aa99); }
+    .block.green { background: linear-gradient(135deg, #96ceb4, #6bb38a); }
+    .block.yellow { background: linear-gradient(135deg, #ffeaa7, #fdcb6e); color: #333; }
+    
+    .block-number {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    
+    /* Quiz Game */
+    .quiz-game {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .quiz-question {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .quiz-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+    
+    .quiz-opt {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid #ff8c00;
+      border-radius: 15px;
+      padding: 0.8rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: bold;
+    }
+    
+    .quiz-opt:hover {
+      background: rgba(255,140,0,0.3);
+      transform: scale(1.05);
+    }
+    
+    .quiz-opt.correct {
+      background: #28a745;
+      border-color: #90ee90;
+    }
+    
+    .quiz-opt.wrong {
+      background: #dc3545;
+      border-color: #ff8888;
+    }
+    
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .block {
+        min-width: 45px;
+      }
+      .rabbit-emoji {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-5.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-chart-line me-2"></i>ফিবোনাচ্চি (Fibonacci)</h2>
+      <small>Level 5 · Topic 4</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 5 · Topic 4</div>
+    <h1 class="topic-title">🐰 ফিবোনাচ্চি (Fibonacci)</h1>
+    <div class="topic-description">
+      <strong>ফিবোনাচ্চি</strong> হলো এমন এক ধরনের সংখ্যা খেলা, যেখানে নতুন সংখ্যা তৈরি হয় <strong>আগের দুইটা সংখ্যা যোগ করে</strong>।<br>
+      যেমন: 1, 1, 2, 3, 5, 8, 13, 21...
+    </div>
+  </div>
+  
+  <!-- Story Box - Rabbit Story -->
+  <div class="story-box">
+    <div class="story-icon">🐇🐰</div>
+    <div class="story-title">📖 গল্প: খরগোশের বাচ্চা</div>
+    <div class="story-text">
+      একদিন এক জঙ্গলে <strong>দুটি ছোট খরগোশ</strong> বাস করত।<br><br>
+      🐰 <strong>প্রথম সপ্তাহে:</strong> ১ জোড়া খরগোশ<br>
+      🐰 <strong>দ্বিতীয় সপ্তাহেও:</strong> ১ জোড়া খরগোশ (এখনও বাচ্চা হয়নি)<br>
+      🐰🐰 <strong>তৃতীয় সপ্তাহে:</strong> নতুন ১ জোড়া বাচ্চা হলো → মোট ২ জোড়া<br>
+      🐰🐰🐰 <strong>চতুর্থ সপ্তাহে:</strong> আগের ২ জোড়ার সাথে আরও ১ জোড়া যোগ হলো → মোট ৩ জোড়া<br>
+      🐰🐰🐰🐰🐰 <strong>পঞ্চম সপ্তাহে:</strong> ৫ জোড়া<br>
+      🐰🐰🐰🐰🐰🐰🐰🐰 <strong>ষষ্ঠ সপ্তাহে:</strong> ৮ জোড়া<br><br>
+      <strong>নতুন সংখ্যা = আগের দুইটি সংখ্যার যোগফল!</strong><br>
+      <span class="story-highlight">📌 ফিবোনাচ্চি ধারা: 1, 1, 2, 3, 5, 8, 13, 21...</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <strong>ফিবোনাচ্চি সূত্র:</strong> F(n) = F(n-1) + F(n-2)<br>
+      <strong>উদাহরণ:</strong><br>
+      • 1 + 1 = 2<br>
+      • 1 + 2 = 3<br>
+      • 2 + 3 = 5<br>
+      • 3 + 5 = 8<br>
+      • 5 + 8 = 13
+    </div>
+  </div>
+  
+  <!-- Game Container -->
+  <div class="game-container">
+    
+    <!-- Game 1: Rabbit Family Counter -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-rabbit"></i> খেলা ১: খরগোশের পরিবার
+      </div>
+      
+      <div class="rabbit-area">
+        <label>কত সপ্তাহ পর দেখতে চাও?</label>
+        <input type="number" id="weekInput" class="number-input" min="1" max="10" value="6" style="width:100px;">
+        <div>
+          <button class="calc-btn" onclick="showFibonacciRabbits()">
+            <i class="fa-solid fa-play me-1"></i>খরগোশ দেখাও
+          </button>
+          <button class="calc-btn reset" onclick="resetRabbits()">
+            <i class="fa-solid fa-rotate-left me-1"></i>সাফ করো
+          </button>
+        </div>
+        
+        <div class="result-box" id="rabbitResult">
+          <i class="fa-regular fa-lightbulb me-1"></i> "খরগোশ দেখাও" চাপো। প্রতি সপ্তাহে কত জোড়া খরগোশ হবে দেখো!
+        </div>
+      </div>
+    </div>
+    
+    <!-- Game 2: Block Fibonacci (Visual) -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-cubes"></i> খেলা ২: ব্লক দিয়ে ফিবোনাচ্চি
+      </div>
+      
+      <div class="block-area">
+        <label>কত সংখ্যা পর্যন্ত দেখাতে চাও?</label>
+        <input type="number" id="blockCount" class="number-input" min="1" max="10" value="6" style="width:100px;">
+        <div>
+          <button class="calc-btn" onclick="showFibonacciBlocks()">
+            <i class="fa-solid fa-play me-1"></i>ব্লক দেখাও
+          </button>
+          <button class="calc-btn reset" onclick="resetBlocks()">
+            <i class="fa-solid fa-rotate-left me-1"></i>সাফ করো
+          </button>
+        </div>
+        
+        <div id="blockContainer" style="margin-top: 1rem;">
+          <div class="text-muted">ব্লক এখানে দেখাবে</div>
+        </div>
+        
+        <div class="result-box" id="blockResult">
+          <i class="fa-regular fa-lightbulb me-1"></i> ক্লিক করলেই ব্লক দিয়ে ফিবোনাচ্চি বুঝতে পারবে!
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Fun Quiz Game -->
+  <div class="game-card">
+    <div class="game-title">
+      <i class="fa-solid fa-gamepad"></i> খেলা ৩: ফিবোনাচ্চি কুইজ
+    </div>
+    
+    <div class="quiz-game" id="quizGame">
+      <div class="quiz-question" id="quizQuestion">
+        🎯 ফিবোনাচ্চি ধারার ১, ১, ২, ৩, ৫, ___ এর পরের সংখ্যা কত?
+      </div>
+      <div class="quiz-options" id="quizOptions">
+        <div class="quiz-opt" data-value="6" onclick="checkQuizAnswer(this, 6, false)">৬</div>
+        <div class="quiz-opt" data-value="7" onclick="checkQuizAnswer(this, 7, false)">৭</div>
+        <div class="quiz-opt" data-value="8" onclick="checkQuizAnswer(this, 8, true)">৮</div>
+        <div class="quiz-opt" data-value="10" onclick="checkQuizAnswer(this, 10, false)">১০</div>
+      </div>
+      <div class="result-box mt-2" id="quizResult">
+        <i class="fa-regular fa-lightbulb me-1"></i> সঠিক উত্তর বাছো!
+      </div>
+    </div>
+  </div>
+  
+  <!-- Challenge Box -->
+  <div class="math-box" style="border-left-color: #28a745;">
+    <div class="math-box-title">
+      <i class="fa-solid fa-puzzle-piece me-2"></i>ফিবোনাচ্চি চ্যালেঞ্জ!
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <div class="challenge-question" style="background:rgba(0,0,0,0.3); border-radius:15px; padding:0.8rem; margin:0.5rem 0;">
+        <strong>📌 প্রশ্ন ১:</strong> ২ + ৩ = কত? (এটা ফিবোনাচ্চির কোন সংখ্যা?)<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(1, '৫ (পাঁচ)')">উত্তর দেখো</button>
+        <span id="challenge1" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question" style="background:rgba(0,0,0,0.3); border-radius:15px; padding:0.8rem; margin:0.5rem 0;">
+        <strong>📌 প্রশ্ন ২:</strong> ৫ + ৮ = কত?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(2, '১৩')">উত্তর দেখো</button>
+        <span id="challenge2" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+      <div class="challenge-question" style="background:rgba(0,0,0,0.3); border-radius:15px; padding:0.8rem; margin:0.5rem 0;">
+        <strong>📌 প্রশ্ন ৩:</strong> ফিবোনাচ্চি ধারার ৮ এর পরের সংখ্যা কী?<br>
+        <button class="btn btn-sm btn-outline-warning mt-1" onclick="revealChallenge(3, '১৩ (পাঁচ+আট)')">উত্তর দেখো</button>
+        <span id="challenge3" style="color:#ffaa44; margin-left:0.5rem;"></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>ফিবোনাচ্চি সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. ফিবোনাচ্চি ধারায় নতুন সংখ্যা কীভাবে তৈরি হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> আগের সংখ্যার সাথে ১ যোগ করে</label>
+        <label class="option"><input type="radio" name="q1" value="1"> আগের দুইটি সংখ্যা যোগ করে</label>
+        <label class="option"><input type="radio" name="q1" value="2"> আগের সংখ্যাকে ২ দিয়ে গুণ করে</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">২. 1, 1, 2, 3, 5, ___ - পরবর্তী সংখ্যা কত?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> 6</label>
+        <label class="option"><input type="radio" name="q2" value="1"> 7</label>
+        <label class="option"><input type="radio" name="q2" value="2"> 8</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. 3 + 5 = কত? (এটা ফিবোনাচ্চির কোন সংখ্যা?)</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> 8</label>
+        <label class="option"><input type="radio" name="q3" value="1"> 7</label>
+        <label class="option"><input type="radio" name="q3" value="2"> 9</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৪. ফিবোনাচ্চি ধারার প্রথম দুটি সংখ্যা কী কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> 1, 1</label>
+        <label class="option"><input type="radio" name="q4" value="1"> 0, 1</label>
+        <label class="option"><input type="radio" name="q4" value="2"> 1, 2</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৫. 5 + 8 = কত?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="0"> 12</label>
+        <label class="option"><input type="radio" name="q5" value="1"> 11</label>
+        <label class="option"><input type="radio" name="q5" value="2"> 13</label>
+      </div>
+      <div class="feedback" id="feedback5"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: অ্যারে
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      ফিবোনাচ্চি শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Fibonacci Topic (Kid Friendly)
+  // ==========================================
+  
+  // Game 1: Show Fibonacci with Rabbits
+  function showFibonacciRabbits() {
+    const weeks = parseInt(document.getElementById('weekInput').value);
+    const resultDiv = document.getElementById('rabbitResult');
+    
+    if (isNaN(weeks) || weeks < 1 || weeks > 10) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> দয়া করে ১ থেকে ১০ এর মধ্যে একটি সংখ্যা দিন!';
+      resultDiv.style.background = '#dc3545';
+      setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 2000);
+      return;
+    }
+    
+    let fib = [1, 1];
+    for (let i = 2; i < weeks; i++) {
+      fib.push(fib[i-1] + fib[i-2]);
+    }
+    
+    let resultHTML = '<div class="rabbit-display">';
+    for (let i = 0; i < weeks; i++) {
+      resultHTML += `<div class="fib-number">সপ্তাহ ${i+1}: ${fib[i]} জোড়া 🐰</div>`;
+    }
+    resultHTML += '</div>';
+    
+    resultDiv.innerHTML = resultHTML;
+    resultDiv.style.background = '#28a745';
+    setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 4000);
+    createConfetti();
+  }
+  
+  function resetRabbits() {
+    document.getElementById('weekInput').value = '6';
+    document.getElementById('rabbitResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> "খরগোশ দেখাও" চাপো। প্রতি সপ্তাহে কত জোড়া খরগোশ হবে দেখো!';
+  }
+  
+  // Game 2: Block Fibonacci
+  function showFibonacciBlocks() {
+    const count = parseInt(document.getElementById('blockCount').value);
+    const container = document.getElementById('blockContainer');
+    const resultDiv = document.getElementById('blockResult');
+    
+    if (isNaN(count) || count < 1 || count > 10) {
+      resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> দয়া করে ১ থেকে ১০ এর মধ্যে একটি সংখ্যা দিন!';
+      resultDiv.style.background = '#dc3545';
+      setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 2000);
+      return;
+    }
+    
+    let fib = [1, 1];
+    for (let i = 2; i < count; i++) {
+      fib.push(fib[i-1] + fib[i-2]);
+    }
+    
+    const colors = ['red', 'blue', 'green', 'yellow'];
+    container.innerHTML = '';
+    
+    for (let i = 0; i < count; i++) {
+      const blockRow = document.createElement('div');
+      blockRow.className = 'block-row';
+      
+      const label = document.createElement('div');
+      label.style.fontSize = '0.9rem';
+      label.style.color = '#ffaa44';
+      label.style.marginRight = '1rem';
+      label.innerHTML = `${i+1} নং: ${fib[i]} টি ব্লক → `;
+      blockRow.appendChild(label);
+      
+      for (let j = 0; j < fib[i] && j < 15; j++) {
+        const block = document.createElement('div');
+        block.className = `block ${colors[j % colors.length]}`;
+        block.innerHTML = `<div class="block-number">${j+1}</div>`;
+        blockRow.appendChild(block);
+      }
+      
+      if (fib[i] > 15) {
+        const more = document.createElement('div');
+        more.className = 'block';
+        more.innerHTML = `<div class="block-number">+${fib[i]-15} আরও</div>`;
+        blockRow.appendChild(more);
+      }
+      
+      container.appendChild(blockRow);
+    }
+    
+    resultDiv.innerHTML = `<i class="fa-regular fa-circle-check me-1"></i> 🎉 ${count}টি ফিবোনাচ্চি সংখ্যা ব্লক দিয়ে দেখানো হলো!`;
+    resultDiv.style.background = '#28a745';
+    setTimeout(() => resultDiv.style.background = 'rgba(0,0,0,0.3)', 3000);
+    createConfetti();
+  }
+  
+  function resetBlocks() {
+    document.getElementById('blockCount').value = '6';
+    document.getElementById('blockContainer').innerHTML = '<div class="text-muted">ব্লক এখানে দেখাবে</div>';
+    document.getElementById('blockResult').innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> ক্লিক করলেই ব্লক দিয়ে ফিবোনাচ্চি বুঝতে পারবে!';
+  }
+  
+  // Quiz Game
+  let quizAnswered = false;
+  
+  function checkQuizAnswer(element, value, isCorrect) {
+    if (quizAnswered) return;
+    
+    const resultDiv = document.getElementById('quizResult');
+    const allOptions = document.querySelectorAll('.quiz-opt');
+    
+    if (isCorrect) {
+      element.classList.add('correct');
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> 🎉 সঠিক! ৫+৩=৮, এটাই ফিবোনাচ্চির নিয়ম!';
+      resultDiv.style.background = '#28a745';
+      createConfetti();
+      quizAnswered = true;
+    } else {
+      element.classList.add('wrong');
+      resultDiv.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো। ৩+৫ কত?';
+      resultDiv.style.background = '#dc3545';
+      setTimeout(() => {
+        element.classList.remove('wrong');
+        resultDiv.style.background = 'rgba(0,0,0,0.3)';
+      }, 1000);
+    }
+    
+    setTimeout(() => {
+      if (!isCorrect) {
+        resultDiv.innerHTML = '<i class="fa-regular fa-lightbulb me-1"></i> সঠিক উত্তর বাছো! ৩+৫ = ৮';
+      }
+    }, 1500);
+  }
+  
+  // Challenge Reveal
+  function revealChallenge(id, answer) {
+    const span = document.getElementById(`challenge${id}`);
+    if (span.innerHTML === '') {
+      span.innerHTML = answer;
+      createConfetti();
+      showMessage(`✅ উত্তর: ${answer}`);
+    }
+  }
+  
+  // Show temporary message
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_fibonacci_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি ফিবোনাচ্চি পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  // Next Topic
+  function goToNextTopic() {
+    localStorage.setItem('tara_level5_topic4_completed', 'true');
+    window.location.href = 'topics/level-5/topic-5-5.html';
+  }
+  
+  // Add animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.showFibonacciRabbits = showFibonacciRabbits;
+  window.resetRabbits = resetRabbits;
+  window.showFibonacciBlocks = showFibonacciBlocks;
+  window.resetBlocks = resetBlocks;
+  window.checkQuizAnswer = checkQuizAnswer;
+  window.revealChallenge = revealChallenge;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+</script>
+
+</body>
+</html>

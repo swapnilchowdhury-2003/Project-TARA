@@ -1,0 +1,875 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | ইনডেক্সিং (Indexing)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Train Indexing Game */
+    .train {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .train-carriages {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    
+    .carriage {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
+      min-width: 70px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .carriage:hover {
+      transform: scale(1.05);
+    }
+    
+    .carriage.selected {
+      box-shadow: 0 0 0 3px white, 0 0 0 6px #28a745;
+    }
+    
+    .carriage-index {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+    
+    .carriage-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    
+    .index-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .index-input {
+      width: 80px;
+      padding: 0.5rem;
+      font-size: 1.2rem;
+      text-align: center;
+      border-radius: 15px;
+      border: 2px solid #ff8c00;
+      background: #0f0f23;
+      color: white;
+    }
+    
+    .index-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+    }
+    
+    .index-result {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      text-align: center;
+    }
+    
+    /* Shelf Game */
+    .shelf {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .shelf-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .shelf-item {
+      background: #2a2a4a;
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 80px;
+      border: 2px solid transparent;
+    }
+    
+    .shelf-item:hover {
+      transform: scale(1.05);
+      border-color: #ff8c00;
+    }
+    
+    .shelf-item.selected {
+      border-color: #28a745;
+      background: rgba(40,167,69,0.2);
+    }
+    
+    .shelf-emoji {
+      font-size: 2rem;
+    }
+    
+    .shelf-name {
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+    }
+    
+    .shelf-index {
+      font-size: 0.7rem;
+      color: #aaa;
+    }
+    
+    /* Code Box */
+    .code-box {
+      background: #0f0f23;
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-family: monospace;
+      font-size: 0.9rem;
+      border: 1px solid #ff8c00;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .bounce {
+      animation: bounce 0.3s;
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .carriage {
+        min-width: 50px;
+        padding: 0.5rem;
+      }
+      .carriage-value {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-4.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-list-ol me-2"></i>ইনডেক্সিং (Indexing)</h2>
+      <small>Level 4 · Topic 2</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 4 · Topic 2</div>
+    <h1 class="topic-title">🔢 ইনডেক্সিং (Indexing)</h1>
+    <div class="topic-description" style="color:#ccc;">
+      <strong>ইনডেক্সিং</strong> মানে হলো কোনো তালিকার <strong>অবস্থান</strong> চিহ্নিত করা। যেমন: ১ম, ২য়, ৩য়!<br>
+      প্রোগ্রামিং-এ অ্যারের প্রতিটি জায়গার একটি ইনডেক্স থাকে, যা ০ থেকে শুরু হয়!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🚂📚</div>
+    <div class="story-title">📖 গল্প: রিয়ার ট্রেন ও বইয়ের আলমারি</div>
+    <div class="story-text">
+      <strong>রিয়া</strong> খুব স্মার্ট মেয়ে। তার একটি খেলনার ট্রেন আছে যাতে <strong>৫টি বগি</strong> আছে।<br>
+      প্রথম বগির নাম্বার <strong>০</strong>, দ্বিতীয়টির <strong>১</strong>, তৃতীয়টির <strong>২</strong>... এটাই <strong>ইনডেক্স</strong>!<br><br>
+      তার আরও একটি <strong>বইয়ের আলমারি</strong> আছে। প্রথম তাকে বই রাখে <strong>০ নম্বর</strong> স্থানে।<br>
+      সে ০ নম্বর স্থান থেকে বই বের করতে জানে!<br><br>
+      <span class="story-highlight">📌 এটাই হলো <strong>ইনডেক্সিং</strong> — তালিকার প্রতিটি জিনিসের একটি অবস্থান আছে!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      ক্লাস ১-২ এ আমরা শিখি — <strong>"১ম, ২য়, ৩য় ক্রমিক সংখ্যা"</strong> — এটাই ইনডেক্সিং!<br>
+      <strong>প্রোগ্রামিং-এ ইনডেক্সিং:</strong> <code>array[0]</code> → প্রথম উপাদান, <code>array[1]</code> → দ্বিতীয় উপাদান
+    </div>
+  </div>
+  
+  <!-- Game Container -->
+  <div class="game-container">
+    
+    <!-- Game 1: Train Indexing -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-train"></i> খেলা ১: রিয়ার ট্রেনের বগি
+      </div>
+      <div class="train">
+        <div class="train-carriages" id="trainCarriages">
+          <!-- Carriages will be added by JS -->
+        </div>
+        
+        <div class="index-control">
+          <label>কোন বগির ভিতরে দেখতে চাও? (ইনডেক্স)</label>
+          <input type="number" id="trainIndex" class="index-input" min="0" max="4" value="0">
+          <button class="index-btn" onclick="showTrainCarriage()">
+            <i class="fa-solid fa-magnifying-glass me-1"></i>দেখাও!
+          </button>
+        </div>
+        
+        <div class="index-result" id="trainResult"></div>
+        
+        <div class="code-box mt-2">
+          <i class="fa-solid fa-code me-2"></i> let train = ["🐼", "🐧", "🐨", "🦁", "🐸"];<br>
+          train[<span id="trainIndexExample">0</span>] = <span id="trainValueExample">🐼</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Game 2: Bookshelf Indexing -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-book"></i> খেলা ২: বইয়ের আলমারি
+      </div>
+      <div class="shelf">
+        <div class="shelf-items" id="shelfItems">
+          <!-- Books will be added by JS -->
+        </div>
+        
+        <div class="index-control">
+          <label>কোন তাকে বই দেখতে চাও? (ইনডেক্স)</label>
+          <input type="number" id="shelfIndex" class="index-input" min="0" max="5" value="0">
+          <button class="index-btn" onclick="showShelfBook()">
+            <i class="fa-solid fa-magnifying-glass me-1"></i>দেখাও!
+          </button>
+        </div>
+        
+        <div class="index-result" id="shelfResult"></div>
+        
+        <div class="code-box mt-2">
+          <i class="fa-solid fa-code me-2"></i> let books = ["📖🐱", "📖🐶", "📖🐭", "📖🐹", "📖🐰", "📖🦊"];<br>
+          books[<span id="shelfIndexExample">0</span>] = <span id="shelfValueExample">📖🐱</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Challenge Box -->
+  <div class="math-box" style="border-left-color: #28a745;">
+    <div class="math-box-title">
+      <i class="fa-solid fa-puzzle-piece me-2"></i>ইনডেক্সিং চ্যালেঞ্জ!
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      <p><strong>নিচের তালিকা দেখো এবং প্রশ্নের উত্তর দাও:</strong></p>
+      <div class="code-box" style="background:#2a2a4a; text-align:center;">
+        <span style="font-size:1.5rem;">🍎 🍌 🍊 🍇 🥝</span><br>
+        <span style="font-size:0.8rem;">[০] [১] [২] [৩] [৪]</span>
+      </div>
+      <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+        <li>ইনডেক্স ০-এ কী আছে? <span id="challenge1" style="color:#ffaa44;">?</span> 
+          <button class="btn btn-sm btn-outline-warning ms-2" onclick="revealChallenge(1, '🍎')">উত্তর</button></li>
+        <li>ইনডেক্স ২-এ কী আছে? <span id="challenge2" style="color:#ffaa44;">?</span> 
+          <button class="btn btn-sm btn-outline-warning ms-2" onclick="revealChallenge(2, '🍊')">উত্তর</button></li>
+        <li>🍇 কোন ইনডেক্সে আছে? <span id="challenge3" style="color:#ffaa44;">?</span> 
+          <button class="btn btn-sm btn-outline-warning ms-2" onclick="revealChallenge(3, '৩')">উত্তর</button></li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>ইনডেক্সিং সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. প্রোগ্রামিং-এ অ্যারের প্রথম উপাদানের ইনডেক্স কত?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> ১</label>
+        <label class="option"><input type="radio" name="q1" value="1"> ০</label>
+        <label class="option"><input type="radio" name="q1" value="2"> ১০</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">২. ['🍎', '🍌', '🍊'] অ্যারের ইনডেক্স ২-এ কী আছে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> 🍎</label>
+        <label class="option"><input type="radio" name="q2" value="1"> 🍊</label>
+        <label class="option"><input type="radio" name="q2" value="2"> 🍌</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. ৫টি বগির ট্রেনের শেষ বগির ইনডেক্স কত?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> ৪</label>
+        <label class="option"><input type="radio" name="q3" value="1"> ৫</label>
+        <label class="option"><input type="radio" name="q3" value="2"> ১</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">৪. ইনডেক্সিং দিয়ে আমরা কী করি?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> সংখ্যা যোগ করি</label>
+        <label class="option"><input type="radio" name="q4" value="1"> তালিকার অবস্থান চিহ্নিত করি</label>
+        <label class="option"><input type="radio" name="q4" value="2"> সংখ্যা গুণ করি</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: সর্টিং
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      ইনডেক্সিং শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Indexing Topic
+  // ==========================================
+  
+  // Train Data
+  const trainData = ["🐼", "🐧", "🐨", "🦁", "🐸"];
+  const trainNames = ["পান্ডা", "পেঙ্গুইন", "কোয়ালা", "সিংহ", "ব্যাঙ"];
+  
+  // Shelf Data
+  const shelfData = ["📖🐱", "📖🐶", "📖🐭", "📖🐹", "📖🐰", "📖🦊"];
+  const shelfNames = ["বিড়ালের বই", "কুকুরের বই", "ইঁদুরের বই", "হ্যামস্টারের বই", "খরগোশের বই", "শেয়ালের বই"];
+  
+  // Initialize Train
+  function initTrain() {
+    const container = document.getElementById('trainCarriages');
+    container.innerHTML = '';
+    
+    trainData.forEach((item, idx) => {
+      const carriage = document.createElement('div');
+      carriage.className = 'carriage';
+      carriage.setAttribute('data-index', idx);
+      carriage.onclick = () => selectTrainCarriage(idx);
+      carriage.innerHTML = `
+        <div class="carriage-index">🚂 ${idx}</div>
+        <div class="carriage-value">${item}</div>
+        <div style="font-size:0.7rem;">${trainNames[idx]}</div>
+      `;
+      container.appendChild(carriage);
+    });
+  }
+  
+  function selectTrainCarriage(idx) {
+    document.getElementById('trainIndex').value = idx;
+    showTrainCarriage();
+    
+    // Highlight selected carriage
+    document.querySelectorAll('.carriage').forEach((c, i) => {
+      if (i == idx) c.classList.add('selected');
+      else c.classList.remove('selected');
+    });
+  }
+  
+  function showTrainCarriage() {
+    const idx = parseInt(document.getElementById('trainIndex').value);
+    const resultDiv = document.getElementById('trainResult');
+    
+    if (idx >= 0 && idx < trainData.length) {
+      resultDiv.innerHTML = `
+        <div style="background:#28a745; padding:0.8rem; border-radius:15px;">
+          <i class="fa-solid fa-check-circle me-2"></i>
+          ইনডেক্স ${idx} → ${trainData[idx]} (${trainNames[idx]})
+        </div>
+      `;
+      document.getElementById('trainIndexExample').innerText = idx;
+      document.getElementById('trainValueExample').innerText = trainData[idx];
+      
+      // Highlight selected carriage
+      document.querySelectorAll('.carriage').forEach((c, i) => {
+        if (i == idx) c.classList.add('selected');
+        else c.classList.remove('selected');
+      });
+    } else {
+      resultDiv.innerHTML = `
+        <div style="background:#dc3545; padding:0.8rem; border-radius:15px;">
+          <i class="fa-solid fa-triangle-exclamation me-2"></i>
+          ভুল ইনডেক্স! ০ থেকে ${trainData.length - 1} পর্যন্ত ইনডেক্স আছে।
+        </div>
+      `;
+    }
+  }
+  
+  // Initialize Shelf
+  function initShelf() {
+    const container = document.getElementById('shelfItems');
+    container.innerHTML = '';
+    
+    shelfData.forEach((item, idx) => {
+      const shelfItem = document.createElement('div');
+      shelfItem.className = 'shelf-item';
+      shelfItem.setAttribute('data-index', idx);
+      shelfItem.onclick = () => selectShelfItem(idx);
+      shelfItem.innerHTML = `
+        <div class="shelf-emoji">${item}</div>
+        <div class="shelf-name">${shelfNames[idx]}</div>
+        <div class="shelf-index">তাক ${idx}</div>
+      `;
+      container.appendChild(shelfItem);
+    });
+  }
+  
+  function selectShelfItem(idx) {
+    document.getElementById('shelfIndex').value = idx;
+    showShelfBook();
+    
+    // Highlight selected item
+    document.querySelectorAll('.shelf-item').forEach((c, i) => {
+      if (i == idx) c.classList.add('selected');
+      else c.classList.remove('selected');
+    });
+  }
+  
+  function showShelfBook() {
+    const idx = parseInt(document.getElementById('shelfIndex').value);
+    const resultDiv = document.getElementById('shelfResult');
+    
+    if (idx >= 0 && idx < shelfData.length) {
+      resultDiv.innerHTML = `
+        <div style="background:#28a745; padding:0.8rem; border-radius:15px;">
+          <i class="fa-solid fa-check-circle me-2"></i>
+          ইনডেক্স ${idx} → ${shelfData[idx]} (${shelfNames[idx]})
+        </div>
+      `;
+      document.getElementById('shelfIndexExample').innerText = idx;
+      document.getElementById('shelfValueExample').innerText = shelfData[idx];
+      
+      // Highlight selected item
+      document.querySelectorAll('.shelf-item').forEach((c, i) => {
+        if (i == idx) c.classList.add('selected');
+        else c.classList.remove('selected');
+      });
+    } else {
+      resultDiv.innerHTML = `
+        <div style="background:#dc3545; padding:0.8rem; border-radius:15px;">
+          <i class="fa-solid fa-triangle-exclamation me-2"></i>
+          ভুল ইনডেক্স! ০ থেকে ${shelfData.length - 1} পর্যন্ত ইনডেক্স আছে।
+        </div>
+      `;
+    }
+  }
+  
+  // Challenge Reveal
+  function revealChallenge(id, answer) {
+    const span = document.getElementById(`challenge${id}`);
+    if (span.innerText === '?') {
+      span.innerText = answer;
+      createConfetti();
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_indexing_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+      showMessage('🎉 চমৎকার! তুমি ইনডেক্সিং পুরোপুরি বুঝতে পেরেছো! 🎉');
+    }
+  }
+  
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow-lg';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.animation = 'fadeOut 2s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2000);
+  }
+  
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  function goToNextTopic() {
+    localStorage.setItem('tara_level4_topic2_completed', 'true');
+    window.location.href = 'topics/level-4/topic-4-3.html';
+  }
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Initialize
+  initTrain();
+  initShelf();
+  
+  // Make functions global
+  window.showTrainCarriage = showTrainCarriage;
+  window.showShelfBook = showShelfBook;
+  window.revealChallenge = revealChallenge;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+</script>
+
+</body>
+</html>

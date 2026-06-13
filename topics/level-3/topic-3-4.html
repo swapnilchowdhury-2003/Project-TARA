@@ -1,0 +1,842 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | লুপ (Loop)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    /* Header */
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    /* Main Container */
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    /* Topic Card */
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    /* Story Box */
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+      text-align: center;
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+    }
+    
+    .story-text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    /* Math Box */
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    /* Game Container */
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .game-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Realistic Round Snake Area */
+    .snake-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    /* Circular Track Design */
+    .snake-round-track {
+      width: 180px;
+      height: 180px;
+      border: 6px dashed #ff8c00;
+      border-radius: 50%;
+      margin: 1.5rem auto;
+      position: relative;
+      background: radial-gradient(circle, #112211 0%, #0a140a 100%);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 0 10px rgba(255,140,0,0.2);
+    }
+    
+    .snake-character {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      font-size: 2.2rem;
+      line-height: 32px;
+      text-align: center;
+      left: calc(50% - 16px);
+      top: calc(50% - 16px);
+      transform-origin: center center;
+      transition: transform 0.03s linear;
+    }
+    
+    /* Realistic Runner Game Track */
+    .runner-area {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .race-track {
+      background: linear-gradient(180deg, #3a5f3a 0%, #2a4a2a 100%);
+      border-bottom: 5px solid #555;
+      border-radius: 20px;
+      padding: 1rem;
+      position: relative;
+      height: 120px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    
+    .track-line {
+      position: absolute;
+      bottom: 30px;
+      left: 10px;
+      right: 10px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.4);
+      border-top: 2px dotted #fff;
+    }
+    
+    .start-point {
+      position: absolute;
+      bottom: 5px;
+      left: 10px;
+      font-size: 0.9rem;
+      background: rgba(0,0,0,0.5);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    
+    .end-point {
+      position: absolute;
+      bottom: 5px;
+      right: 10px;
+      font-size: 0.9rem;
+      background: rgba(0,0,0,0.5);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    
+    .runner-character {
+      position: absolute;
+      bottom: 20px;
+      left: 10px;
+      font-size: 2.2rem;
+      transition: left 0.15s ease-in-out;
+    }
+    
+    /* Running Footstep Animation */
+    @keyframes stride {
+      0% { transform: rotate(-5deg) scaleY(0.95); }
+      100% { transform: rotate(5deg) scaleY(1.05); }
+    }
+    
+    .striding {
+      animation: stride 0.15s infinite alternate linear;
+    }
+    
+    .progress-bar {
+      background: #333;
+      border-radius: 10px;
+      height: 10px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      width: 0%;
+      height: 100%;
+      transition: width 0.15s ease-in-out;
+    }
+    
+    .game-explanation {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 0.8rem;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      text-align: left;
+      border-left: 3px solid #ff2e63;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    /* Next Button */
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    /* Footer */
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .bounce {
+      animation: bounce 0.2s ease-in-out;
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-3.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-rotate-right me-2"></i>লুপ (Loop)</h2>
+      <small>Level 3 · Topic 4</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 3 · Topic 4</div>
+    <h1 class="topic-title">🔄 লুপ (Loop) কী?</h1>
+    <div class="topic-description" style="color:#ccc; font-size: 1.1rem; line-height: 1.6;">
+      धরে নাও তোমাকে তোমার আম্মু বলল, <strong>"১ থেকে ১০ পর্যন্ত গুনো"</strong> অথবা <strong>"খাতায় ৫ বার ১, ২, ৩ লেখো"</strong>। এই যে একই কাজ তুমি নিয়ম মেনে বারবার করছ, একেই সহজ ভাষায় বলে <strong>লুপ (Loop)</strong>!<br>
+      কম্পিউটারকেও যখন আমরা কোনো কাজ এক বা একাধিকবার করাতে চাই, তখন আমরা লুপ ব্যবহার করি।
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">🐍🏃‍♂️</div>
+    <div class="story-title">📖 গল্প: সাপু ও রনুর লুপ অভিযান</div>
+    <div class="story-text">
+      এক জঙ্গলে <strong>সাপু নামের এক চটপটে সাপ</strong> আর <strong>রনু নামের এক তুখড় দৌড়বিদ</strong> থাকত।<br>
+      সাপু গোলাকার ট্র্যাকে রাউন্ড ঘুরে ঘুরে আনন্দ পেত, আর রনু সোজা ট্র্যাকে দ্রুত এক পা দু পা করে কদম ফেলে দৌড়াত।<br><br>
+      একদিন তারা একটি চ্যালেঞ্জ নিল! সাপুকে গোলাকার ট্র্যাকে নির্দিষ্ট কয়েকটি **পূর্ণ চক্কর** শেষ করতে হবে। আর রনু তার রেস শেষ করবে নির্দিষ্ট কয়েকটি **দৌড়ের কদমে**।<br><br>
+      <span class="story-highlight">🔁 সাপু পুরো ১ বার গোল ঘুরে আসলে ১ চক্কর হবে — এটিই সাপুরের লুপ! 🔁</span><br>
+      <span class="story-highlight">🏃‍♂️ রনু প্রতি কদমে পা বাড়িয়ে দৌড়াবে — এটিই রনুর লুপ! 🏃‍♂️</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title" style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">
+      <i class="fa-solid fa-graduation-cap me-2"></i>আমাদের চারপাশের লুপের উদাহরণ
+    </div>
+    <div class="math-box-text" style="color:#ddd; line-height: 1.6;">
+      আমরা প্রতিদিন যে গণিতের নামতা পড়ি (যেমন ৫ একে ৫, ৫ দুগুনে ১০, তিন পাঁচে ১৫...), সেখানেও কিন্তু একটি লুপ লুকিয়ে আছে! প্রতিবার ৫ করে সংখ্যাটি বাড়ছে এবং নির্দিষ্ট একটা ঘরে গিয়ে নামতা শেষ হচ্ছে। প্রোগ্রামিংয়ের লুপও ঠিক এভাবেই কাজ করে।
+    </div>
+  </div>
+  
+  <!-- Game Container -->
+  <div class="game-container">
+    
+    <!-- Game 1: Round Snake Loop -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-snake"></i> খেলা ১: সাপুরের গোল চক্কর লুপ
+      </div>
+      <div class="snake-area">
+        <!-- New Circular Realistic Track -->
+        <div class="snake-round-track">
+          <div class="snake-character" id="snake">🐍</div>
+        </div>
+        
+        <div class="loop-control">
+          <div class="loop-input-group">
+            <label class="me-2">সাপু কত চক্কর (Round) ঘুরবে?</label>
+            <input type="number" id="snakeLoopCount" class="loop-input" min="1" max="10" value="3">
+          </div>
+        </div>
+        
+        <button class="loop-btn" id="startSnakeLoop" onclick="startSnakeLoop()">
+          <i class="fa-solid fa-play me-2"></i>লুপ চালিয়ে সাপুকে ঘোরাও!
+        </button>
+        
+        <div class="counter-display">
+          <i class="fa-solid fa-circle-notch"></i> পূর্ণ চক্কর (Round) সংখ্যা: 
+          <span class="counter-number" id="snakeCounter">0</span> / 
+          <span id="snakeTarget">3</span>
+        </div>
+        
+        <div class="game-explanation">
+          <strong>💡 সাপুর রাউন্ড লুপ কীভাবে কাজ করছে?</strong><br>
+          সাপু গোলাকার ট্র্যাকে ঘোরা শুরু করেছে। সে যখন পুরো $360^\circ$ পথ অতিক্রম করে একদম শুরুর জায়গায় ফিরে আসবে, ঠিক তখনই লুপের নিয়মে **১ চক্কর** কাউন্ট হবে।
+        </div>
+      </div>
+    </div>
+    
+    <!-- Game 2: Runner Loop -->
+    <div class="game-card">
+      <div class="game-title">
+        <i class="fa-solid fa-person-running"></i> খেলা ২: রনুর বাস্তবসম্মত দৌড় লুপ
+      </div>
+      <div class="runner-area">
+        <div class="race-track" id="raceTrack">
+          <div class="track-line"></div>
+          <div class="start-point">🚩 শুরু</div>
+          <div class="end-point">🏁 শেষ</div>
+          <div class="runner-character" id="runner">🏃‍♂️</div>
+        </div>
+        
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="loop-control">
+          <div class="loop-input-group">
+            <label class="me-2">রনু কত কদম দৌড়াবে?</label>
+            <input type="number" id="runnerLoopCount" class="loop-input" min="1" max="20" value="10">
+          </div>
+        </div>
+        
+        <button class="loop-btn" id="startRunnerLoop" onclick="startRunnerLoop()">
+          <i class="fa-solid fa-play me-2"></i>লুপ চালিয়ে রনুকে কদম দাও!
+        </button>
+        
+        <div class="counter-display">
+          <i class="fa-solid fa-clock"></i> বর্তমান কদম নাম্বার: 
+          <span class="counter-number" id="runnerCounter">0</span> / 
+          <span id="runnerTarget">10</span>
+        </div>
+        
+        <div class="game-explanation">
+          <strong>💡 রনুর লুপ কীভাবে কাজ করছে?</strong><br>
+          রনু এক এক কদমে পা ফেলে ফেলে ফিনিশ লাইনের দিকে যাচ্ছে। লুপের কাজ হলো রনুর পা ফেলার এই অ্যাকশনটি বারবার রিপিট করা, যতক্ষণ না তোমার দেওয়া কদমের সংখ্যা পূর্ণ হচ্ছে।
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Loop Explanation Box -->
+  <div class="math-box" style="border-left-color: #28a745;">
+    <div class="math-box-title" style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">
+      <i class="fa-solid fa-lightbulb me-2"></i>লুপের ৩টি প্রধান নিয়ম (মজার বাংলা ব্যাখ্যা)
+    </div>
+    <div class="math-box-text" style="color:#ddd; line-height: 1.7;">
+      একটি লুপ সুন্দরভাবে চালাতে কম্পিউটারকে ৩টি জিনিস বলে দিতে হয়:
+      <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+        <li><strong>১. শুরু (Start):</strong> লুপটি কোথা থেকে গোনা শুরু করবে? (যেমন: প্রথম চক্কর বা কদম থেকে)</li>
+        <li><strong>২. শেষ (End):</strong> লুপটি কতদূর পর্যন্ত গিয়ে থামবে? (যেমন: তোমার সিলেক্ট করা শেষ গোল চক্কর পর্যন্ত)</li>
+        <li><strong>৩. ধাপ (Step):</strong> প্রতিবারে লুপটি কত ঘর করে এগোবে? (যেমন: ১ রাউন্ড বা ১ কদম করে সামনে যাবে)</li>
+      </ul>
+      এই ৩টি নিয়ম ঠিক থাকলে কম্পিউটার খুব সহজেই ক্লান্ত না হয়ে কোটি কোটি বার একই কাজ করে দিতে পারে!
+    </div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>লুপ সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. লুপ ব্যবহার করা হয় কেন?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> একবার কাজ করার জন্য</label>
+        <label class="option"><input type="radio" name="q1" value="1"> বারবার একই কাজ করার জন্য</label>
+        <label class="option"><input type="radio" name="q1" value="2"> ডাটা সংরক্ষণের জন্য</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">২. সাপুকে গোল ট্র্যাকে ৪ চক্কর দিতে বললে লুপটি কতটি পূর্ণ রাউন্ড শেষ করবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> ৪ টি পূর্ণ রাউন্ড</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ১ টি রাউন্ড</label>
+        <label class="option"><input type="radio" name="q2" value="2"> ০ টি রাউন্ড</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৩. বাস্তব জীবনে নিচের কোনটি একটি লুপের দারুণ উদাহরণ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> একবার হাত ধুয়ে টেবিল এ বসা</label>
+        <label class="option"><input type="radio" name="q3" value="1"> ঘুমাতে যাওয়া</label>
+        <label class="option"><input type="radio" name="q3" value="2"> পিটি (PT) করার সময় ১০ বার লাফানো</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <button class="next-btn mt-3" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>পরবর্তী টপিক: রেঞ্জ (Range)
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      লুপ শিখে ফেলেছো? পরবর্তী টপিকে যাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Loop Topic (Snake Round & Runner Games)
+  // ==========================================
+  
+  let snakeRunning = false;
+  let runnerRunning = false;
+  let snakeInterval = null;
+  let runnerInterval = null;
+  
+  // Realistic Circular Orbit Snake Loop
+  function startSnakeLoop() {
+    if (snakeRunning) {
+      alert('লুপ ইতিমধ্যে চলছে! সাপু গোল গোল ঘুরছে...');
+      return;
+    }
+    
+    const targetRounds = parseInt(document.getElementById('snakeLoopCount').value);
+    if (isNaN(targetRounds) || targetRounds < 1 || targetRounds > 10) {
+      alert('দয়া করে ১ থেকে ১০ এর মধ্যে একটি চক্কর সংখ্যা দাও!');
+      return;
+    }
+    
+    snakeRunning = true;
+    document.getElementById('snakeTarget').innerText = targetRounds;
+    document.getElementById('snakeCounter').innerText = '0';
+    document.getElementById('startSnakeLoop').disabled = true;
+    
+    const snake = document.getElementById('snake');
+    const radius = 74; // Orbit radius matching the visual circle track
+    let currentAngle = 0; 
+    let completedRounds = 0;
+    
+    function updateSnakePosition() {
+      // Complete calculation for 1 full circular loop (360 degrees)
+      if (completedRounds >= targetRounds) {
+        clearInterval(snakeInterval);
+        snakeRunning = false;
+        document.getElementById('startSnakeLoop').disabled = false;
+        
+        // Reset smooth state positioning
+        snake.style.transform = `translate(0px, ${-radius}px) rotate(0deg)`;
+        
+        createConfetti();
+        showMessage('🎉 সাপু নিখুঁতভাবে ' + targetRounds + ' বার গোল চক্কর লুপ সম্পন্ন করল! 🎉');
+        return;
+      }
+      
+      // Step movement angle speed
+      currentAngle += 6; 
+      
+      // Trigonometric math positioning relative to the circle center frame
+      const radians = (currentAngle - 90) * (Math.PI / 180);
+      const x = radius * Math.cos(radians);
+      const y = radius * Math.sin(radians);
+      
+      // Rotate emoji alignment matching tangent direction dynamically
+      const facingAngle = currentAngle;
+      snake.style.transform = `translate(${x}px, ${y}px) rotate(${facingAngle}deg)`;
+      
+      // Counter increments strictly after completing a full round (360deg reset boundary)
+      if (currentAngle >= 360) {
+        currentAngle = 0;
+        completedRounds++;
+        document.getElementById('snakeCounter').innerText = completedRounds;
+      }
+    }
+    
+    // Smooth step interval
+    snakeInterval = setInterval(updateSnakePosition, 20);
+  }
+  
+  // Realistic Runner Loop
+  function startRunnerLoop() {
+    if (runnerRunning) {
+      alert('লুপ ইতিমধ্যে চলছে! রনু ট্র্যাকে দৌড়াচ্ছে...');
+      return;
+    }
+    
+    const loopCount = parseInt(document.getElementById('runnerLoopCount').value);
+    if (isNaN(loopCount) || loopCount < 1 || loopCount > 20) {
+      alert('দয়া করে ১ থেকে ২০ এর মধ্যে একটি কদম সংখ্যা দাও!');
+      return;
+    }
+    
+    runnerRunning = true;
+    document.getElementById('runnerTarget').innerText = loopCount;
+    document.getElementById('runnerCounter').innerText = '0';
+    document.getElementById('startRunnerLoop').disabled = true;
+    
+    const runner = document.getElementById('runner');
+    const progressFill = document.getElementById('progressFill');
+    const trackWidth = document.querySelector('.race-track').offsetWidth - 60;
+    
+    runner.classList.add('striding');
+    let currentStep = 0;
+    
+    function runRunnerStep() {
+      if (currentStep >= loopCount) {
+        clearInterval(runnerInterval);
+        runnerRunning = false;
+        document.getElementById('startRunnerLoop').disabled = false;
+        runner.classList.remove('striding');
+        
+        setTimeout(() => {
+          runner.style.left = '10px';
+          progressFill.style.width = '0%';
+        }, 1500);
+        
+        createConfetti();
+        showMessage('🎉 রনু সফলভাবে পা ফেলে ফেলে ' + loopCount + ' কদমের রেস লুপ শেষ করল! 🎉');
+        return;
+      }
+      
+      currentStep++;
+      document.getElementById('runnerCounter').innerText = currentStep;
+      
+      const percent = (currentStep / loopCount) * 100;
+      progressFill.style.width = percent + '%';
+      
+      const stepDistance = trackWidth / loopCount;
+      const newLeft = 10 + (stepDistance * currentStep);
+      runner.style.left = Math.min(newLeft, trackWidth + 10) + 'px';
+      
+      runner.classList.add('bounce');
+      setTimeout(() => runner.classList.remove('bounce'), 100);
+    }
+    
+    runnerInterval = setInterval(runRunnerStep, 300);
+  }
+  
+  // Show temporary message
+  function showMessage(msg) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-4 rounded-4 shadow-lg text-center';
+    messageDiv.style.zIndex = '2000';
+    messageDiv.style.border = '2px solid #ff8c00';
+    messageDiv.style.animation = 'fadeOut 2.5s ease-out forwards';
+    messageDiv.innerHTML = msg;
+    document.body.appendChild(messageDiv);
+    setTimeout(() => messageDiv.remove(), 2500);
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! চমৎকার হয়েছে!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল হয়েছে! আবার একটু ভেবে উত্তর দাও।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> তুমি এখনও কোনো অপশন সিলেক্ট করোনি।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি ${total} টি প্রশ্নের মধ্যে ${correctCount} টি সঠিক উত্তর দিতে পেরেছো!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_loop_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+    }
+  }
+  
+  // Next Topic
+  function goToNextTopic() {
+    localStorage.setItem('tara_level3_topic4_completed', 'true');
+    window.location.href = 'topics/level-3/topic-3-5.html';
+  }
+  
+  // Add fadeOut animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.startSnakeLoop = startSnakeLoop;
+  window.startRunnerLoop = startRunnerLoop;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+</script>
+
+</body>
+</html>

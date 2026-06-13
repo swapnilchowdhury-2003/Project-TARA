@@ -1,0 +1,907 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TARA | রেঞ্জ (Range)</title>
+  
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    /* Header */
+    .tara-header {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    .tara-header .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+    }
+    
+    .tara-header h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    
+    /* Main Container */
+    .topic-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    /* Topic Card */
+    .topic-card {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,140,0,0.2);
+    }
+    
+    .topic-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .topic-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    /* Story Box */
+    .story-box {
+      background: linear-gradient(135deg, rgba(255,140,0,0.15), rgba(255,46,99,0.1));
+      border-radius: 25px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,140,0,0.4);
+    }
+    
+    .story-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .story-highlight {
+      background: rgba(255,140,0,0.3);
+      padding: 0.5rem;
+      border-radius: 15px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    
+    /* Math Box */
+    .math-box {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #ff8c00;
+    }
+    
+    /* Range Examples Grid */
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .example-card {
+      background: rgba(30, 30, 50, 0.9);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,140,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .example-card:hover {
+      transform: translateY(-5px);
+      border-color: #ff8c00;
+    }
+    
+    .example-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ff8c00;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .range-slider {
+      margin: 1rem 0;
+    }
+    
+    .range-values {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+    
+    .range-input {
+      width: 100%;
+      accent-color: #ff8c00;
+    }
+    
+    .range-result {
+      text-align: center;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+    }
+    
+    .range-emoji {
+      font-size: 2rem;
+    }
+    
+    /* Game Box */
+    .game-box {
+      background: rgba(40,167,69,0.1);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid #28a745;
+      text-align: center;
+    }
+    
+    .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #90ee90;
+      margin-bottom: 1rem;
+    }
+    
+    .money-display {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #ffaa44;
+      margin: 1rem 0;
+    }
+    
+    .shop-items {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    
+    .shop-item {
+      background: rgba(0,0,0,0.4);
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      min-width: 120px;
+    }
+    
+    .shop-item:hover {
+      transform: scale(1.05);
+      border-color: #ff8c00;
+    }
+    
+    .shop-item.selected {
+      border-color: #28a745;
+      background: rgba(40,167,69,0.2);
+    }
+    
+    .shop-item.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .item-emoji {
+      font-size: 2.5rem;
+    }
+    
+    .item-name {
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+    
+    .item-price {
+      font-size: 0.9rem;
+      color: #ffaa44;
+    }
+    
+    .game-btn {
+      background: linear-gradient(135deg, #ff8c00, #ff2e63);
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      color: white;
+      margin: 1rem 0;
+      cursor: pointer;
+    }
+    
+    .game-result {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 15px;
+      font-weight: 600;
+    }
+    
+    /* Range Challenge */
+    .challenge-box {
+      background: rgba(255,140,0,0.1);
+      border-radius: 25px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .challenge-question {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .number-options {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .number-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.1);
+      border: 2px solid #ff8c00;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .number-btn:hover {
+      background: rgba(255,140,0,0.3);
+      transform: scale(1.05);
+    }
+    
+    .number-btn.correct {
+      background: #28a745;
+      border-color: #90ee90;
+    }
+    
+    .number-btn.wrong {
+      background: #dc3545;
+      border-color: #ff8888;
+    }
+    
+    /* MCQ Section */
+    .mcq-section {
+      background: rgba(30, 30, 50, 0.95);
+      border-radius: 30px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .mcq-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #ff8c00;
+    }
+    
+    .mcq-question {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option:hover {
+      background: rgba(255,140,0,0.3);
+    }
+    
+    .option input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option.correct {
+      background: #28a745;
+    }
+    
+    .option.wrong {
+      background: #dc3545;
+    }
+    
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .feedback.correct {
+      color: #90ee90;
+    }
+    
+    .feedback.wrong {
+      color: #ff8888;
+    }
+    
+    /* Next Button */
+    .next-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      color: white;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    
+    .next-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(40,167,69,0.3);
+    }
+    
+    /* Footer */
+    .tara-footer {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: white;
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,140,0,0.3);
+    }
+    
+    @keyframes bounce {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .bounce {
+      animation: bounce 0.3s;
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @media (max-width: 768px) {
+      .topic-title {
+        font-size: 1.8rem;
+      }
+      .number-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TARA Header -->
+<header class="tara-header py-3">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <a href="../../level-3.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>লেভেলে ফিরো
+      </a>
+    </div>
+    <div class="text-center">
+      <h2 class="mb-1"><i class="fa-solid fa-sliders-h me-2"></i>রেঞ্জ (Range)</h2>
+      <small>Level 3 · Topic 5</small>
+    </div>
+    <div>
+      <a href="../../dashboard.html" class="btn btn-outline-light">
+        <i class="fa-solid fa-chart-simple me-2"></i>স্কোরবোর্ড
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="topic-container">
+  
+  <!-- Topic Card -->
+  <div class="topic-card">
+    <div class="topic-badge">Level 3 · Topic 5</div>
+    <h1 class="topic-title">📊 রেঞ্জ (Range)</h1>
+    <div class="topic-description" style="color:#ccc;">
+      <strong>রেঞ্জ</strong> মানে হলো একটি সীমা — শুরু থেকে শেষ পর্যন্ত। যেমন: ১ থেকে ১০ পর্যন্ত সংখ্যা।<br>
+      প্রোগ্রামিং-এ রেঞ্জ ব্যবহার করে আমরা নির্দিষ্ট সীমার মধ্যে কাজ করি!
+    </div>
+  </div>
+  
+  <!-- Story Box -->
+  <div class="story-box">
+    <div class="story-icon">👧💰</div>
+    <div class="story-title">📖 গল্প: ঝিনতির কেনাকাটা</div>
+    <div class="story-text">
+      <strong>ঝিনতি</strong> খুব খুশি! তার কাছে <strong>১০ টাকা</strong> আছে। সে দোকানে গিয়ে চিপস, চকলেট আর আইসক্রিম দেখলো।<br><br>
+      কিন্তু তার মা তাকে বললেন — <strong>"তুই শুধু ৫ টাকার মধ্যে খরচ করতে পারিস!"</strong><br><br>
+      মানে, ঝিনতি <strong>০ টাকা থেকে ৫ টাকার মধ্যে</strong> খরচ করতে পারবে। ৫ টাকার বেশি খরচ করতে পারবে না!<br><br>
+      <span class="story-highlight">📌 এটাই হলো <strong>রেঞ্জ (Range)</strong> — একটি সীমা, যার মধ্যে থাকতে হবে!</span>
+    </div>
+  </div>
+  
+  <!-- Math Concept Box -->
+  <div class="math-box">
+    <div class="math-box-title">
+      <i class="fa-solid fa-graduation-cap me-2"></i>গণিতের ধারণা
+    </div>
+    <div class="math-box-text" style="color:#ddd;">
+      ক্লাস ৩-৪ এ আমরা শিখি — <strong>"১ থেকে ১০ পর্যন্ত সংখ্যা"</strong> — এটাই রেঞ্জ!<br>
+      <strong>প্রোগ্রামিং-এ রেঞ্জ:</strong> <code>range(1, 11)</code> → ১ থেকে ১০ পর্যন্ত সংখ্যা তৈরি করে!<br>
+      লুপের সাথে রেঞ্জ ব্যবহার করে আমরা নির্দিষ্ট সীমার মধ্যে কাজ করাতে পারি।
+    </div>
+  </div>
+  
+  <!-- Range Examples -->
+  <div class="examples-grid">
+    
+    <!-- Example 1: Number Range -->
+    <div class="example-card">
+      <div class="example-title">
+        <i class="fa-solid fa-hashtag me-1"></i> সংখ্যার রেঞ্জ
+      </div>
+      <div class="range-slider">
+        <input type="range" class="range-input" id="numberRange" min="1" max="20" value="10" oninput="updateNumberRange()">
+        <div class="range-values">
+          <span>১</span>
+          <span>২০</span>
+        </div>
+      </div>
+      <div class="range-result" id="numberRangeResult">
+        <span class="range-emoji">🔢</span> তুমি বাছাই করেছো: <strong id="selectedNumber">১০</strong>
+      </div>
+      <div class="code-box mt-2" style="background:#0f0f23; padding:0.5rem; border-radius:10px;">
+        range(1, 21) → 1 থেকে 20 পর্যন্ত
+      </div>
+    </div>
+    
+    <!-- Example 2: Money Range -->
+    <div class="example-card">
+      <div class="example-title">
+        <i class="fa-solid fa-coins me-1"></i> টাকার রেঞ্জ
+      </div>
+      <div class="range-slider">
+        <input type="range" class="range-input" id="moneyRange" min="0" max="10" value="3" oninput="updateMoneyRange()">
+        <div class="range-values">
+          <span>০ টাকা</span>
+          <span>১০ টাকা</span>
+        </div>
+      </div>
+      <div class="range-result" id="moneyRangeResult">
+        <span class="range-emoji">💰</span> তুমি খরচ করতে পারো: <strong id="selectedMoney">৩</strong> টাকা
+      </div>
+      <div class="code-box mt-2" style="background:#0f0f23; padding:0.5rem; border-radius:10px;">
+        range(0, 11) → 0 থেকে 10 টাকার মধ্যে
+      </div>
+    </div>
+    
+    <!-- Example 3: Age Range -->
+    <div class="example-card">
+      <div class="example-title">
+        <i class="fa-solid fa-cake-candles me-1"></i> বয়সের রেঞ্জ
+      </div>
+      <div class="range-slider">
+        <input type="range" class="range-input" id="ageRange" min="0" max="18" value="7" oninput="updateAgeRange()">
+        <div class="range-values">
+          <span>০ বছর</span>
+          <span>১৮ বছর</span>
+        </div>
+      </div>
+      <div class="range-result" id="ageRangeResult">
+        <span class="range-emoji">🧒</span> তুমি বয়স বাছাই করেছো: <strong id="selectedAge">৭</strong> বছর
+      </div>
+      <div class="code-box mt-2" style="background:#0f0f23; padding:0.5rem; border-radius:10px;">
+        if (age >= 5 and age <= 12) { "শিশু" }
+      </div>
+    </div>
+  </div>
+  
+  <!-- Interactive Game: ঝিনতির কেনাকাটা -->
+  <div class="game-box">
+    <div class="game-title">
+      <i class="fa-solid fa-store me-2"></i>খেলা: ঝিনতির কেনাকাটা
+    </div>
+    <div class="money-display">
+      <i class="fa-solid fa-coins"></i> ঝিনতির কাছে: <span id="jhintiMoney">১০</span> টাকা
+    </div>
+    <div class="money-display" style="font-size:1.5rem;">
+      <i class="fa-solid fa-ban me-2" style="color:#ff8c00;"></i> মায়ের বাঁধা: <strong style="color:#ff8c00;">শুধু ৫ টাকার মধ্যে খরচ করবি!</strong>
+    </div>
+    
+    <div class="shop-items">
+      <div class="shop-item" data-price="3" onclick="selectItem(this, 3, 'chips')">
+        <div class="item-emoji">🍟</div>
+        <div class="item-name">চিপস</div>
+        <div class="item-price">৩ টাকা</div>
+      </div>
+      <div class="shop-item" data-price="2" onclick="selectItem(this, 2, 'candy')">
+        <div class="item-emoji">🍬</div>
+        <div class="item-name">চকলেট</div>
+        <div class="item-price">২ টাকা</div>
+      </div>
+      <div class="shop-item" data-price="4" onclick="selectItem(this, 4, 'icecream')">
+        <div class="item-emoji">🍦</div>
+        <div class="item-name">আইসক্রিম</div>
+        <div class="item-price">৪ টাকা</div>
+      </div>
+      <div class="shop-item" data-price="6" onclick="selectItem(this, 6, 'pizza')">
+        <div class="item-emoji">🍕</div>
+        <div class="item-name">পিৎজা</div>
+        <div class="item-price">৬ টাকা</div>
+      </div>
+    </div>
+    
+    <button class="game-btn" onclick="checkPurchase()">
+      <i class="fa-solid fa-cart-shopping me-2"></i>কিনবো!
+    </button>
+    
+    <div class="game-result" id="purchaseResult"></div>
+  </div>
+  
+  <!-- Range Challenge -->
+  <div class="challenge-box">
+    <div class="game-title" style="color:#ff8c00;">
+      <i class="fa-solid fa-puzzle-piece me-2"></i>রেঞ্জ চ্যালেঞ্জ!
+    </div>
+    <div class="challenge-question" id="challengeQuestion">
+      📌 কোন সংখ্যাগুলো <strong>৩ থেকে ৭</strong> এর মধ্যে আছে?
+    </div>
+    <div class="number-options" id="numberOptions">
+      <button class="number-btn" data-value="1" onclick="checkRangeNumber(1)">১</button>
+      <button class="number-btn" data-value="2" onclick="checkRangeNumber(2)">২</button>
+      <button class="number-btn" data-value="3" onclick="checkRangeNumber(3)">৩</button>
+      <button class="number-btn" data-value="4" onclick="checkRangeNumber(4)">৪</button>
+      <button class="number-btn" data-value="5" onclick="checkRangeNumber(5)">৫</button>
+      <button class="number-btn" data-value="6" onclick="checkRangeNumber(6)">৬</button>
+      <button class="number-btn" data-value="7" onclick="checkRangeNumber(7)">৭</button>
+      <button class="number-btn" data-value="8" onclick="checkRangeNumber(8)">৮</button>
+      <button class="number-btn" data-value="9" onclick="checkRangeNumber(9)">৯</button>
+    </div>
+    <div class="challenge-feedback mt-3 text-center" id="challengeFeedback"></div>
+  </div>
+  
+  <!-- MCQ Section -->
+  <div class="mcq-section">
+    <div class="mcq-title">
+      <i class="fa-solid fa-pen-clip me-2"></i>রেঞ্জ সম্পর্কে জ্ঞান পরীক্ষা
+    </div>
+    
+    <div class="mcq-question" data-correct="1">
+      <div class="question-text">১. রেঞ্জ (Range) মানে কী?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="0"> একটি সংখ্যা</label>
+        <label class="option"><input type="radio" name="q1" value="1"> শুরু থেকে শেষ পর্যন্ত সীমা</label>
+        <label class="option"><input type="radio" name="q1" value="2"> একটি ফল</label>
+      </div>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">২. ৫ থেকে ১০ এর মধ্যে কোন সংখ্যাগুলো আছে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="0"> ১,২,৩</label>
+        <label class="option"><input type="radio" name="q2" value="1"> ২,৪,৬</label>
+        <label class="option"><input type="radio" name="q2" value="2"> ৫,৬,৭,৮,৯,১০</label>
+      </div>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="0">
+      <div class="question-text">৩. ঝিনতির মা ৫ টাকার মধ্যে খরচ করতে বলেছেন। ঝিনতি ৬ টাকার জিনিস কিনতে পারবে?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="0"> না, পারবে না</label>
+        <label class="option"><input type="radio" name="q3" value="1"> হ্যাঁ, পারবে</label>
+        <label class="option"><input type="radio" name="q3" value="2"> মাঝে মাঝে</label>
+      </div>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+    
+    <div class="mcq-question" data-correct="2">
+      <div class="question-text">৪. প্রোগ্রামিং-এ রেঞ্জ সাধারণত কীসের সাথে ব্যবহার করা হয়?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="0"> if-else</label>
+        <label class="option"><input type="radio" name="q4" value="1"> variable</label>
+        <label class="option"><input type="radio" name="q4" value="2"> লুপ (Loop)</label>
+      </div>
+      <div class="feedback" id="feedback4"></div>
+    </div>
+    
+    <button class="next-btn" onclick="checkAllAnswers()">
+      <i class="fa-solid fa-check-circle me-2"></i>উত্তর জমা দাও
+    </button>
+  </div>
+  
+  <!-- Next Topic Button -->
+  <button class="next-btn" onclick="goToNextTopic()">
+    <i class="fa-solid fa-arrow-right me-2"></i>লেভেল ৩ এর কুইজ দাও
+  </button>
+</div>
+
+<!-- TARA Footer -->
+<footer class="tara-footer">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fa-regular fa-circle-check me-2"></i>
+      রেঞ্জ শিখে ফেলেছো? এখন লেভেল ৩ এর কুইজ দাও 👆
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ==========================================
+  // TARA - Range Topic
+  // ==========================================
+  
+  let selectedItem = null;
+  let selectedPrice = 0;
+  let selectedItemName = '';
+  let rangeChallengeScore = 0;
+  let rangeChallengeAnswered = {};
+  
+  // Range Slider Updates
+  function updateNumberRange() {
+    const val = document.getElementById('numberRange').value;
+    document.getElementById('selectedNumber').innerText = val;
+  }
+  
+  function updateMoneyRange() {
+    const val = document.getElementById('moneyRange').value;
+    document.getElementById('selectedMoney').innerText = val;
+  }
+  
+  function updateAgeRange() {
+    const val = document.getElementById('ageRange').value;
+    document.getElementById('selectedAge').innerText = val;
+  }
+  
+  // Shop Item Selection
+  function selectItem(element, price, name) {
+    // Remove selection from all
+    document.querySelectorAll('.shop-item').forEach(item => {
+      item.classList.remove('selected');
+    });
+    element.classList.add('selected');
+    selectedItem = element;
+    selectedPrice = price;
+    selectedItemName = name;
+  }
+  
+  // Check Purchase
+  function checkPurchase() {
+    const resultDiv = document.getElementById('purchaseResult');
+    const maxAllowed = 5;
+    const currentMoney = 10;
+    
+    if (!selectedItem) {
+      resultDiv.innerHTML = '⚠️ প্রথমে একটি জিনিস সিলেক্ট করো!';
+      resultDiv.style.background = '#ffc107';
+      resultDiv.style.color = '#333';
+      return;
+    }
+    
+    if (selectedPrice <= maxAllowed) {
+      resultDiv.innerHTML = `✅ সঠিক! ${selectedItemName} এর দাম ${selectedPrice} টাকা, যা ${maxAllowed} টাকার মধ্যে আছে।<br> ঝিনতি এটা কিনতে পারবে! 🎉`;
+      resultDiv.style.background = '#28a745';
+      resultDiv.style.color = 'white';
+      createConfetti();
+    } else {
+      resultDiv.innerHTML = `❌ ভুল! ${selectedItemName} এর দাম ${selectedPrice} টাকা, কিন্তু মা বলেছেন ${maxAllowed} টাকার মধ্যে খরচ করতে!<br> এটা রেঞ্জের বাইরে!`;
+      resultDiv.style.background = '#dc3545';
+      resultDiv.style.color = 'white';
+    }
+  }
+  
+  // Range Challenge
+  function checkRangeNumber(num) {
+    const min = 3;
+    const max = 7;
+    const btn = document.querySelector(`.number-btn[data-value="${num}"]`);
+    const feedback = document.getElementById('challengeFeedback');
+    
+    if (rangeChallengeAnswered[num]) {
+      feedback.innerHTML = '⏳ তুমি ইতিমধ্যে এই সংখ্যা উত্তর দিয়ে ফেলেছো!';
+      feedback.style.color = '#ffaa44';
+      return;
+    }
+    
+    if (num >= min && num <= max) {
+      rangeChallengeAnswered[num] = true;
+      rangeChallengeScore++;
+      btn.classList.add('correct');
+      feedback.innerHTML = `✅ সঠিক! ${num} সংখ্যাটি ${min} থেকে ${max} এর মধ্যে আছে! +১ পয়েন্ট`;
+      feedback.style.color = '#90ee90';
+      createConfetti();
+    } else {
+      rangeChallengeAnswered[num] = true;
+      btn.classList.add('wrong');
+      feedback.innerHTML = `❌ ভুল! ${num} সংখ্যাটি ${min} থেকে ${max} এর মধ্যে নেই। আবার চেষ্টা করো!`;
+      feedback.style.color = '#ff8888';
+    }
+    
+    // Update score display
+    const scoreDisplay = document.createElement('div');
+    if (rangeChallengeScore === 5) {
+      setTimeout(() => {
+        feedback.innerHTML = `🎉 চমৎকার! তুমি ${min} থেকে ${max} এর মধ্যে থাকা সব সংখ্যা চিহ্নিত করেছো! 🎉`;
+        feedback.style.color = '#90ee90';
+      }, 500);
+    }
+  }
+  
+  // MCQ Check
+  function checkAllAnswers() {
+    const questions = document.querySelectorAll('.mcq-question');
+    let correctCount = 0;
+    
+    questions.forEach((q, idx) => {
+      const correctValue = parseInt(q.getAttribute('data-correct'));
+      const selected = q.querySelector('input:checked');
+      const feedbackId = `feedback${idx + 1}`;
+      const feedback = document.getElementById(feedbackId);
+      
+      if (selected) {
+        const selectedValue = parseInt(selected.value);
+        if (selectedValue === correctValue) {
+          correctCount++;
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> সঠিক! উত্তম!';
+          feedback.className = 'feedback correct';
+          selected.parentElement.classList.add('correct');
+        } else {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark me-1"></i> ভুল! আবার চেষ্টা করো।';
+          feedback.className = 'feedback wrong';
+          selected.parentElement.classList.add('wrong');
+        }
+      } else {
+        feedback.innerHTML = '<i class="fa-solid fa-question-circle me-1"></i> উত্তর দাওনি। একটি অপশন সিলেক্ট করো।';
+        feedback.className = 'feedback wrong';
+      }
+    });
+    
+    const total = questions.length;
+    const message = document.createElement('div');
+    message.className = 'alert alert-info mt-3 text-center';
+    message.innerHTML = `<i class="fa-solid fa-chart-simple me-2"></i>তুমি পেয়েছ ${correctCount} / ${total} সঠিক উত্তর!`;
+    
+    const existingMsg = document.querySelector('.alert-info');
+    if (existingMsg) existingMsg.remove();
+    
+    document.querySelector('.mcq-section').appendChild(message);
+    localStorage.setItem('tara_range_mcq_score', correctCount);
+    
+    if (correctCount === total) {
+      createConfetti();
+    }
+  }
+  
+  // Confetti Effect
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '8px';
+      confetti.style.height = '8px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      confetti.style.borderRadius = '50%';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '2000';
+      confetti.style.animation = `confettiFall ${0.8 + Math.random() * 1}s ease-out forwards`;
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
+    }
+  }
+  
+  // Next Topic (Level 3 শেষ, তাই কুইজে যাবে)
+  function goToNextTopic() {
+    localStorage.setItem('tara_level3_completed', 'true');
+    window.location.href = '../../quiz/quiz.html?level=3';
+  }
+  
+  // Animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Make functions global
+  window.updateNumberRange = updateNumberRange;
+  window.updateMoneyRange = updateMoneyRange;
+  window.updateAgeRange = updateAgeRange;
+  window.selectItem = selectItem;
+  window.checkPurchase = checkPurchase;
+  window.checkRangeNumber = checkRangeNumber;
+  window.checkAllAnswers = checkAllAnswers;
+  window.goToNextTopic = goToNextTopic;
+</script>
+
+</body>
+</html>
