@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8" />
@@ -91,7 +91,30 @@
       color: #ffcc88;
       border-left: 3px solid #ff8c00;
     }
-    .emoji-big { font-size: 1.5rem; letter-spacing: 3px; margin: 0.5rem 0; }
+    /* Matrix Visual */
+    .matrix-visual {
+      display: inline-block;
+      background: rgba(0,0,0,0.4);
+      border-radius: 15px;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      font-family: monospace;
+    }
+    .matrix-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.2rem 0;
+    }
+    .matrix-cell {
+      background: rgba(255,140,0,0.2);
+      border: 1px solid #ff8c00;
+      border-radius: 8px;
+      padding: 0.3rem 0.6rem;
+      min-width: 40px;
+      text-align: center;
+      font-weight: bold;
+    }
     .options { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; }
     .option-btn {
       background: rgba(255,255,255,0.1);
@@ -104,7 +127,6 @@
     }
     .option-btn:hover { transform: scale(1.02); background: rgba(255,140,0,0.2); }
     .option-btn.selected-correct { background: #28a745; border-color: #90ee90; }
-    .option-btn.selected-wrong { background: #dc3545; border-color: #ff8888; }
     .quiz-footer {
       display: flex;
       justify-content: space-between;
@@ -127,25 +149,21 @@
     }
     .score-area { font-size: 1.1rem; font-weight: bold; }
     .timer-area { font-size: 1.3rem; font-weight: bold; color: #ffaa44; }
-    .feedback-msg { margin-top: 0.5rem; font-size: 0.85rem; }
-    .feedback-msg.ok { color: #90ee90; }
-    .feedback-msg.wrong { color: #ff8888; }
-    .next-btn { background: linear-gradient(135deg, #ff8c00, #ff2e63); border: none; padding: 0.7rem 1.5rem; font-size: 1rem; font-weight: bold; border-radius: 60px; color: white; cursor: pointer; width: 100%; margin-top: 1rem; }
     .tara-footer { background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%); color: white; margin-top: 2rem; padding: 1rem 0; text-align: center; border-top: 1px solid rgba(255,140,0,0.3); }
     @keyframes confettiFall {
       0% { transform: translateY(0) rotate(0deg); opacity: 1; }
       100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
     }
-    @media (max-width: 768px) { .level-btn { padding: 0.4rem 0.7rem; font-size: 0.7rem; } .option-btn { padding: 0.4rem 0.8rem; font-size: 0.8rem; } .story-box { font-size: 0.8rem; } }
+    @media (max-width: 768px) { .level-btn { padding: 0.4rem 0.7rem; font-size: 0.7rem; } .option-btn { padding: 0.4rem 0.8rem; font-size: 0.8rem; } .story-box { font-size: 0.8rem; } .matrix-cell { min-width: 30px; padding: 0.2rem 0.4rem; font-size: 0.8rem; } }
   </style>
 </head>
 <body>
 
 <header class="tara-header py-2">
   <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
-    <div><a href="../../dashboard.html" class="btn btn-outline-light"><i class="fa-solid fa-arrow-left me-1"></i>ড্যাশবোর্ড</a></div>
+    <div><a href="dashboard.html" class="btn btn-outline-light"><i class="fa-solid fa-arrow-left me-1"></i>ড্যাশবোর্ড</a></div>
     <div class="text-center"><h2 class="mb-0"><i class="fa-solid fa-pen-clip me-2"></i>লেভেল কুইজ</h2><small>Level 1-6</small></div>
-    <div><a href="../../map.html" class="btn btn-outline-light"><i class="fa-solid fa-map me-1"></i>ম্যাপ</a></div>
+    <div><a href="map.html" class="btn btn-outline-light"><i class="fa-solid fa-map me-1"></i>ম্যাপ</a></div>
   </div>
 </header>
 
@@ -164,7 +182,7 @@
     <div class="quiz-title" id="levelTitle">🧩 লেভেল ১ কুইজ</div>
     <div id="questionsContainer"></div>
     <div class="quiz-footer">
-      <div class="score-area"><i class="fa-solid fa-star me-1"></i>স্কোর: <span id="scoreDisplay">0</span>/<span id="totalQuestions">10</span></div>
+      <div class="score-area"><i class="fa-solid fa-star me-1"></i>উত্তর দিয়েছেন: <span id="scoreDisplay">0</span>/<span id="totalQuestions">10</span></div>
       <div class="timer-area"><i class="fa-regular fa-clock me-1"></i>সময়: <span id="timerDisplay">05:00</span></div>
       <button class="submit-btn" id="submitBtn"><i class="fa-solid fa-check-circle me-2"></i>জমা দাও</button>
     </div>
@@ -176,8 +194,7 @@
 
 <script>
   // ==========================================
-  // TARA - Level Quiz (Level 1-6) - Clean & Beautiful
-  // Firebase Integration
+  // TARA - Level Quiz (Level 1-6) - No Auto Answer, Matrix Visual
   // ==========================================
   
   // Firebase Configuration
@@ -191,7 +208,6 @@
     measurementId: "G-KRN5SNJ2YR"
   };
   
-  // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
   const auth = firebase.auth();
@@ -204,89 +220,104 @@
   let quizSubmitted = false;
   
   // ==========================================
-  // LEVEL 1 QUESTIONS (Data Type & Variable)
+  // LEVEL 1 QUESTIONS
   // ==========================================
   const level1Questions = [
-    { text: "🍎 একটি গোটা আপেল", story: "অবনি শুধু গোটা ফল খায়। নিচের কোনটি অবনি খাবে?", options: ["🍎 একটি গোটা আপেল", "🍎½ একটি অর্ধেক আপেল", "🍊½ একটি অর্ধেক কমলা", "🥭½ একটি অর্ধেক আম"], correct: 0 },
-    { text: "🍎½ একটি অর্ধেক আপেল", story: "প্রমিত পুরো ফল খেয়ে শেষ করতে পারে না। সে সবসময় অর্ধেক ফল খায়। নিচের কোনটি প্রমিত খাবে?", options: ["🍎½ একটি অর্ধেক আপেল", "🍎 একটি গোটা আপেল", "🍊 একটি গোটা কমলা", "🥭 একটি গোটা আম"], correct: 0 },
-    { text: "❌ মিথ্যা", story: "🍎🍎🍎🍎🍎 (৫টি আপেল)। বিবৃতি: 'এখানে ৪টি আপেল আছে' - এটি সত্য না মিথ্যা?", options: ["✅ সত্য", "❌ মিথ্যা"], correct: 1 },
-    { text: "✅ সত্য", story: "🍎🍎🍎🍎 (৪টি আপেল)। বিবৃতি: 'এখানে ৪টি আপেল আছে' - এটি সত্য না মিথ্যা?", options: ["✅ সত্য", "❌ মিথ্যা"], correct: 0 },
-    { text: "🍎🍎🍎🍎🍎🍎 (অনেকগুলো)", story: "অমিত অনেক বেশি খাবার খায়। নিচের কোনটি অমিত খাবে?", options: ["🍎🍎🍎🍎🍎🍎 (অনেকগুলো)", "🍎🍎 (অল্প কয়েকটি)"], correct: 0 },
-    { text: "ভেরিয়েবল", story: "একটি স্কুল ব্যাগের নাম 'SchoolBag'। সকালে 📚 বই, বিকালে ✏️ কলম, রাতে 📓 খাতা। ব্যাগটিকে প্রোগ্রামিংয়ে কী বলব?", options: ["ভেরিয়েবল", "কনস্ট্যান্ট", "লুপ", "ফাংশন"], correct: 0 },
-    { text: "ভেরিয়েবল", story: "একটি পানির বোতলের নাম 'WaterBottle'। সকালে খালি, দুপুরে অর্ধেক, বিকেলে পুরো। বোতলটিকে কী বলব?", options: ["ভেরিয়েবল", "কনস্ট্যান্ট", "অ্যারে", "স্ট্রিং"], correct: 0 },
-    { text: "ভেরিয়েবল", story: "মিতুর বাক্সের নাম 'ToyBox'। প্রথমে ৫টি বই, পরে ৯টি কলম। এখানে 'ToyBox' কী?", options: ["ভেরিয়েবল", "কনস্ট্যান্ট", "ডাটা টাইপ", "লুপ"], correct: 0 },
-    { text: "১০০", story: "নিচের কোনটি Integer (পূর্ণসংখ্যা) ডাটা টাইপের উদাহরণ?", options: ["৩.৫", '"বাংলা"', "১০০", "সত্য"], correct: 2 },
-    { text: '"আমার দেশ"', story: "নিচের কোনটি String (অক্ষরের দল) ডাটা টাইপের উদাহরণ?", options: ["৫০", '"আমার দেশ"', "২.৭৫", "মিথ্যা"], correct: 1 }
+    { story: "অবনি শুধু গোটা ফল খায়।", text: "নিচের কোনটি অবনি খাবে?", options: ["🍎 একটি গোটা আপেল", "🍎½ একটি অর্ধেক আপেল", "🍊½ একটি অর্ধেক কমলা", "🥭½ একটি অর্ধেক আম"], correct: 0 },
+    { story: "প্রমিত পুরো ফল খেয়ে শেষ করতে পারে না।", text: "নিচের কোনটি প্রমিত খাবে?", options: ["🍎½ একটি অর্ধেক আপেল", "🍎 একটি গোটা আপেল", "🍊 একটি গোটা কমলা", "🥭 একটি গোটা আম"], correct: 0 },
+    { story: "🍎🍎🍎🍎🍎 (৫টি আপেল)", text: "বিবৃতি: 'এখানে ৪টি আপেল আছে' - সত্য না মিথ্যা?", options: ["✅ সত্য", "❌ মিথ্যা"], correct: 1 },
+    { story: "🍎🍎🍎🍎 (৪টি আপেল)", text: "বিবৃতি: 'এখানে ৪টি আপেল আছে' - সত্য না মিথ্যা?", options: ["✅ সত্য", "❌ মিথ্যা"], correct: 0 },
+    { story: "একটি স্কুল ব্যাগের নাম 'SchoolBag'। সকালে 📚 বই, বিকালে ✏️ কলম, রাতে 📓 খাতা।", text: "ব্যাগটিকে প্রোগ্রামিংয়ে কী বলব?", options: ["ভেরিয়েবল", "কনস্ট্যান্ট", "লুপ", "ফাংশন"], correct: 0 },
+    { story: "একটি পানির বোতলের নাম 'WaterBottle'। সকালে খালি, দুপুরে অর্ধেক, বিকেলে পুরো।", text: "বোতলটিকে কী বলব?", options: ["ভেরিয়েবল", "কনস্ট্যান্ট", "অ্যারে", "স্ট্রিং"], correct: 0 },
+    { story: "মিতুর বাক্সের নাম 'ToyBox'। প্রথমে ৫টি বই, পরে ৯টি কলম।", text: "এখানে 'ToyBox' কী?", options: ["ভেরিয়েবল", "কনস্ট্যান্ট", "ডাটা টাইপ", "লুপ"], correct: 0 },
+    { text: "নিচের কোনটি Integer (পূর্ণসংখ্যা) ডাটা টাইপের উদাহরণ?", options: ["৩.৫", '"বাংলা"', "১০০", "সত্য"], correct: 2 },
+    { text: "নিচের কোনটি String (অক্ষরের দল) ডাটা টাইপের উদাহরণ?", options: ["৫০", '"আমার দেশ"', "২.৭৫", "মিথ্যা"], correct: 1 },
+    { text: "নিচের কোনটি Boolean ডাটা টাইপের উদাহরণ?", options: ["১০০", '"হ্যালো"', "সত্য", "৩.৫"], correct: 2 }
   ];
   
-  // LEVEL 2 QUESTIONS (Operator, Input/Output, Expression, Counter)
+  // LEVEL 2 QUESTIONS
   const level2Questions = [
-    { text: "৪টি", story: "তোমার কাছে ২টি আপেল আছে। বন্ধু আরও ২টি আপেল দিল। মোট কতটি আপেল হলো? (২ + ২ = ?)", options: ["৩টি", "৪টি", "৫টি", "৬টি"], correct: 1 },
-    { text: "২টি", story: "তোমার কাছে ৫টি আপেল ছিল। তুমি ৩টি খেয়ে ফেললে। কতটি বাকি থাকবে? (৫ - ৩ = ?)", options: ["১টি", "২টি", "৩টি", "৪টি"], correct: 1 },
-    { text: "ঘাস", story: "গরু ঘাস খায় (ইনপুট) এবং দুধ দেয় (আউটপুট)। এখানে ইনপুট কী?", options: ["দুধ", "গরু", "ঘাস", "খামার"], correct: 2 },
-    { text: "ডিম", story: "মুরগি দানা খায় (ইনপুট) এবং ডিম দেয় (আউটপুট)। এখানে আউটপুট কী?", options: ["দানা", "মুরগি", "ডিম", "পানি"], correct: 2 },
-    { text: "৫ + ৩ = ৮", story: "একটি দোকানে ৫টি আম আছে। আরও ৩টি আসলে মোট কত হবে? এক্সপ্রেশন কী?", options: ["৫ - ৩ = ২", "৫ + ৩ = ৮", "৫ × ৩ = ১৫", "৫ ÷ ৩ = ১.৬৬"], correct: 1 },
-    { text: "১০০ - ৩০ = ৭০", story: "মায়ের কাছে ১০০ টাকা ছিল। ৩০ টাকার সবজি কিনলেন। বাকি কত? এক্সপ্রেশন কী?", options: ["১০০ + ৩০ = ১৩০", "১০০ - ৩০ = ৭০", "১০০ × ৩০ = ৩০০০", "১০০ ÷ ৩০ = ৩.৩৩"], correct: 1 },
-    { text: "৬টি", story: "রিতা প্রতিদিন ২টি চকলেট খায়। সোম, মঙ্গল, বুধবার খেল। মোট কত খেল? (কাউন্টার)", options: ["৪টি", "৫টি", "৬টি", "৮টি"], correct: 2 },
-    { text: "৬ জন", story: "একটি বাসে: ১ম স্টপে ৫ জন উঠল, ২য় স্টপে ৩ জন উঠল, ৩য় স্টপে ২ জন নামল। বাসে কতজন? (কাউন্টার)", options: ["১০ জন", "৮ জন", "৬ জন", "৫ জন"], correct: 2 },
-    { text: "৮টি", story: "রিতা প্রতিদিন ২টি চকলেট খায়। সোম, মঙ্গল, বুধ, বৃহস্পতিবার খেল। মোট কত?", options: ["৪টি", "৬টি", "৮টি", "১০টি"], correct: 2 },
-    { text: "১২ - ৫ + ৩ = ১০", story: "একটি বাগানে ১২টি গোলাপ ছিল। ৫টি তুলে নেওয়ার পর আরও ৩টি ফুটল। এক্সপ্রেশন কী?", options: ["১২+৫+৩=২০", "১২-৫+৩=১০", "১২-৫-৩=৪", "১২+৫-৩=১৪"], correct: 1 }
+    { story: "তোমার কাছে ২টি আপেল আছে। বন্ধু আরও ২টি আপেল দিল।", text: "মোট কতটি আপেল হলো? (২ + ২ = ?)", options: ["৩টি", "৪টি", "৫টি", "৬টি"], correct: 1 },
+    { story: "তোমার কাছে ৫টি আপেল ছিল। তুমি ৩টি খেয়ে ফেললে।", text: "কতটি বাকি থাকবে? (৫ - ৩ = ?)", options: ["১টি", "২টি", "৩টি", "৪টি"], correct: 1 },
+    { story: "গরু ঘাস খায় (ইনপুট) এবং দুধ দেয় (আউটপুট)।", text: "এখানে ইনপুট কী?", options: ["দুধ", "গরু", "ঘাস", "খামার"], correct: 2 },
+    { story: "মুরগি দানা খায় (ইনপুট) এবং ডিম দেয় (আউটপুট)।", text: "এখানে আউটপুট কী?", options: ["দানা", "মুরগি", "ডিম", "পানি"], correct: 2 },
+    { story: "একটি দোকানে ৫টি আম আছে। আরও ৩টি আসলে মোট কত হবে?", text: "এক্সপ্রেশন কী?", options: ["৫ - ৩ = ২", "৫ + ৩ = ৮", "৫ × ৩ = ১৫", "৫ ÷ ৩ = ১.৬৬"], correct: 1 },
+    { story: "মায়ের কাছে ১০০ টাকা ছিল। ৩০ টাকার সবজি কিনলেন।", text: "বাকি কত? এক্সপ্রেশন কী?", options: ["১০০ + ৩০ = ১৩০", "১০০ - ৩০ = ৭০", "১০০ × ৩০ = ৩০০০", "১০০ ÷ ৩০ = ৩.৩৩"], correct: 1 },
+    { story: "রিতা প্রতিদিন ২টি চকলেট খায়। সোম, মঙ্গল, বুধবার খেল।", text: "মোট কত খেল? (কাউন্টার)", options: ["৪টি", "৫টি", "৬টি", "৮টি"], correct: 2 },
+    { story: "একটি বাসে: ১ম স্টপে ৫ জন উঠল, ২য় স্টপে ৩ জন উঠল, ৩য় স্টপে ২ জন নামল।", text: "বাসে কতজন? (কাউন্টার)", options: ["১০ জন", "৮ জন", "৬ জন", "৫ জন"], correct: 2 },
+    { story: "রিতা প্রতিদিন ২টি চকলেট খায়। সোম, মঙ্গল, বুধ, বৃহস্পতিবার খেল।", text: "মোট কত?", options: ["৪টি", "৬টি", "৮টি", "১০টি"], correct: 2 },
+    { story: "একটি বাগানে ১২টি গোলাপ ছিল। ৫টি তুলে নেওয়ার পর আরও ৩টি ফুটল।", text: "এক্সপ্রেশন কী হবে?", options: ["১২+৫+৩=২০", "১২-৫+۳=১০", "১২-৫-৩=৪", "১২+৫-৩=১৪"], correct: 1 }
   ];
   
-  // LEVEL 3 QUESTIONS (Condition, If/Else, Pattern Recognition, Loop, Range)
+  // LEVEL 3 QUESTIONS
   const level3Questions = [
-    { text: "ছাতা নিবো", story: "বৃষ্টি হলে ছাতা নিবো। এখন বৃষ্টি হচ্ছে। আমি কী করব?", options: ["ছাতা নিবো না", "ছাতা নিবো", "ঘর থেকে বের হবো না", "খেলতে যাবো"], correct: 1 },
-    { text: "যাবে না", story: "রিতা শুধু বন্ধু গেলে খেলতে যায়। বন্ধু যায়নি। রিতা কী করবে?", options: ["একা যাবে", "অপেক্ষা করবে", "যাবে না", "ঘুমাবে"], correct: 2 },
-    { text: "ক্যান্ডি", story: "আমার কাছে ১০ টাকার বেশি থাকলে চিপস কিনবো, না হলে ক্যান্ডি। আমার কাছে ৮ টাকা আছে। কী কিনবো?", options: ["চিপস", "ক্যান্ডি", "আইসক্রিম", "কিছুই না"], correct: 1 },
-    { text: "উপহার পাবে", story: "উত্তীর্ণ হলে উপহার পাবে, না হলে কিছু পাবে না। রুমি উত্তীর্ণ হয়েছে। সে কী পাবে?", options: ["কিছুই পাবে না", "উপহার পাবে", "শাস্তি পাবে", "আবার পরীক্ষা দিতে হবে"], correct: 1 },
-    { text: "🟡 হলুদ", story: "🔴🟡🔴🟡🔴 — পরবর্তী রং কোনটি?", options: ["🔴 লাল", "🟡 হলুদ", "🔵 নীল", "🟢 সবুজ"], correct: 1 },
-    { text: "🐶 কুকুর", story: "🐱🐶🐱🐶🐱 — পরবর্তী প্রাণী কোনটি?", options: ["🐱 বিড়াল", "🐶 কুকুর", "🐭 ইঁদুর", "🐦 পাখি"], correct: 1 },
-    { text: "১০০ টাকা", story: "একবার মাঠ ঘুরলে ১০ টাকা। ১০ বার ঘুরলে কত টাকা পাবে? (Loop)", options: ["৫০ টাকা", "৮০ টাকা", "১০০ টাকা", "১২০ টাকা"], correct: 2 },
-    { text: "১০০ পৃষ্ঠা", story: "কপি মেশিন ১ মিনিটে ২০ পৃষ্ঠা প্রিন্ট করে। ৫ মিনিটে কত পৃষ্ঠা প্রিন্ট করবে?", options: ["৮০ পৃষ্ঠা", "১০০ পৃষ্ঠা", "১২০ পৃষ্ঠা", "১৪০ পৃষ্ঠা"], correct: 1 },
-    { text: "৩,৪,৫", story: "ক্লাস ৩ থেকে ৫ পর্যন্ত প্রতিযোগিতা। কোন ক্লাসগুলো অংশ নিতে পারবে?", options: ["১,২,৩", "২,৩,৪", "৩,৪,৫", "৪,৫,৬"], correct: 2 },
-    { text: "৪,৫,৬,৭", story: "১ থেকে ১০ নম্বর গাছের মধ্যে ৪ থেকে ৭ নম্বর গাছে পানি দিতে হবে। কোন গুলো?", options: ["২,৩,৪,৫", "৩,৪,৫,৬", "৪,৫,৬,৭", "৫,৬,৭,৮"], correct: 2 }
+    { story: "বৃষ্টি হলে ছাতা নিবো। এখন বৃষ্টি হচ্ছে।", text: "আমি কী করব?", options: ["ছাতা নিবো না", "ছাতা নিবো", "ঘর থেকে বের হবো না", "খেলতে যাবো"], correct: 1 },
+    { story: "রিতা শুধু বন্ধু গেলে খেলতে যায়। বন্ধু যায়নি।", text: "রিতা কী করবে?", options: ["একা যাবে", "অপেক্ষা করবে", "যাবে না", "ঘুমাবে"], correct: 2 },
+    { story: "আমার কাছে ১০ টাকার বেশি থাকলে চিপস কিনবো, না হলে ক্যান্ডি। আমার কাছে ৮ টাকা আছে।", text: "আমি কী কিনবো?", options: ["চিপস", "ক্যান্ডি", "আইসক্রিম", "কিছুই না"], correct: 1 },
+    { story: "উত্তীর্ণ হলে উপহার পাবে, না হলে কিছু পাবে না। রুমি উত্তীর্ণ হয়েছে।", text: "সে কী পাবে?", options: ["কিছুই পাবে না", "উপহার পাবে", "শাস্তি পাবে", "আবার পরীক্ষা দিতে হবে"], correct: 1 },
+    { story: "🔴🟡🔴🟡🔴", text: "পরবর্তী রং কোনটি?", options: ["🔴 লাল", "🟡 হলুদ", "🔵 নীল", "🟢 সবুজ"], correct: 1 },
+    { story: "🐱🐶🐱🐶🐱", text: "পরবর্তী প্রাণী কোনটি?", options: ["🐱 বিড়াল", "🐶 কুকুর", "🐭 ইঁদুর", "🐦 পাখি"], correct: 1 },
+    { story: "একবার মাঠ ঘুরলে ১০ টাকা। ১০ বার ঘুরলে কত টাকা পাবে? (Loop)", text: "মোট কত টাকা পাবে?", options: ["৫০ টাকা", "৮০ টাকা", "১০০ টাকা", "১২০ টাকা"], correct: 2 },
+    { story: "কপি মেশিন ১ মিনিটে ২০ পৃষ্ঠা প্রিন্ট করে। ৫ মিনিটে কত পৃষ্ঠা প্রিন্ট করবে?", text: "কত পৃষ্ঠা প্রিন্ট করবে?", options: ["৮০ পৃষ্ঠা", "১০০ পৃষ্ঠা", "১২০ পৃষ্ঠা", "১৪০ পৃষ্ঠা"], correct: 1 },
+    { story: "ক্লাস ৩ থেকে ৫ পর্যন্ত প্রতিযোগিতা।", text: "কোন ক্লাসগুলো অংশ নিতে পারবে?", options: ["১,২,৩", "২,৩,৪", "৩,৪,৫", "৪,৫,৬"], correct: 2 },
+    { story: "১ থেকে ১০ নম্বর গাছের মধ্যে ৪ থেকে ৭ নম্বর গাছে পানি দিতে হবে।", text: "কোন গুলো?", options: ["২,৩,৪,৫", "৩,৪,৫,৬", "৪,৫,৬,৭", "৫,৬,৭,৮"], correct: 2 }
   ];
   
-  // LEVEL 4 QUESTIONS (Accumulator, Indexing, Sorting, Break, Prime)
+  // LEVEL 4 QUESTIONS
   const level4Questions = [
-    { text: "৯টি", story: "TotalFruits বাক্সে প্রথমে ৩টি আম, তারপর ২টি কাঁঠাল, তারপর ৪টি আপেল রাখলে মোট কত ফল? (Accumulator)", options: ["৭টি", "৮টি", "৯টি", "১০টি"], correct: 2 },
-    { text: "১৭টি", story: "রিয়া সোম ৫টি, মঙ্গল ৩টি, বুধ ৭টি, বৃহস্পতি ২টি বীজ জমাল। মোট কত বীজ?", options: ["১৫টি", "১৬টি", "১৭টি", "১৮টি"], correct: 2 },
-    { text: "🍈 কাঁঠাল", story: "বাক্স: ইনডেক্স ০=🥭, ১=🍈, ২=🍎, ৩=🍌। ইনডেক্স ১-এ কী আছে?", options: ["🥭 আম", "🍈 কাঁঠাল", "🍎 আপেল", "🍌 কলা"], correct: 1 },
-    { text: "🍌 কলা", story: "উপরের বাক্সে ইনডেক্স ৩-এ কী আছে?", options: ["🥭 আম", "🍈 কাঁঠাল", "🍎 আপেল", "🍌 কলা"], correct: 3 },
-    { text: "২,৪,৭,৯", story: "[৭,২,৯,৪] ছোট থেকে বড় সাজালে কী হবে?", options: ["৯,৭,৪,২", "২,৪,৭,৯", "৪,২,৭,৯", "৭,৪,২,৯"], correct: 1 },
-    { text: "আম, আপেল, আঙ্গুর, কলা, কমলা", story: "ফল: কলা, আপেল, কমলা, আঙ্গুর, আম — বাংলা বর্ণমালার ক্রমে সাজালে?", options: ["আম, আপেল, আঙ্গুর, কলা, কমলা", "আপেল, আম, আঙ্গুর, কলা, কমলা", "আঙ্গুর, আম, আপেল, কমলা, কলা", "কমলা, কলা, আঙ্গুর, আম, আপেল"], correct: 0 },
-    { text: "৭ বার", story: "রনি ১০ বার দৌড়াতে গিয়ে ৭ বার দৌড়িয়ে থেমে গেল (Break)। কতবার দৌড়াল?", options: ["৫ বার", "৬ বার", "৭ বার", "১০ বার"], correct: 2 },
-    { text: "১৪ পর্যন্ত", story: "লুপ ১-২০ প্রিন্ট করবে, ১৫ পেলে Break। কোন সংখ্যা পর্যন্ত প্রিন্ট করবে?", options: ["১০ পর্যন্ত", "১৪ পর্যন্ত", "১৫ পর্যন্ত", "২০ পর্যন্ত"], correct: 1 },
-    { text: "৭", story: "নিচের কোনটি মৌলিক সংখ্যা?", options: ["৪", "৬", "৭", "৯"], correct: 2 },
-    { text: "৯", story: "নিচের কোনটি মৌলিক সংখ্যা নয় (যৌগিক)?", options: ["২", "৩", "৫", "৯"], correct: 3 }
+    { story: "TotalFruits বাক্সে প্রথমে ৩টি আম, তারপর ২টি কাঁঠাল, তারপর ৪টি আপেল রাখলে", text: "মোট কত ফল? (Accumulator)", options: ["৭টি", "৮টি", "৯টি", "১০টি"], correct: 2 },
+    { story: "রিয়া সোম ৫টি, মঙ্গল ৩টি, বুধ ৭টি, বৃহস্পতি ২টি বীজ জমাল।", text: "মোট কত বীজ?", options: ["১৫টি", "১৬টি", "১৭টি", "১৮টি"], correct: 2 },
+    { story: "বাক্স: ইনডেক্স ০=🥭, ১=🍈, ২=🍎, ৩=🍌", text: "ইনডেক্স ১-এ কী আছে?", options: ["🥭 আম", "🍈 কাঁঠাল", "🍎 আপেল", "🍌 কলা"], correct: 1 },
+    { story: "উপরের বাক্সে ইনডেক্স ৩-এ কী আছে?", text: "ইনডেক্স ৩-এ কী আছে?", options: ["🥭 আম", "🍈 কাঁঠাল", "🍎 আপেল", "🍌 কলা"], correct: 3 },
+    { story: "[৭,২,৯,৪] ছোট থেকে বড় সাজাতে চায়।", text: "সঠিক সাজানো ক্রম কোনটি?", options: ["৯,৭,৪,২", "২,৪,৭,৯", "৪,২,৭,৯", "৭,৪,২,৯"], correct: 1 },
+    { story: "ফল: কলা, আপেল, কমলা, আঙ্গুর, আম — বাংলা বর্ণমালার ক্রমে সাজালে?", text: "সঠিক ক্রম কোনটি?", options: ["আম, আপেল, আঙ্গুর, কলা, কমলা", "আপেল, আম, আঙ্গুর, কলা, কমলা", "আঙ্গুর, আম, আপেল, কমলা, কলা", "কমলা, কলা, আঙ্গুর, আম, আপেল"], correct: 0 },
+    { story: "রনি ১০ বার দৌড়াতে গিয়ে ৭ বার দৌড়িয়ে থেমে গেল (Break)।", text: "সে কতবার দৌড়াল?", options: ["৫ বার", "৬ বার", "৭ বার", "১০ বার"], correct: 2 },
+    { story: "লুপ ১-২০ প্রিন্ট করবে, ১৫ পেলে Break।", text: "কোন সংখ্যা পর্যন্ত প্রিন্ট করবে?", options: ["১০ পর্যন্ত", "১৪ পর্যন্ত", "১৫ পর্যন্ত", "২০ পর্যন্ত"], correct: 1 },
+    { text: "নিচের কোনটি মৌলিক সংখ্যা?", options: ["৪", "৬", "৭", "৯"], correct: 2 },
+    { text: "নিচের কোনটি মৌলিক সংখ্যা নয় (যৌগিক)?", options: ["২", "৩", "৫", "৯"], correct: 3 }
   ];
   
-  // LEVEL 5 QUESTIONS (Continue, Nested Loop, Factorial, Fibonacci, Array, Searching, String, Reverse, Palindrome)
+  // LEVEL 5 QUESTIONS
   const level5Questions = [
-    { text: "১,৩,৫,৭,৯", story: "১-১০ পর্যন্ত জোড় সংখ্যা বাদ দিতে বলা হলো (Continue)। কোন সংখ্যা বলবে?", options: ["১,৩,৫,৭,৯", "২,৪,৬,৮,১০", "১,২,৩,৪,৫", "৫,৬,৭,৮,৯,১০"], correct: 0 },
-    { text: "৮টি", story: "১০টি স্টপের মধ্যে ৩ ও ৭ নম্বর স্টপে কেউ নেই (Continue)। কয়টি স্টপে থামবে?", options: ["১০টি", "৯টি", "৮টি", "৭টি"], correct: 2 },
-    { text: "১২ বার", story: "বাইরের লুপ ৩ বার, ভিতরের লুপ ৪ বার। মোট কতবার ভিতরের কাজ হবে? (Nested Loop)", options: ["৭ বার", "১২ বার", "১৫ বার", "২০ বার"], correct: 1 },
-    { text: "৩০টি", story: "৫টি ক্লাস, প্রতিটিতে ৬টি সেকশন। মোট কত সেকশন?", options: ["১১টি", "২৫টি", "৩০টি", "৩৫টি"], correct: 2 },
-    { text: "১২০", story: "৫! = ১×২×৩×৪×৫ = কত?", options: ["৬০", "১০০", "১২০", "১৫০"], correct: 2 },
-    { text: "৮", story: "Fibonacci: ১,১,২,৩,৫,___ পরবর্তী সংখ্যা কত?", options: ["৬", "৭", "৮", "৯"], correct: 2 },
-    { text: "🍊 কমলা", story: "অ্যারে ['🍎','🍌','🍊','🍇','🥭'] - ইনডেক্স ২-এ কী?", options: ["🍎 আপেল", "🍊 কমলা", "🍇 আঙ্গুর", "🥭 আম"], correct: 1 },
-    { text: "৫ম ধাপে", story: "অ্যারে [৫,২,৮,১,৯,৩] - লিনিয়ার সার্চে ৯ কত ধাপে পাবে?", options: ["৩য় ধাপে", "৪র্থ ধাপে", "৫ম ধাপে", "৬ষ্ঠ ধাপে"], correct: 2 },
-    { text: "ANANAB", story: '"BANANA" উল্টালে কী হয়?', options: ["BANANA", "ANANAB", "NABANA", "ANANAB"], correct: 1 },
-    { text: "MADAM", story: "নিচের কোনটি প্যালিন্ড্রোম?", options: ["APPLE", "BANANA", "MADAM", "MANGO"], correct: 2 }
+    { story: "১-১০ পর্যন্ত জোড় সংখ্যা বাদ দিতে বলা হলো (Continue)।", text: "কোন সংখ্যা বলবে?", options: ["১,৩,৫,৭,৯", "২,৪,৬,৮,১০", "১,২,৩,৪,৫", "৫,৬,৭,৮,৯,১০"], correct: 0 },
+    { story: "১০টি স্টপের মধ্যে ৩ ও ৭ নম্বর স্টপে কেউ নেই (Continue)।", text: "কয়টি স্টপে থামবে?", options: ["১০টি", "৯টি", "৮টি", "৭টি"], correct: 2 },
+    { story: "বাইরের লুপ ৩ বার, ভিতরের লুপ ৪ বার। (Nested Loop)", text: "মোট কতবার ভিতরের কাজ হবে?", options: ["৭ বার", "১২ বার", "১৫ বার", "২০ বার"], correct: 1 },
+    { story: "৫টি ক্লাস, প্রতিটিতে ৬টি সেকশন।", text: "মোট কত সেকশন?", options: ["১১টি", "২৫টি", "৩০টি", "৩৫টি"], correct: 2 },
+    { story: "৫! = ১×২×৩×৪×৫", text: "ফ্যাক্টরিয়ালের মান কত?", options: ["৬০", "১০০", "১২০", "১৫০"], correct: 2 },
+    { story: "Fibonacci: ১,১,২,৩,৫,___", text: "পরবর্তী সংখ্যা কত?", options: ["৬", "৭", "৮", "৯"], correct: 2 },
+    { story: "অ্যারে ['🍎','🍌','🍊','🍇','🥭']", text: "ইনডেক্স ২-এ কী আছে?", options: ["🍎 আপেল", "🍊 কমলা", "🍇 আঙ্গুর", "🥭 আম"], correct: 1 },
+    { story: "অ্যারে [৫,২,৮,১,৯,৩] - লিনিয়ার সার্চে ৯ খুঁজতে", text: "কত ধাপে পাবে?", options: ["৩য় ধাপে", "৪র্থ ধাপে", "৫ম ধাপে", "৬ষ্ঠ ধাপে"], correct: 2 },
+    { story: '"BANANA" শব্দটি উল্টালে', text: "কী হয়?", options: ["BANANA", "ANANAB", "NABANA", "ANANAB"], correct: 1 },
+    { story: "প্যালিন্ড্রোম হলো উল্টালেও একই থাকে।", text: "নিচের কোনটি প্যালিন্ড্রোম?", options: ["APPLE", "BANANA", "MADAM", "MANGO"], correct: 2 }
   ];
   
-  // LEVEL 6 QUESTIONS (Matrix, Function, Parameter, Return Value)
+  // LEVEL 6 QUESTIONS with Matrix Visual
+  const matrixData = [[5,8,2],[7,3,9],[4,1,6]];
+  
+  function getMatrixVisualHTML() {
+    let html = '<div class="matrix-visual"><div class="matrix-row"><div class="matrix-cell"></div><div class="matrix-cell">কলাম 0</div><div class="matrix-cell">কলাম 1</div><div class="matrix-cell">কলাম 2</div></div>';
+    for (let i = 0; i < 3; i++) {
+      html += `<div class="matrix-row"><div class="matrix-cell">সারি ${i}</div>`;
+      for (let j = 0; j < 3; j++) {
+        html += `<div class="matrix-cell">${matrixData[i][j]}</div>`;
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+    return html;
+  }
+  
   const level6Questions = [
-    { text: "৯", story: "Matrix: সারি ১, কলাম ২-এ ([১][২]) কোন সংখ্যা আছে?", options: ["৭", "৩", "৯", "৬"], correct: 2 },
-    { text: "৫", story: "Matrix: সারি ০, কলাম ০-এ ([০][০]) কোন সংখ্যা আছে?", options: ["৫", "৮", "২", "৪"], correct: 0 },
-    { text: "৩×৪", story: "৩টি সারি এবং ৪টি কলামের ম্যাট্রিক্সের মাপ কত?", options: ["৩×৩", "৩×৪", "৪×৩", "৪×৪"], correct: 1 },
-    { text: "ফাংশন", story: "রান্নার রেসিপি (ডিম, চিনি, মেশানো, ওভেন) প্রোগ্রামিংয়ে কী?", options: ["ভেরিয়েবল", "লুপ", "ফাংশন", "অ্যারে"], correct: 2 },
-    { text: "ফাংশন", story: '"চা বানাও" কমান্ডটি কী?', options: ["ভেরিয়েবল", "ফাংশন", "লুপ", "অ্যারে"], correct: 1 },
-    { text: "প্যারামিটার", story: '"২ কাপ চা বানাও" - এখানে "২ কাপ" কী?', options: ["ফাংশন", "রিটার্ন ভ্যালু", "প্যারামিটার", "লুপ"], correct: 2 },
-    { text: "৩টি", story: '"৩টা ডিম, ২ কাপ দুধ, ১ কাপ চিনি" - কয়টি প্যারামিটার?', options: ["১টি", "২টি", "৩টি", "৪টি"], correct: 2 },
-    { text: "রিটার্ন ভ্যালু", story: "যোগ মেশিনে ৫+৩=৮ - এখানে ৮ কী?", options: ["প্যারামিটার", "রিটার্ন ভ্যালু", "ফাংশন", "লুপ"], correct: 1 },
-    { text: "রিটার্ন ভ্যালু", story: "কেক মেশিন কেক রিটার্ন করল। কেক কী?", options: ["প্যারামিটার", "ফাংশন", "রিটার্ন ভ্যালু", "ইনপুট"], correct: 2 },
-    { text: "৪,৫=প্যারামিটার, ২০=রিটার্ন", story: "Multiply(৪,৫) → ২০। এখানে ৪,৫ কী এবং ২০ কী?", options: ["৪,৫=Return, ২০=Parameter", "৪,৫=Parameter, ২০=Return", "৪,৫=Function, ২০=Loop", "৪,৫=Loop, ২০=Function"], correct: 1 }
+    { story: "নিচের ম্যাট্রিক্সটি দেখো:", text: "সারি ১, কলাম ২ - অর্থাৎ [১][২] - তে কোন সংখ্যা আছে?", matrix: true, correct: 9, getMatrixHTML: getMatrixVisualHTML, options: ["৭", "৩", "৯", "৬"] },
+    { story: "উপরের একই ম্যাট্রিক্স দেখো।", text: "সারি ০, কলাম ০ - অর্থাৎ [০][০] - তে কোন সংখ্যা আছে?", matrix: true, correct: 5, getMatrixHTML: getMatrixVisualHTML, options: ["৫", "৮", "২", "৪"] },
+    { story: "একটি ম্যাট্রিক্সের ৩টি সারি এবং ৪টি কলাম আছে।", text: "এই ম্যাট্রিক্সটির মাপ কত?", options: ["৩×৩", "৩×৪", "৪×৩", "৪×৪"], correct: 1 },
+    { story: "রান্নার রেসিপি (ডিম, চিনি, মেশানো, ওভেন)", text: "প্রোগ্রামিংয়ে এটাকে কী বলে?", options: ["ভেরিয়েবল", "লুপ", "ফাংশন", "অ্যারে"], correct: 2 },
+    { story: '"চা বানাও" কমান্ডটি', text: "প্রোগ্রামিংয়ে কী?", options: ["ভেরিয়েবল", "ফাংশন", "লুপ", "অ্যারে"], correct: 1 },
+    { story: '"২ কাপ চা বানাও"', text: 'এখানে "২ কাপ" কী?', options: ["ফাংশন", "রিটার্ন ভ্যালু", "প্যারামিটার", "লুপ"], correct: 2 },
+    { story: '"৩টা ডিম, ২ কাপ দুধ, ১ কাপ চিনি"', text: "কয়টি প্যারামিটার?", options: ["১টি", "২টি", "৩টি", "৪টি"], correct: 2 },
+    { story: "যোগ মেশিনে ৫+৩=৮", text: "এখানে ৮ কী?", options: ["প্যারামিটার", "রিটার্ন ভ্যালু", "ফাংশন", "লুপ"], correct: 1 },
+    { story: "কেক মেশিন কেক রিটার্ন করল।", text: "কেক কী?", options: ["প্যারামিটার", "ফাংশন", "রিটার্ন ভ্যালু", "ইনপুট"], correct: 2 },
+    { story: "Multiply(৪,৫) → ২০", text: "এখানে ৪ ও ৫ কী এবং ২০ কী?", options: ["৪,৫=Return, ২০=Parameter", "৪,৫=Parameter, ২০=Return", "৪,৫=Function, ২০=Loop", "৪,৫=Loop, ২০=Function"], correct: 1 }
   ];
   
   const allLevelQuestions = {
@@ -305,11 +336,18 @@
       const qDiv = document.createElement('div');
       qDiv.className = 'question-card';
       qDiv.id = `q-${idx}`;
+      
+      let storyHtml = q.story ? `<div class="story-box"><i class="fa-solid fa-comment-dots me-1"></i> ${q.story}</div>` : '';
+      let matrixHtml = '';
+      if (q.matrix && q.getMatrixHTML) {
+        matrixHtml = q.getMatrixHTML();
+      }
+      
       qDiv.innerHTML = `
-        <div class="story-box"><i class="fa-solid fa-comment-dots me-1"></i> ${q.story}</div>
-        <div class="question-text">📝 প্রশ্ন ${idx+1}: ${q.text} সঠিক উত্তর কোনটি?</div>
+        ${storyHtml}
+        ${matrixHtml}
+        <div class="question-text">📝 প্রশ্ন ${idx+1}: ${q.text}</div>
         <div class="options" id="options-${idx}"></div>
-        <div class="feedback-msg" id="fb-${idx}"></div>
       `;
       container.appendChild(qDiv);
       
@@ -325,20 +363,19 @@
     
     document.getElementById('totalQuestions').innerText = currentQuestions.length;
     document.getElementById('scoreDisplay').innerText = '0';
-    updateProgressDots();
   }
   
   function selectAnswer(qIdx, optIdx, btnElement) {
     if (quizSubmitted) return;
     const optsDiv = document.getElementById(`options-${qIdx}`);
     const btns = optsDiv.querySelectorAll('.option-btn');
-    btns.forEach(btn => btn.classList.remove('selected-correct', 'selected-wrong'));
+    btns.forEach(btn => btn.classList.remove('selected-correct'));
     btnElement.classList.add('selected-correct');
     userAnswers[qIdx] = optIdx;
-    updateProgressDots();
+    updateProgress();
   }
   
-  function updateProgressDots() {
+  function updateProgress() {
     const answered = Object.keys(userAnswers).length;
     document.getElementById('scoreDisplay').innerText = answered;
   }
@@ -361,27 +398,11 @@
     
     const answeredCount = Object.keys(userAnswers).length;
     if (answeredCount < currentQuestions.length) {
-      alert(`আপনি ${answeredCount} টি প্রশ্নের উত্তর দিয়েছেন। সবগুলো প্রশ্নের উত্তর দিন!`);
+      alert(`আপনি ${answeredCount} টি প্রশ্নের উত্তর দিয়েছেন। সব ${currentQuestions.length} টি প্রশ্নের উত্তর দিন!`);
       return;
     }
     
     const score = calculateScore();
-    const total = currentQuestions.length;
-    
-    for (let i = 0; i < currentQuestions.length; i++) {
-      const fbDiv = document.getElementById(`fb-${i}`);
-      const isCorrect = (userAnswers[i] !== undefined && userAnswers[i] === currentQuestions[i].correct);
-      if (isCorrect) {
-        fbDiv.innerHTML = '✅ সঠিক! চমৎকার! 🎉';
-        fbDiv.className = 'feedback-msg ok';
-      } else {
-        const correctAns = currentQuestions[i].options[currentQuestions[i].correct];
-        fbDiv.innerHTML = `❌ ভুল! সঠিক উত্তর: ${correctAns}`;
-        fbDiv.className = 'feedback-msg wrong';
-      }
-    }
-    
-    alert(`আপনি ${score} / ${total} সঠিক উত্তর দিয়েছেন!`);
     
     if (currentUser) {
       try {
@@ -392,7 +413,13 @@
           lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
         console.log(`Level ${currentLevel} score saved: ${score}`);
-      } catch (e) { console.error("Firebase error:", e); }
+        alert(`আপনি ${score} / ${currentQuestions.length} সঠিক উত্তর দিয়েছেন!`);
+      } catch (e) {
+        console.error("Firebase error:", e);
+        alert(`আপনি ${score} / ${currentQuestions.length} সঠিক উত্তর দিয়েছেন! (ডাটা সংরক্ষণ হয়নি)`);
+      }
+    } else {
+      alert(`আপনি ${score} / ${currentQuestions.length} সঠিক উত্তর দিয়েছেন!`);
     }
     
     quizSubmitted = true;
@@ -459,11 +486,19 @@
     return icons[level];
   }
   
-  auth.signInAnonymously().then((userCredential) => {
-    currentUser = userCredential.user.uid;
-    console.log("Logged in as:", currentUser);
-    loadLevel(1);
-  }).catch((error) => { console.error("Auth error:", error); loadLevel(1); });
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      currentUser = user.uid;
+      console.log("Logged in as:", currentUser);
+      loadLevel(1);
+    } else {
+      try {
+        const userCredential = await auth.signInAnonymously();
+        currentUser = userCredential.user.uid;
+        loadLevel(1);
+      } catch(e) { console.error("Auth error:", e); loadLevel(1); }
+    }
+  });
   
   document.querySelectorAll('.level-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -479,6 +514,5 @@
   style.textContent = `@keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }`;
   document.head.appendChild(style);
 </script>
-
 </body>
 </html>
