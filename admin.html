@@ -131,6 +131,7 @@
     .admin-table tr:hover { background: rgba(255,140,0,0.1); }
     .badge-pass { background: #28a745; color: white; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; }
     .badge-fail { background: #dc3545; color: white; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; }
+    .pretest-partial-note { color: #ffaa44; font-size: 0.7rem; display: block; }
     
     /* Refresh Button */
     .refresh-btn {
@@ -176,7 +177,7 @@
 <div class="admin-container" id="adminContent" style="display: none;">
   <div class="stats-grid">
     <div class="stat-card-admin"><div class="stat-number" id="totalUsers">0</div><div class="stat-label">মোট অংশগ্রহণকারী</div></div>
-    <div class="stat-card-admin"><div class="stat-number" id="avgPretest">0</div><div class="stat-label">গড় প্রিটেস্ট স্কোর</div></div>
+    <div class="stat-card-admin"><div class="stat-number" id="avgPretest">0</div><div class="stat-label">গড় প্রিটেস্ট স্কোর (%)</div></div>
     <div class="stat-card-admin"><div class="stat-number" id="avgLevelScore">0</div><div class="stat-label">গড় লেভেল স্কোর</div></div>
     <div class="stat-card-admin"><div class="stat-number" id="totalSubmissions">0</div><div class="stat-label">মোট সাবমিশন</div></div>
   </div>
@@ -203,6 +204,10 @@
 <script>
   // ==========================================
   // TARA - অ্যাডমিন প্যানেল (পাসওয়ার্ড: 135792468)
+  // Updated to show real pretest progress: pretestScore/pretestMaxScore
+  // plus how many of the 6 pretest levels have been completed so far,
+  // since the pretest now saves progress after every level instead of
+  // only at the very end (out of 30).
   // ==========================================
   
   const ADMIN_PASSWORD = "135792468";
@@ -264,6 +269,11 @@
           profession: data.profession || '-',
           consent: data.consent || false,
           pretestScore: data.pretestScore || 0,
+          // New: how many out of 30 were actually attempted, and how many
+          // of the 6 pretest levels are done. Falls back gracefully for
+          // any older records saved before this change (maxScore unknown).
+          pretestMaxScore: data.pretestMaxScore || 0,
+          pretestLevelsCompleted: data.pretestLevelsCompleted || 0,
           level1Score: data.level1Score || 0,
           level2Score: data.level2Score || 0,
           level3Score: data.level3Score || 0,
@@ -293,14 +303,20 @@
   // পরিসংখ্যান আপডেট
   function updateStatistics() {
     const totalUsers = allUsersData.length;
-    let totalPretest = 0;
+    let totalPretestPercent = 0;
     let totalLevelScore = 0;
     let pretestCount = 0;
     let levelCount = 0;
     
     allUsersData.forEach(user => {
-      if (user.pretestScore > 0) {
-        totalPretest += user.pretestScore;
+      if (user.pretestMaxScore > 0) {
+        // Use percentage so partial attempts (e.g. 3/5) don't unfairly
+        // drag the average down compared to full attempts (e.g. 18/30).
+        totalPretestPercent += (user.pretestScore / user.pretestMaxScore) * 100;
+        pretestCount++;
+      } else if (user.pretestScore > 0) {
+        // Older record without pretestMaxScore saved — assume full 30.
+        totalPretestPercent += (user.pretestScore / 30) * 100;
         pretestCount++;
       }
       const levelSum = user.level1Score + user.level2Score + user.level3Score + user.level4Score + user.level5Score + user.level6Score;
@@ -311,7 +327,7 @@
     });
     
     document.getElementById('totalUsers').innerText = totalUsers;
-    document.getElementById('avgPretest').innerText = pretestCount > 0 ? Math.round(totalPretest / pretestCount) : 0;
+    document.getElementById('avgPretest').innerText = pretestCount > 0 ? Math.round(totalPretestPercent / pretestCount) + '%' : '0%';
     document.getElementById('avgLevelScore').innerText = levelCount > 0 ? Math.round((totalLevelScore / levelCount) / 6 * 10) / 10 : 0;
     document.getElementById('totalSubmissions').innerText = allUsersData.filter(u => u.pretestScore > 0 || (u.level1Score + u.level2Score + u.level3Score + u.level4Score + u.level5Score + u.level6Score) > 0).length;
   }
@@ -330,12 +346,24 @@
       const row = document.createElement('tr');
       const totalLevelScore = user.level1Score + user.level2Score + user.level3Score + user.level4Score + user.level5Score + user.level6Score;
       
+      // Pretest cell: show real progress instead of always assuming /30.
+      let pretestCell = '-';
+      if (user.pretestMaxScore > 0) {
+        pretestCell = `${user.pretestScore}/${user.pretestMaxScore}`;
+        if (user.pretestLevelsCompleted > 0 && user.pretestLevelsCompleted < 6) {
+          pretestCell += `<span class="pretest-partial-note">(${user.pretestLevelsCompleted}/6 লেভেল)</span>`;
+        }
+      } else if (user.pretestScore > 0) {
+        // Older record saved before this change — no max score on file.
+        pretestCell = `${user.pretestScore}/30`;
+      }
+      
       row.innerHTML = `
         <td><strong>${escapeHtml(user.userName)}</strong></td>
         <td>${user.age}</td>
         <td>${escapeHtml(user.profession)}</td>
         <td>${user.consent ? '<span class="badge-pass">✓ আছে</span>' : '<span class="badge-fail">✗ নেই</span>'}</td>
-        <td>${user.pretestScore > 0 ? user.pretestScore + '/30' : '-'}</td>
+        <td>${pretestCell}</td>
         <td>${user.level1Score > 0 ? user.level1Score + '/10' : '-'}</td>
         <td>${user.level2Score > 0 ? user.level2Score + '/10' : '-'}</td>
         <td>${user.level3Score > 0 ? user.level3Score + '/10' : '-'}</td>
